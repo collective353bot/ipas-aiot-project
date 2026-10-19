@@ -1,0 +1,8 @@
+site/
+*.mp3
+*.wav
+audio/tmp/
+audio/samples/*.mp3
+study/work/
+__pycache__/
+.venv*/

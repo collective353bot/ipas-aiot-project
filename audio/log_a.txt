@@ -1,0 +1,5 @@
+d05 11.7 min 3118 chars
+d06 8.1 min 2193 chars
+d07 7.0 min 1875 chars
+d08 10.6 min 2889 chars
+d09 10.9 min 3015 chars

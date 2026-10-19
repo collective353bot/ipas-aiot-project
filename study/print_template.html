@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8"><title>iPAS AIoT 應用工程師（初級）13 天講義</title>
+<style>
+@page{size:A4;margin:16mm 14mm 18mm}
+body{font:10.5pt/1.7 "Noto Sans CJK TC","Noto Sans TC",sans-serif;color:#111;margin:0}
+h1{font-size:20pt;margin:0 0 4px}
+h2{font-size:13.5pt;border-left:5px solid #2563eb;padding-left:8px;margin:18px 0 6px;break-after:avoid}
+h3{font-size:12pt;margin:14px 0 4px;break-after:avoid}
+.day{break-before:page}
+.dayhd{background:#eef2ff;border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.dayhd .m{color:#475569;font-size:10pt}
+.sec{font-size:15pt;font-weight:800;margin:20px 0 6px;padding-bottom:3px;border-bottom:2px solid #111;break-after:avoid}
+.ref{display:inline-block;font-size:8.5pt;font-weight:700;background:#dbeafe;color:#1e40af;border-radius:4px;padding:0 5px;margin:0 2px;line-height:15pt}
+.pg{display:inline-block;font-size:8.5pt;color:#334155;background:#f1f5f9;border-radius:4px;padding:0 5px;line-height:15pt}
+.supp{display:inline-block;font-size:8.5pt;color:#92400e;background:#fef3c7;border-radius:4px;padding:0 5px;line-height:15pt}
+table{border-collapse:collapse;width:100%;font-size:9.5pt;line-height:1.5;margin:6px 0;break-inside:auto}
+tr{break-inside:avoid}
+th,td{border:1px solid #cbd5e1;padding:3px 6px;text-align:left;vertical-align:top}
+th{background:#f1f5f9}
+blockquote{margin:8px 0;padding:6px 10px;background:#f8fafc;border-left:4px solid #94a3b8;break-inside:avoid}
+blockquote p{margin:2px 0}
+pre{background:#f1f5f9;padding:6px 8px;border-radius:4px;font-size:9pt;white-space:pre-wrap;break-inside:avoid}
+code{font-family:"DejaVu Sans Mono",monospace;font-size:9pt}
+.q{margin:8px 0 10px;break-inside:avoid}
+.q .stem{margin:2px 0}
+.q .o{margin-left:1.2em}
+.ans{margin:5px 0;break-inside:avoid;font-size:9.8pt}
+.ans b.k{display:inline-block;min-width:3.6em}
+.ans .src{color:#64748b;font-size:8.8pt}
+.cover{text-align:left;padding-top:6mm}
+.muted{color:#475569}
+</style></head><body>
+<div id="doc"></div>
+<script>
+const DATA=/*__DATA__*/null;const L='ABCD';
+const WK='日一二三四五六';function wk(s){const [y,m,d]=s.split('-').map(Number);return WK[new Date(y,m-1,d).getDay()]}
+let h=`<div class="cover"><h1>iPAS AIoT 應用工程師（初級）<br>13 天考前講義</h1><p class="muted">考試日期：2026/10/31（六）｜考科一 AIoT基礎概論、考科二 物聯網系統與應用｜各 75 分鐘、70 分及格<br>讀書期間：2026/10/18～10/30，每天 30 分鐘（學習＋驗證）</p>
+<p>共 ${DATA.days.reduce((a,d)=>a+d.questions.length,0)} 題練習題。每天的題目後面附「答案與解析」。</p>${DATA.intro}
+<h2 style="border:none;padding:0">13 天課表</h2><table><tr><th>天</th><th>日期</th><th>科目</th><th>主題</th><th>題數</th></tr>${DATA.days.map(d=>`<tr><td>D${d.id}</td><td>${d.date.slice(5).replace('-','/')}（${wk(d.date)}）</td><td>${d.subject}</td><td>${d.title}${d.type==='mock'?'（計時模擬考）':''}</td><td>${d.questions.length}</td></tr>`).join('')}</table></div>
+<div class="day"><div class="sec">官方評鑑內容 ↔ 講義天數 對照表</div><p class="muted">依 115 年簡章評鑑內容。考科一以官方學習指引為依據；考科二無官方學習指引，依簡章評鑑內容與能力指標逐條對應。</p>
+<table><tr><th>官方評鑑內容</th><th>名稱</th><th>依據</th><th>講義天數</th><th>題數</th></tr>${DATA.official.map(o=>`<tr><td><span class="ref">${o.code}</span></td><td>${o.name}<br><span class="muted">${o.topic}</span></td><td>${o.guide}</td><td>${o.days.map(i=>'D'+i).join('、')}</td><td>${o.qn}</td></tr>`).join('')}</table></div>`;
+DATA.days.forEach(d=>{
+ h+=`<div class="day"><div class="dayhd"><div class="m">D${d.id}｜${d.date.replace(/-/g,'/')}（${wk(d.date)}）｜${d.subject}${d.type==='mock'?`｜計時模擬考（建議 ${d.minutes} 分鐘；正式 75 分鐘）`:''}</div><h1 style="font-size:16pt">${d.title}</h1></div>
+ <div class="sec">📖 今日學習</div>${d.lecture}
+ <div class="sec" style="break-before:page">✏️ ${d.type==='mock'?'模擬考':'今日驗證'}（${d.questions.length} 題）</div>`;
+ d.questions.forEach((q,i)=>{h+=`<div class="q"><b>${i+1}.</b> <span class="ref">${q.ref}</span>${q.src?`<span class="${/補充|能力指標|依簡章/.test(q.src)?'supp':'pg'}">${q.src}</span>`:''}<div class="stem">${q.stemH}</div>${q.optsH.map((o,k)=>`<div class="o">(${L[k]}) ${o}</div>`).join('')}</div>`});
+ h+=`<div class="sec">✅ D${d.id} 答案與解析</div><p><b>答案速查：</b>${d.questions.map((q,i)=>`${i+1}.${L[q.ans]}`).join('　')}</p>`;
+ d.questions.forEach((q,i)=>{h+=`<div class="ans"><b class="k">${i+1}. (${L[q.ans]})</b><span class="ref">${q.ref}</span> ${q.expH}<br><span class="src">來源：${q.origin}</span></div>`});
+ h+=`</div>`});
+h+=`<div class="day"><div class="sec">考前速記表</div>${DATA.cheat}</div>`;
+document.getElementById('doc').innerHTML=h;
+</script></body></html>

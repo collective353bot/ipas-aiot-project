@@ -1,0 +1,107 @@
+@ 考科一 2.2 | 指引 p.4-41～4-42
+某電池供電的微型土壤感測器希望封包最小、喚醒時間最短，並且讓熟悉 HTTP 的工程師能用 GET/PUT 操作資源。最適合的協定是？
+A. CoAP
+B. HTTP/HTTPS
+C. FTP
+D. SMTP
+= A
+> CoAP 是「輕量版 HTTP」，走 UDP、支援 REST 模型（GET、POST、PUT、DELETE），標頭約 4 Bytes，不需維持長連線，喚醒時間更短，適合 NB-IoT 設備與需數年電池壽命的感測器。
+
+@ 考科一 2.2 | 指引 p.4-42
+依指引的 MQTT、HTTP、CoAP 比較表，下列對應何者正確？
+A. CoAP－UDP－請求/回應
+B. HTTP－TCP/IP－發布/訂閱
+C. MQTT－UDP－請求/回應
+D. MQTT－TCP/IP－請求/回應
+= A
+> MQTT：TCP/IP＋發布/訂閱；HTTP：TCP/IP＋請求/回應；CoAP：UDP＋請求/回應。
+
+@ 考科一 2.3 | 指引 p.4-49
+關於網路通訊的「封裝（Encapsulation）」，下列敘述何者正確？
+A. 資料從傳送端往下傳遞時，每經過一層就加上該層的標頭
+B. 資料抵達接收端往上傳時，每經過一層就再加上一層標頭
+C. 封裝只發生在實體層
+D. 使用 Modbus 或 MQTT 函式庫時，完全不涉及封裝概念
+= A
+> 往下傳加標頭＝封裝；往上傳去標頭＝解封裝。指引 p.4-49 也說明在應用層使用 Modbus 或 MQTT 函式庫時，封裝與解封裝的概念同樣適用。
+
+@ 考科一 2.3 | 指引 p.4-50
+一個 Modbus RTU 請求經由 RS-485 傳送，接收端解封裝時最先需要驗證的錯誤檢查碼是？
+A. MBAP Header
+B. CRC
+C. LRC
+D. TCP checksum
+= B
+> Modbus RTU 使用循環冗餘檢查（CRC）；Modbus ASCII 使用 LRC；Modbus TCP 則加上 MBAP Header 並經 TCP/IP 傳送。
+
+@ 考科一 2.3 | 指引 p.4-52
+關於 OPC UA 的敘述，下列何者「不」正確？
+A. 由 OPC 基金會開發，可跨平台實作於嵌入式設備到雲端
+B. 內建認證、授權、資料完整性與加密通訊等安全機制
+C. 採用 Client/Server 架構，Server 通常位於設備端
+D. 只能讀取資料、不能寫入，資料一律以 XML 經 HTTP 傳送
+= D
+> D 描述的是 MTConnect（唯讀、XML、HTTP）。OPC UA 支援讀/寫、方法呼叫、資料變更通知與事件通知。
+
+@ 考科一 2.3 | 指引 p.4-55
+操作員希望透過 OPC UA 客戶端「遠端觸發」工具機的自動換刀程序，應使用哪一種資料存取方式？
+A. Read/Write
+B. Data Change Notification
+C. Event Notification
+D. Method
+= D
+> OPC UA 伺服器可提供可執行的方法（Method），客戶端遠端呼叫以執行特定操作，例如自動換刀。訂閱變數變化用 Data Change；訂閱故障等事件用 Event Notification。
+
+@ 考科一 2.3 | 指引 p.4-58
+在 MTConnect 架構中，負責整合一個或多個 Adapter 的資料、以標準 XML 儲存，並透過 HTTP RESTful API 提供給外部應用的元素是？
+A. Device
+B. Adapter
+C. Agent
+D. Application
+= C
+> Agent 是 MTConnect 的核心軟體服務，負責資料緩存、格式化與傳輸。Adapter 負責存取設備資料並轉成 XML（例如用 FOCAS 讀發那科控制器）。
+
+@ 考科一 2.3 | 指引 p.4-59～4-60
+關於 MQTT 的 Broker，下列敘述何者正確？
+A. 發布者必須知道每一位訂閱者的 IP 位址
+B. Broker 依主題（Topic）過濾並把訊息轉發給訂閱該主題的訂閱者
+C. 訂閱者需主動輪詢發布者才能取得資料
+D. 只要有一個感測器故障，所有訂閱者都會停止運作
+= B
+> Broker 是 MQTT 核心，接收發布者訊息並依主題過濾分發。Pub/Sub 架構讓發布者與訂閱者完全解耦，部分裝置離線不影響其他裝置。
+
+@ 考科一 2.3 | 指引 p.4-61
+某電池供電的 MQTT 感測器突然沒電而非正常斷線，希望 Broker 能自動通知所有訂閱者「此裝置已離線」。應使用哪一項機制？
+A. QoS 0
+B. Retained Message
+C. 遺囑訊息（Last Will and Testament, LWT）
+D. TLS/SSL
+= C
+> LWT 讓客戶端預設一則在非正常斷線時由 Broker 代為發布的訊息。Retained Message 是讓新訂閱者收到最新一筆；TLS 是加密；QoS 是傳遞保證等級。
+
+@ 考科一 2.3 | 指引 p.4-62
+某系統的訂閱端可以處理重複訊息，但要求訊息「一定要送到」，同時希望開銷比最高等級小。應選擇哪一個 MQTT QoS？
+A. QoS 0
+B. QoS 1
+C. QoS 2
+D. QoS 3
+= B
+> QoS 1（至少一次）保證送達但可能重複，接收方需處理重複；QoS 2 恰好一次但需四步驟握手、開銷最大；QoS 0 可能遺失；MQTT 沒有 QoS 3。
+
+@ 考科一 2.3 | 指引 p.4-64～4-65
+在 Modbus 協定中，要「寫入」溫控器的溫度設定值（16 位元數值），應存取哪一種資料區塊？
+A. Coil
+B. Discrete Input
+C. Input Register
+D. Holding Register
+= D
+> Holding Register 為可讀可寫的 16 位元資料區塊（40001–49999），用於設定參數或類比輸出。Input Register 是唯讀 16 位元；Coil 可讀寫但是位元（開/關）；Discrete Input 唯讀位元。
+
+@ 考科一 2.3 | 指引 p.4-67
+在 RESTful API 中，以 DELETE 成功刪除一筆設備資料，且伺服器不回傳任何內容，通常回傳哪一個狀態碼？
+A. 200 OK
+B. 201 Created
+C. 204 No Content
+D. 404 Not Found
+= C
+> 指引 p.4-67：成功的 DELETE 通常回傳 204 No Content。POST 成功建立資源回 201；GET 成功回 200；資源不存在回 404。

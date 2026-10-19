@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPAS AIoT 應用工程師（初級）13 天讀書包</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--ink:#1f2933;--muted:#616e7c;--line:#e4e7eb;--pri:#2563eb;--pri2:#dbeafe;--ok:#15803d;--okbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2;--warn:#a16207;--warnbg:#fef9c3;--s1:#7c3aed;--s2:#0d9488}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+a{color:var(--pri)}
+nav{position:sticky;top:0;z-index:20;background:#111827;color:#fff;display:flex;gap:2px;overflow-x:auto;padding:0 6px;white-space:nowrap}
+nav a{color:#d1d5db;text-decoration:none;padding:11px 12px;font-size:15px;border-bottom:3px solid transparent}
+nav a.on{color:#fff;border-bottom-color:#60a5fa}
+main{max-width:880px;margin:0 auto;padding:14px 12px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+h1{font-size:22px;margin:6px 0 4px;line-height:1.4}
+h2{font-size:19px;line-height:1.45}
+h3{font-size:17px}
+.muted{color:var(--muted);font-size:14px}
+.big{font-size:40px;font-weight:800;color:var(--pri);line-height:1.1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.bar{height:12px;background:#e5e7eb;border-radius:8px;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#22c55e)}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+.day{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;position:relative}
+.day.today{outline:3px solid #93c5fd}
+.day.done{background:#f0fdf4;border-color:#86efac}
+.day b{display:block;font-size:15px}
+.day .t{font-size:13.5px;line-height:1.45;margin-top:2px}
+.tag{display:inline-block;font-size:12px;border-radius:6px;padding:0 6px;margin-right:4px;line-height:20px}
+.tag.s1{background:#ede9fe;color:var(--s1)}.tag.s2{background:#ccfbf1;color:var(--s2)}.tag.s3{background:#fef3c7;color:#92400e}.tag.mk{background:#fee2e2;color:var(--bad)}
+.ref{display:inline-block;font-size:12.5px;font-weight:600;background:var(--pri2);color:#1e40af;border-radius:6px;padding:0 7px;margin:0 3px;line-height:21px;vertical-align:middle;white-space:nowrap}
+.pg{display:inline-block;font-size:12px;color:#475569;background:#f1f5f9;border-radius:6px;padding:0 6px;line-height:20px;vertical-align:middle;white-space:nowrap}
+.supp{display:inline-block;font-size:12px;color:#92400e;background:#fef3c7;border-radius:6px;padding:0 6px;line-height:20px;vertical-align:middle}
+.tabs{display:flex;gap:6px;margin:10px 0}
+.tabs button{flex:1;padding:10px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.lec h2{border-left:5px solid var(--pri);padding-left:10px;margin-top:28px}
+.lec h3{margin-top:22px}
+.lec blockquote{margin:12px 0;padding:10px 14px;background:#f8fafc;border-left:4px solid #94a3b8;border-radius:6px}
+.lec blockquote p{margin:4px 0}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.55}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#f1f5f9}
+pre{background:#0f172a;color:#e2e8f0;padding:10px;border-radius:8px;overflow-x:auto;font-size:13.5px;line-height:1.5}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#eef2f7;padding:0 4px;border-radius:4px}
+pre code{background:none;padding:0}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.q .hd{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:6px}
+.q .n{font-weight:800;margin-right:4px}
+.q .stem{font-weight:500}
+.opt{display:block;width:100%;text-align:left;margin:7px 0;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-size:15.5px;line-height:1.55;cursor:pointer;color:inherit}
+.opt:hover{border-color:#93c5fd}
+.opt.sel{border-color:var(--pri);background:var(--pri2)}
+.opt.right{border-color:#22c55e;background:var(--okbg)}
+.opt.wrong{border-color:#ef4444;background:var(--badbg)}
+.opt[disabled]{cursor:default}
+.fb{margin-top:8px;padding:10px 12px;border-radius:10px;font-size:15px}
+.fb.ok{background:var(--okbg)}.fb.no{background:var(--badbg)}
+.fb .o{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
+.btn{display:inline-block;padding:9px 16px;border-radius:10px;border:1px solid var(--pri);background:var(--pri);color:#fff;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
+.btn.ghost{background:#fff;color:var(--pri)}
+.btn.red{background:var(--bad);border-color:var(--bad)}
+.btn.sm{padding:4px 10px;font-size:14px}
+.done-box{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;padding:14px;border-radius:12px;background:#fff;border:2px dashed #86efac;cursor:pointer}
+.done-box input{width:24px;height:24px}
+.timer{position:sticky;top:46px;z-index:10;background:#111827;color:#fff;border-radius:10px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.timer .tm{font-size:20px;font-variant-numeric:tabular-nums}
+.timer.low .tm{color:#fca5a5}
+.score{font-size:34px;font-weight:800}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.no{background:var(--badbg);color:var(--bad)}.pill.na{background:#f1f5f9;color:var(--muted)}
+.acc{display:inline-block;min-width:64px}
+select,input[type=file]{font:inherit;padding:6px;border-radius:8px;border:1px solid var(--line);max-width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.warnbox{background:var(--warnbg);border:1px solid #fde68a;border-radius:10px;padding:10px 12px;font-size:15px}
+@media (max-width:520px){body{font-size:15.5px}.big{font-size:32px}main{padding:10px 8px 70px}.card{padding:13px}th,td{padding:5px 6px;font-size:13.5px}}
+.aud{background:#eef6ff;border:1px solid #bfdbfe}.aud audio{width:100%;margin-top:6px}.aud .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:14px}.aud select{padding:3px 6px;font-size:14px}
+.alist .it{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #e5e7eb}.alist .it:last-child{border-bottom:0}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+<main id="app"></main>
+<script>
+const DATA = /*__DATA__*/null;
+const KEY = 'ipas_aiot_v1';
+const L = 'ABCD';
+let S = load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'{}');return Object.assign({done:{},answers:{},wrong:{},mock:{}},s)}catch(e){return{done:{},answers:{},wrong:{},mock:{}}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+const $=s=>document.querySelector(s);
+const QI={};DATA.days.forEach(d=>d.questions.forEach(q=>{q.day=d.id;QI[q.id]=q}));
+const pad=n=>String(n).padStart(2,'0');
+function todayStr(){const t=new Date();return t.getFullYear()+'-'+pad(t.getMonth()+1)+'-'+pad(t.getDate())}
+function todayDay(){const t=todayStr();const d=DATA.days.find(d=>d.date===t);if(d)return d.id;return t<DATA.days[0].date?1:DATA.days.length}
+function md(s){return s.slice(5).replace('-','/')}
+const WK='日一二三四五六';
+function wk(s){const [y,m,d]=s.split('-').map(Number);return WK[new Date(y,m-1,d).getDay()]}
+function subjTag(s){return `<span class="tag ${s==='考科一'?'s1':s==='考科二'?'s2':'s3'}">${s}</span>`}
+function dayStats(d){let a=0,c=0;d.questions.forEach(q=>{const r=S.answers[q.id];if(r){a++;if(r.ok)c++}});return{a,c,n:d.questions.length}}
+function itemStats(code){let n=0,a=0,c=0;Object.values(QI).forEach(q=>{if(q.ref!==code)return;n++;const r=S.answers[q.id];if(r){a++;if(r.ok)c++}});return{n,a,c}}
+function pct(c,a){return a?Math.round(c/a*100)+'%':'—'}
+function wrapTables(root){root.querySelectorAll('table').forEach(t=>{if(t.parentElement.classList.contains('tw'))return;const w=document.createElement('div');w.className='tw';t.replaceWith(w);w.appendChild(t)})}
+
+function navHtml(r){const td=todayDay();const items=[['#/','總覽','home'],[`#/day/${td}`,`今天 D${td}`,'day'+td],['#/wrong',`錯題本 (${Object.keys(S.wrong).length})`,'wrong'],['#/audio','🎧 有聲教材','audio'],['#/cheat','速記表','cheat'],['#/map','範圍對照','map'],['#/settings','設定','settings']];
+ return items.map(([h,t,k])=>`<a href="${h}" class="${r===k?'on':''}">${t}</a>`).join('')}
+
+function route(){const h=location.hash.replace(/^#\/?/,'');const p=h.split('/');let r='home';
+ if(p[0]==='day'&&DATA.days[+p[1]-1]){r='day'+(+p[1]);renderDay(+p[1],p[2]||'learn')}
+ else if(p[0]==='wrong'){r='wrong';renderWrong()}
+ else if(p[0]==='audio'){r='audio';renderAudioList()}
+ else if(p[0]==='cheat'){r='cheat';renderCheat()}
+ else if(p[0]==='map'){r='map';renderMap()}
+ else if(p[0]==='settings'){r='settings';renderSettings()}
+ else renderHome();
+ $('#nav').innerHTML=navHtml(r);wrapTables($('#app'));bindAudio();}
+window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0)});
+
+function mapTable(){
+ let h=`<table><thead><tr><th>官方評鑑內容</th><th>名稱</th><th>依據</th><th>講義天數</th><th style="white-space:nowrap">題數</th><th style="white-space:nowrap">正確率</th></tr></thead><tbody>`;
+ DATA.official.forEach(o=>{const st=itemStats(o.code);
+  h+=`<tr><td><span class="ref">${o.code}</span></td><td>${o.name}<div class="muted">${o.topic}</div></td><td class="muted">${o.guide}</td><td>${o.days.map(i=>`<a href="#/day/${i}">D${i}</a>`).join('、')}</td><td>${o.qn}</td><td><span class="acc">${pct(st.c,st.a)}</span><div class="muted">${st.a}/${st.n} 已作答</div></td></tr>`});
+ return h+'</tbody></table>'}
+
+function renderHome(){
+ const ex=new Date(DATA.examDate+'T00:00:00');const now=new Date();const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+ const left=Math.round((ex-t0)/864e5);
+ const done=DATA.days.filter(d=>S.done[d.id]).length;
+ let ta=0,tc=0;Object.values(S.answers).forEach(r=>{ta++;if(r.ok)tc++});
+ const td=todayDay();
+ let h=`<div class="card"><h1>iPAS AIoT 應用工程師（初級）13 天讀書包</h1><div class="muted">考試日期 2026/10/31（六）｜考科一 AIoT基礎概論、考科二 物聯網系統與應用｜各 75 分鐘、70 分及格</div></div>
+ <div class="grid"><div class="stat"><div class="muted">距離考試</div><div class="big">${left>0?left:0}</div><div class="muted">天${left===0?'（今天就是考試日！）':''}</div></div>
+ <div class="stat"><div class="muted">完成天數</div><div class="big">${done}<span style="font-size:20px">/13</span></div><div class="bar" style="margin-top:6px"><i style="width:${done/13*100}%"></i></div></div>
+ <div class="stat"><div class="muted">總答題正確率</div><div class="big">${pct(tc,ta)}</div><div class="muted">已作答 ${ta} / ${Object.keys(QI).length} 題</div></div>
+ <div class="stat"><div class="muted">錯題本</div><div class="big">${Object.keys(S.wrong).length}</div><div class="muted"><a href="#/wrong">去重做 →</a></div></div></div>
+ <div class="card"><div class="row" style="justify-content:space-between"><b>13 天進度</b><span class="muted">${done}/13 天</span></div><div class="bar" style="margin:8px 0 14px"><i style="width:${done/13*100}%"></i></div>
+ <div class="days">${DATA.days.map(d=>{const s=dayStats(d);return `<a class="day ${S.done[d.id]?'done':''} ${d.id===td?'today':''}" href="#/day/${d.id}"><b>D${d.id}｜${md(d.date)}（${wk(d.date)}）${S.done[d.id]?' ✅':''}</b>${subjTag(d.subject)}${d.type==='mock'?'<span class="tag mk">模擬考</span>':''}<div class="t">${d.short}</div><div class="muted">${s.n} 題｜${s.a?`答對 ${s.c}/${s.a}`:'未作答'}</div></a>`}).join('')}</div></div>
+ <div class="card"><h2 style="margin-top:0">官方評鑑內容 ↔ 講義天數 對照表（含各項正確率）</h2><div class="muted" style="margin-bottom:8px">依 115 年簡章評鑑內容。每一項都至少有一天講義與題目涵蓋；「題數」為全部讀書包中標註該項的題目數。</div>${mapTable()}</div>
+ <div class="card lec">${DATA.intro}</div>`;
+ $('#app').innerHTML=h}
+
+function renderMap(){$('#app').innerHTML=`<div class="card"><h1>官方評鑑內容 ↔ 講義天數</h1><div class="muted">依 115 年簡章。考科一依官方學習指引；考科二無官方學習指引，依簡章評鑑內容與能力指標逐條對應。</div></div><div class="card">${mapTable()}</div>`}
+
+function qHeader(q,i){return `<div class="hd"><span class="n">第 ${i} 題</span><span class="ref">${q.ref}</span>${q.src?`<span class="${/補充|能力指標|依簡章/.test(q.src)?'supp':'pg'}">${q.src}</span>`:''}</div>`}
+function fbHtml(q,ok){return `<div class="fb ${ok?'ok':'no'}"><b>${ok?'✅ 答對了！':'❌ 答錯了，正確答案是 '+L[q.ans]}</b><div>${q.expH}</div><span class="o">題目來源：${q.origin}</span></div>`}
+
+function quizCard(q,i,mode){// mode: 'practice' | 'wrong'
+ const r=mode==='practice'?S.answers[q.id]:null;
+ let h=`<div class="q" id="q_${q.id}">${qHeader(q,i)}<div class="stem">${q.stemH}</div>`;
+ q.optsH.forEach((o,k)=>{let cls='';if(r){if(k===q.ans)cls='right';else if(k===r.c)cls='wrong'}
+  h+=`<button class="opt ${cls}" data-q="${q.id}" data-k="${k}" data-mode="${mode}" ${r?'disabled':''}>${L[k]}. ${o}</button>`});
+ if(r)h+=fbHtml(q,r.ok)+`<div style="margin-top:8px"><button class="btn ghost sm" data-redo="${q.id}">清除重做</button></div>`;
+ return h+'</div>'}
+
+function bindQuiz(root,after){
+ root.querySelectorAll('.opt[data-mode]').forEach(b=>b.onclick=()=>{const q=QI[b.dataset.q];const k=+b.dataset.k;const ok=k===q.ans;const mode=b.dataset.mode;
+  S.answers[q.id]={c:k,ok,t:Date.now()};
+  if(mode==='practice'){if(!ok)S.wrong[q.id]=Date.now();}
+  else if(mode==='wrong'){if(ok)delete S.wrong[q.id];else S.wrong[q.id]=Date.now();}
+  save();
+  const card=b.closest('.q');card.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(j===q.ans)x.classList.add('right');else if(j===k)x.classList.add('wrong')});
+  card.insertAdjacentHTML('beforeend',fbHtml(q,ok)+(mode==='wrong'?`<div class="muted" style="margin-top:6px">${ok?'已移出錯題本。':'仍留在錯題本，下次再挑戰。'}</div>`:`<div style="margin-top:8px"><button class="btn ghost sm" data-redo="${q.id}">清除重做</button></div>`));
+  bindRedo(card);$('#nav').innerHTML=navHtml(location.hash.startsWith('#/wrong')?'wrong':'day'+(location.hash.split('/')[2]||''));after&&after()});
+ bindRedo(root)}
+function bindRedo(root){root.querySelectorAll('[data-redo]').forEach(b=>b.onclick=()=>{delete S.answers[b.dataset.redo];save();route()})}
+
+function renderDay(id,tab){
+ const d=DATA.days[id-1];const isMock=d.type==='mock';
+ const qtab=isMock?'mock':'quiz';if(tab!=='learn'&&tab!==qtab)tab='learn';
+ const s=dayStats(d);
+ let h=`<div class="card"><div class="muted">D${d.id}｜${d.date.replace(/-/g,'/')}（${wk(d.date)}）｜第 ${d.id} / 13 天</div><h1>${d.title}</h1>${subjTag(d.subject)}${isMock?`<span class="tag mk">計時模擬考 ${d.questions.length} 題</span>`:`<span class="tag">今日驗證 ${d.questions.length} 題</span>`}
+ <div class="row" style="margin-top:8px">${id>1?`<a class="btn ghost sm" href="#/day/${id-1}">← D${id-1}</a>`:''}${id<13?`<a class="btn ghost sm" href="#/day/${id+1}">D${id+1} →</a>`:''}</div></div>
+ <div class="tabs"><button class="${tab==='learn'?'on':''}" onclick="location.hash='#/day/${id}/learn'">📖 今日學習</button><button class="${tab!=='learn'?'on':''}" onclick="location.hash='#/day/${id}/${qtab}'">✏️ ${isMock?'模擬考':'今日驗證'}${s.a?` (${s.c}/${s.n})`:''}</button></div>`;
+ if(tab==='learn'){h+=audioHtml(d)+`<div class="card lec">${d.lecture}</div><div class="row"><a class="btn" href="#/day/${id}/${qtab}">讀完了，去${isMock?'模擬考':'做今日驗證'} →</a></div>`}
+ else if(!isMock){h+=`<div class="card"><b>今日驗證</b>｜作答後立即顯示對錯與解析；答錯的題目自動收進錯題本。<div class="muted" id="qs">已作答 ${s.a}/${s.n}，答對 ${s.c}</div></div>`;
+  d.questions.forEach((q,i)=>h+=quizCard(q,i+1,'practice'))}
+ else h+=`<div id="mock"></div>`;
+ h+=`<label class="done-box" style="margin-top:16px"><input type="checkbox" id="donecb" ${S.done[id]?'checked':''}> 今天完成了（學習＋驗證）${S.done[id]?' 🎉':''}</label>`;
+ $('#app').innerHTML=h;
+ $('#donecb').onchange=e=>{if(e.target.checked)S.done[id]=Date.now();else delete S.done[id];save();route()};
+ if(tab!=='learn'&&!isMock)bindQuiz($('#app'),()=>{const s=dayStats(d);$('#qs').textContent=`已作答 ${s.a}/${s.n}，答對 ${s.c}`});
+ if(tab==='mock')renderMock(d)}
+
+let TIMER=null;
+function renderMock(d){
+ clearInterval(TIMER);const box=$('#mock');let m=S.mock[d.id];
+ if(!m){box.innerHTML=`<div class="card"><h2 style="margin-top:0">${d.title}</h2><p>共 <b>${d.questions.length}</b> 題單選題。考試模式：作答中<b>不顯示對錯</b>，交卷（或時間到自動交卷）後才顯示分數、各評鑑內容得分與解析。中途離開頁面，計時與作答會保留。</p>
+  <div class="row"><label>作答時間：<select id="mmin"><option value="${d.minutes||30}">${d.minutes||30} 分鐘（每日 30 分鐘版）</option><option value="75">75 分鐘（正式考試時間）</option></select></label><button class="btn" id="mstart">開始模擬考</button></div></div>`;
+  $('#mstart').onclick=()=>{S.mock[d.id]={start:Date.now(),minutes:+$('#mmin').value,sel:{},submitted:false};save();renderMock(d)};return}
+ if(!m.submitted){
+  const end=m.start+m.minutes*60e3;
+  let h=`<div class="timer" id="tmr"><span>⏱ 剩餘時間</span><span class="tm" id="tm"></span><span id="mcnt"></span></div>`;
+  d.questions.forEach((q,i)=>{h+=`<div class="q">${qHeader(q,i+1)}<div class="stem">${q.stemH}</div>${q.optsH.map((o,k)=>`<button class="opt ${m.sel[q.id]===k?'sel':''}" data-mq="${q.id}" data-k="${k}">${L[k]}. ${o}</button>`).join('')}</div>`});
+  h+=`<div class="row"><button class="btn" id="msub">交卷</button><button class="btn ghost" id="mquit">放棄並重來</button></div>`;
+  box.innerHTML=h;
+  const cnt=()=>{$('#mcnt').textContent=`已答 ${Object.keys(m.sel).length}/${d.questions.length}`};cnt();
+  box.querySelectorAll('[data-mq]').forEach(b=>b.onclick=()=>{m.sel[b.dataset.mq]=+b.dataset.k;save();b.parentElement.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');cnt()});
+  const tick=()=>{const left=Math.max(0,end-Date.now());const mm=Math.floor(left/60e3),ss=Math.floor(left%60e3/1e3);const el=$('#tm');if(!el){clearInterval(TIMER);return}el.textContent=pad(mm)+':'+pad(ss);$('#tmr').classList.toggle('low',left<5*60e3);if(left<=0){clearInterval(TIMER);alert('時間到，自動交卷！');submitMock(d)}};
+  tick();TIMER=setInterval(tick,1000);
+  $('#msub').onclick=()=>{const un=d.questions.length-Object.keys(m.sel).length;if(un&&!confirm(`還有 ${un} 題未作答，確定交卷？`))return;submitMock(d)};
+  $('#mquit').onclick=()=>{if(confirm('確定放棄這次模擬考？作答會清除。')){delete S.mock[d.id];save();renderMock(d)}};
+  return}
+ // result
+ const by={};let c=0;d.questions.forEach(q=>{const ok=m.sel[q.id]===q.ans;if(ok)c++;by[q.ref]=by[q.ref]||{n:0,c:0};by[q.ref].n++;if(ok)by[q.ref].c++});
+ const sc=Math.round(c/d.questions.length*100);const used=Math.round((m.end-m.start)/60e3);
+ let h=`<div class="card"><div class="muted">模擬考成績（${m.minutes} 分鐘版，用時約 ${used} 分鐘）</div><div class="score" style="color:${sc>=70?'var(--ok)':'var(--bad)'}">${sc} 分 <span style="font-size:18px">${sc>=70?'✅ 達 70 分及格線':'未達 70 分，加油！'}</span></div><div>答對 ${c} / ${d.questions.length} 題；答錯與未答的題目已加入錯題本。</div>
+ <h3>各評鑑內容得分</h3><table><tr><th>評鑑內容</th><th>答對</th><th>正確率</th></tr>${Object.entries(by).sort().map(([k,v])=>`<tr><td><span class="ref">${k}</span></td><td>${v.c}/${v.n}</td><td>${Math.round(v.c/v.n*100)}%</td></tr>`).join('')}</table>
+ <div class="row" style="margin-top:10px"><button class="btn ghost" id="mre">重新作答（清除本次成績）</button><a class="btn ghost" href="#/wrong">去錯題本</a></div></div>`;
+ d.questions.forEach((q,i)=>{const s=m.sel[q.id];const ok=s===q.ans;
+  h+=`<div class="q">${qHeader(q,i+1)} <span class="pill ${s===undefined?'na':ok?'ok':'no'}">${s===undefined?'未作答':ok?'答對':'答錯'}</span><div class="stem">${q.stemH}</div>${q.optsH.map((o,k)=>`<button class="opt ${k===q.ans?'right':k===s?'wrong':''}" disabled>${L[k]}. ${o}</button>`).join('')}${fbHtml(q,ok)}</div>`});
+ box.innerHTML=h;wrapTables(box);
+ $('#mre').onclick=()=>{if(confirm('清除本次模擬考成績並重新作答？（錯題本與正確率紀錄會保留）')){delete S.mock[d.id];save();renderMock(d)}}}
+function submitMock(d){const m=S.mock[d.id];if(!m||m.submitted)return;m.submitted=true;m.end=Math.min(Date.now(),m.start+m.minutes*60e3);
+ d.questions.forEach(q=>{const s=m.sel[q.id];const ok=s===q.ans;S.answers[q.id]={c:s===undefined?-1:s,ok,t:Date.now()};if(!ok)S.wrong[q.id]=Date.now()});
+ save();clearInterval(TIMER);route();window.scrollTo(0,0)}
+
+let WF='all';
+function renderWrong(){
+ const ids=Object.keys(S.wrong).filter(id=>QI[id]).sort((a,b)=>QI[a].day-QI[b].day||QI[a].n-QI[b].n);
+ const refs=[...new Set(ids.map(i=>QI[i].ref))].sort();
+ if(WF!=='all'&&!refs.includes(WF))WF='all';
+ const list=ids.filter(i=>WF==='all'||QI[i].ref===WF);
+ let h=`<div class="card"><h1>錯題本</h1><div class="muted">共 ${ids.length} 題。重做答對就自動移出；答錯會留著。建議每題用一句話寫下「我錯在哪個觀念」。</div>
+ <div class="row" style="margin-top:8px"><label>篩選評鑑內容：<select id="wf"><option value="all">全部（${ids.length}）</option>${refs.map(r=>`<option value="${r}" ${WF===r?'selected':''}>${r}（${ids.filter(i=>QI[i].ref===r).length}）</option>`).join('')}</select></label></div></div>`;
+ if(!list.length)h+=`<div class="card">🎉 目前沒有錯題。去做題目吧！</div>`;
+ list.forEach((id,i)=>{const q=QI[id];h+=`<div class="muted" style="margin:14px 0 -6px">來自 <a href="#/day/${q.day}">D${q.day}</a> 第 ${q.n} 題</div>`+quizCard(q,i+1,'wrong')});
+ $('#app').innerHTML=h;
+ $('#wf').onchange=e=>{WF=e.target.value;renderWrong();wrapTables($('#app'))};
+ bindQuiz($('#app'))}
+
+function renderCheat(){$('#app').innerHTML=`<div class="card"><h1>考前速記表</h1><div class="muted">兩科各官方評鑑內容的最高頻考點。考前一晚與考場外快速翻閱。</div></div><div class="card lec">${DATA.cheat}</div>`}
+
+function renderSettings(){
+ $('#app').innerHTML=`<div class="card"><h1>設定與進度備份</h1><p>進度只存在這個瀏覽器（localStorage）。換手機或電腦前，先匯出進度檔，再到新裝置匯入。</p>
+ <div class="row"><button class="btn" id="exp">匯出進度（JSON）</button></div>
+ <p style="margin-top:14px">匯入進度檔：<input type="file" id="imp" accept=".json,application/json"></p>
+ <p style="margin-top:14px"><button class="btn red" id="rst">清除全部進度</button></p></div>
+ <div class="card muted">題庫：共 ${Object.keys(QI).length} 題｜每日驗證為原創練習題；D6、D7 改編自官方學習指引練習評量；皆非考古題或官方題目。</div>`;
+ $('#exp').onclick=()=>{const b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ipas_aiot_progress_'+todayStr()+'.json';a.click()};
+ $('#imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(!o.answers)throw 0;S=Object.assign({done:{},answers:{},wrong:{},mock:{}},o);save();alert('匯入完成');route()}catch(x){alert('檔案格式不正確')}})};
+ $('#rst').onclick=()=>{if(confirm('確定清除全部進度、作答與錯題？此動作無法復原。')){S={done:{},answers:{},wrong:{},mock:{}};save();route()}}}
+
+const AKEY='ipas_aiot_audio';
+function aLoad(){try{return Object.assign({pos:{},rate:1},JSON.parse(localStorage.getItem(AKEY)||'{}'))}catch(e){return{pos:{},rate:1}}}
+function aSave(a){try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}}
+function fmtDur(t){t=Math.round(t||0);return Math.floor(t/60)+':'+pad(t%60)}
+function audioHtml(d){if(!d.audio)return '';const a=aLoad();const r=a.rate||1;
+ return `<div class="card aud"><b>🎧 有聲講義 D${d.id}</b> <span class="muted">（約 ${fmtDur(d.audio.dur)}，台灣華語口語版，可邊通勤邊聽）</span>
+ <audio controls preload="metadata" data-ep="d${d.id}" src="${d.audio.src}"></audio>
+ <div class="ctl">播放速度 <select class="arate">${[0.75,1,1.25,1.5,1.75,2].map(v=>`<option value="${v}" ${v==r?'selected':''}>${v}x</option>`).join('')}</select>
+ <span class="muted apos"></span> <a class="btn ghost sm" href="#/audio">全部集數</a></div></div>`}
+function bindAudio(){document.querySelectorAll('audio[data-ep]').forEach(au=>{const ep=au.dataset.ep;const card=au.closest('.aud');
+ const sel=card&&card.querySelector('.arate');const info=card&&card.querySelector('.apos');
+ const a0=aLoad();au.playbackRate=a0.rate||1;
+ au.addEventListener('loadedmetadata',()=>{const p=aLoad().pos[ep];if(p&&p>5&&p<au.duration-5){au.currentTime=p;if(info)info.textContent='已從上次位置 '+fmtDur(p)+' 繼續'}au.playbackRate=aLoad().rate||1});
+ au.addEventListener('play',()=>{au.playbackRate=aLoad().rate||1;document.querySelectorAll('audio[data-ep]').forEach(o=>{if(o!==au)o.pause()})});
+ let last=0;const store=()=>{const a=aLoad();a.pos[ep]=au.ended?0:au.currentTime;aSave(a)};
+ au.addEventListener('timeupdate',()=>{if(Date.now()-last>3000){last=Date.now();store()}});
+ au.addEventListener('pause',store);au.addEventListener('ended',store);
+ if(sel)sel.onchange=()=>{const a=aLoad();a.rate=+sel.value;aSave(a);document.querySelectorAll('audio[data-ep]').forEach(o=>o.playbackRate=a.rate);document.querySelectorAll('.arate').forEach(s=>s.value=sel.value)}})}
+function renderAudioList(){const a=aLoad();let tot=0;const eps=DATA.days.filter(d=>d.audio);eps.forEach(d=>tot+=d.audio.dur);
+ let h=`<div class="card"><h1>🎧 有聲教材</h1><div class="muted">共 ${eps.length} 集，總長約 ${Math.round(tot/60)} 分鐘。台灣華語口語講解，內容依各日講義（對應官方評鑑內容）改寫；每集結尾有口頭自測與 30 秒回顧。可調速 0.75x～2x，並自動記住每集上次聽到的位置。</div></div><div class="card alist">`;
+ eps.forEach(d=>{const p=a.pos['d'+d.id];h+=`<div class="aud" style="border:0;background:none;padding:0"><div class="it"><div><b>D${d.id}</b> ${subjTag(d.subject)} ${d.short||d.title}<div class="muted">${fmtDur(d.audio.dur)}${p>5?'｜上次聽到 '+fmtDur(p):''}｜<a href="#/day/${d.id}">講義</a>｜<a href="${d.audio.src}" download>下載 MP3</a></div></div></div>
+ <audio controls preload="none" data-ep="d${d.id}" src="${d.audio.src}"></audio>${d.id===eps[0].id?`<div class="ctl">播放速度 <select class="arate">${[0.75,1,1.25,1.5,1.75,2].map(v=>`<option value="${v}" ${v==(a.rate||1)?'selected':''}>${v}x</option>`).join('')}</select><span class="muted apos"></span></div>`:''}</div>`});
+ $('#app').innerHTML=h+'</div>'}
+
+route();
+</script>
+</body>
+</html>
