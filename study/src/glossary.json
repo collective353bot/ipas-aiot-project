@@ -1,0 +1,4280 @@
+[
+ {
+  "term": "AI",
+  "aliases": [
+   "人工智慧",
+   "Artificial Intelligence"
+  ],
+  "cat": "AI",
+  "exp": "讓電腦做出「像人一樣判斷」的技術總稱，例如看影像判斷有沒有瑕疵、聽聲音判斷馬達是否異常。在 AIoT 裡，AI 負責把感測資料變成「判斷與決策」。",
+  "vs": "AI ⊃ 機器學習 ⊃ 深度學習：AI 是最大的圈，機器學習是其中「從資料學規則」的方法，深度學習又是機器學習裡用多層類神經網路的那一支。"
+ },
+ {
+  "term": "AIoT",
+  "aliases": [
+   "人工智慧物聯網"
+  ],
+  "cat": "AI",
+  "exp": "AI＋IoT：物聯網負責「感測與連線」收集資料，AI 負責「分析與判斷」。例：工廠馬達裝震動感測器（IoT），AI 判斷快壞了就提前通知維修。"
+ },
+ {
+  "term": "機器學習",
+  "aliases": [
+   "ML",
+   "Machine Learning"
+  ],
+  "cat": "AI",
+  "exp": "不是由人寫死規則，而是讓電腦「看很多資料自己找出規律」，再用來判斷新資料。例：餵它一年份的馬達震動與故障紀錄，它學會分辨正常與異常。"
+ },
+ {
+  "term": "深度學習",
+  "aliases": [
+   "DL",
+   "Deep Learning"
+  ],
+  "cat": "AI",
+  "exp": "機器學習的一個分支，使用很多層的類神經網路，能自動從影像、聲音、震動等原始資料中找出特徵，不必人工先挑特徵。代價是需要大量資料與算力。"
+ },
+ {
+  "term": "類神經網路",
+  "aliases": [
+   "ANN",
+   "Artificial Neural Network",
+   "神經網路"
+  ],
+  "cat": "AI",
+  "exp": "模仿人腦神經元連結方式的數學模型：資料從輸入層經過多個隱藏層運算到輸出層，每條連線有一個「權重」，訓練就是調整這些權重。深度學習的基礎。"
+ },
+ {
+  "term": "監督式學習",
+  "aliases": [
+   "Supervised Learning",
+   "Supervised",
+   "監督式"
+  ],
+  "cat": "AI",
+  "exp": "訓練資料「有標準答案（標籤）」的學習方式，像老師拿著解答教學生。例：每張產品照片都標好「良品／瑕疵」，模型學會自己分辨。任務分成分類與迴歸。",
+  "vs": "監督式＝有標籤；非監督式＝沒標籤、自己找相似群組；強化學習＝沒有標準答案，靠試錯拿獎勵。"
+ },
+ {
+  "term": "非監督式學習",
+  "aliases": [
+   "Unsupervised Learning",
+   "Unsupervised",
+   "非監督式"
+  ],
+  "cat": "AI",
+  "exp": "訓練資料「沒有標準答案」，讓模型自己找出資料的結構，例如把相似的運轉狀態歸成一群（分群），或用正常資料畫出邊界、抓出不像正常的點（異常偵測）。"
+ },
+ {
+  "term": "強化學習",
+  "aliases": [
+   "RL",
+   "Reinforcement Learning",
+   "Reinforcement"
+  ],
+  "cat": "AI",
+  "exp": "讓一個「代理人（Agent）」在環境中反覆嘗試，做對給獎勵、做錯給懲罰，慢慢學會最好的策略，像訓練寵物。例：空調系統自己摸索在舒適前提下最省電的控制方式。因為要試錯，必須先設安全邊界。"
+ },
+ {
+  "term": "代理人",
+  "aliases": [
+   "Agent"
+  ],
+  "cat": "AI",
+  "exp": "強化學習裡「做決定並採取行動」的那個角色，例如控制空調的程式；它觀察環境、做動作、收到獎勵或懲罰後調整策略。（在 MTConnect 中 Agent 另指「代理器」，意思不同。）"
+ },
+ {
+  "term": "特徵與標籤",
+  "aliases": [
+   "Feature",
+   "Label",
+   "特徵（Feature）",
+   "標籤（Label）"
+  ],
+  "cat": "AI",
+  "exp": "特徵＝模型拿來判斷的輸入資訊（例如震動振幅、溫度）；標籤＝這筆資料的正確答案（例如「正常」或「軸承故障」）。有標籤才能做監督式學習。"
+ },
+ {
+  "term": "分類",
+  "aliases": [
+   "Classification"
+  ],
+  "cat": "AI",
+  "exp": "監督式學習任務，輸出是「離散的類別」。例：判斷產品是良品還是瑕疵品、馬達是正常／軸承故障／不平衡。",
+  "vs": "分類輸出類別（是哪一種）；迴歸輸出連續數值（多少）。"
+ },
+ {
+  "term": "迴歸",
+  "aliases": [
+   "Regression"
+  ],
+  "cat": "AI",
+  "exp": "監督式學習任務，輸出是「連續的數值」。例：預測明天耗電幾度、馬達還能用幾天（RUL）、溫度趨勢。",
+  "vs": "迴歸＝預測數字；分類＝預測類別。迴歸是監督式，不是非監督式。"
+ },
+ {
+  "term": "分群",
+  "aliases": [
+   "Clustering"
+  ],
+  "cat": "AI",
+  "exp": "非監督式學習任務：沒有標準答案，只把「彼此相似」的資料自動歸在同一群。例：把機台運轉狀態自動分成幾種模式。",
+  "vs": "分群（非監督，沒答案）≠ 分類（監督，有答案）。"
+ },
+ {
+  "term": "異常偵測",
+  "aliases": [
+   "Anomaly Detection"
+  ],
+  "cat": "AI",
+  "exp": "先用大量「正常」資料學出正常長什麼樣子，再把偏離正常太多的資料標為異常。工廠故障樣本很少時特別好用，但要搭配門檻設定避免誤報。"
+ },
+ {
+  "term": "時間序列",
+  "aliases": [
+   "Time-series",
+   "時序資料"
+  ],
+  "cat": "AI",
+  "exp": "依時間先後排列的一串資料，例如馬達每秒上千筆的震動值、每分鐘一筆的溫度。前後資料有關聯，常用 RNN／LSTM 分析，存放常用時序資料庫。"
+ },
+ {
+  "term": "類別不平衡",
+  "aliases": [
+   "Imbalanced Data"
+  ],
+  "cat": "AI",
+  "exp": "某一類資料遠多於另一類，例如正常資料一百萬筆、故障只有 30 筆。模型容易「全部猜正常」也有很高準確率，所以要特別處理或改用異常偵測。"
+ },
+ {
+  "term": "資料缺失",
+  "aliases": [
+   "Missing Data"
+  ],
+  "cat": "AI",
+  "exp": "資料中有空洞，例如感測器斷線、受干擾導致某段時間沒有值。訓練前要先補值或剔除，屬於資料前處理的工作。"
+ },
+ {
+  "term": "CNN",
+  "aliases": [
+   "卷積神經網路",
+   "Convolutional Neural Network"
+  ],
+  "cat": "AI",
+  "exp": "擅長處理「空間結構」資料（影像）的深度學習模型。它用小濾波器在圖片上滑動，抓出邊緣、刮痕等局部特徵。工廠 AOI 瑕疵檢測最常用。",
+  "vs": "CNN 看空間（影像）；RNN／LSTM 看時間（連續訊號）。"
+ },
+ {
+  "term": "RNN",
+  "aliases": [
+   "循環神經網路",
+   "Recurrent Neural Network"
+  ],
+  "cat": "AI",
+  "exp": "擅長處理「時間序列」的深度學習模型：每一步的輸出同時參考現在的輸入和之前的狀態（有記憶）。例：看一連串震動值判斷設備健康。缺點是序列太長時前面的資訊會被遺忘（梯度消失）。"
+ },
+ {
+  "term": "LSTM",
+  "aliases": [
+   "長短期記憶",
+   "Long Short-Term Memory"
+  ],
+  "cat": "AI",
+  "exp": "RNN 的改良版，加入「門控結構」決定哪些資訊要記住、哪些要忘掉，因此能處理更長的時間序列，例如長時間的電流趨勢。",
+  "vs": "LSTM 與 GRU 都是有門控的 RNN；GRU 門比較少、結構較簡單。"
+ },
+ {
+  "term": "門控結構",
+  "aliases": [
+   "門控",
+   "Gate",
+   "閘門機制"
+  ],
+  "cat": "AI",
+  "exp": "LSTM／GRU 內部的「小開關」，用數值 0～1 控制資訊要通過多少：遺忘門決定丟掉舊記憶、輸入門決定寫入新資訊、輸出門決定輸出多少。目的是改善 RNN 長序列記不住的問題。"
+ },
+ {
+  "term": "梯度消失",
+  "aliases": [
+   "Vanishing Gradient"
+  ],
+  "cat": "AI",
+  "exp": "訓練深層或很長的網路時，用來調整權重的「梯度」一路往前傳會越乘越小，最後前面幾層幾乎學不到東西。這是一般 RNN 記不住長序列的原因，LSTM／GRU 用門控結構改善。"
+ },
+ {
+  "term": "GRU",
+  "aliases": [
+   "門控循環單元",
+   "Gated Recurrent Unit"
+  ],
+  "cat": "AI",
+  "exp": "另一種有門控結構的 RNN 改良版，概念與 LSTM 類似但門比較少、運算較輕。考試重點仍在 RNN／LSTM，知道 GRU 屬同一家族即可。"
+ },
+ {
+  "term": "梯度",
+  "aliases": [
+   "Gradient"
+  ],
+  "cat": "AI",
+  "exp": "訓練模型時，告訴我們「權重往哪個方向調、調多少，誤差會變小」的數值。聯合學習上傳的就是權重或梯度這類模型更新，而不是原始資料。"
+ },
+ {
+  "term": "權重",
+  "aliases": [
+   "Weight"
+  ],
+  "cat": "AI",
+  "exp": "類神經網路中每條連線的係數，也就是模型「學到的知識」。訓練＝反覆調整權重；量化就是把權重從 32 位元浮點數改成 8 位元整數來縮小模型。"
+ },
+ {
+  "term": "反向傳播",
+  "aliases": [
+   "Backpropagation"
+  ],
+  "cat": "AI",
+  "exp": "訓練類神經網路的核心演算法：先算出輸出的誤差，再從最後一層往前一層層計算每個權重該怎麼調整。需要大量浮點運算，所以訓練多在雲端 GPU 進行，而不是在 NPU 上。"
+ },
+ {
+  "term": "GAN",
+  "aliases": [
+   "生成對抗網路",
+   "Generative Adversarial Network"
+  ],
+  "cat": "AI",
+  "exp": "由「生成器」與「判別器」互相對抗訓練的模型，主要用途是「生成新的資料」，例如產生逼真的瑕疵影像來擴充訓練資料。"
+ },
+ {
+  "term": "隨機森林",
+  "aliases": [
+   "Random Forest"
+  ],
+  "cat": "AI",
+  "exp": "由很多棵決策樹投票的傳統機器學習方法，常用於分類與迴歸。它不是深度學習（沒有多層類神經網路）。"
+ },
+ {
+  "term": "模型訓練",
+  "aliases": [
+   "Model Training"
+  ],
+  "cat": "AI",
+  "exp": "用大量資料反覆調整模型權重，讓它學會規律的過程。很吃算力，通常在雲端或 GPU 工作站做，資料會切成訓練集、驗證集、測試集。",
+  "vs": "訓練＝學習（重、在雲端）；推論＝考試作答（輕、可在邊緣）。"
+ },
+ {
+  "term": "推論",
+  "aliases": [
+   "Inference",
+   "模型推論"
+  ],
+  "cat": "AI",
+  "exp": "把訓練好的模型拿來「對新資料做判斷」，例如攝影機拍到一張新照片，模型判斷有沒有瑕疵。運算量比訓練小很多，可以放在邊緣裝置或 NPU 上即時執行。"
+ },
+ {
+  "term": "訓練集",
+  "aliases": [
+   "驗證集",
+   "測試集",
+   "Training Set"
+  ],
+  "cat": "AI",
+  "exp": "資料通常切三份：訓練集用來學、驗證集用來調參數與挑模型、測試集留到最後評估真實表現。就像課本練習、模擬考、正式考試要分開。"
+ },
+ {
+  "term": "資料前處理",
+  "aliases": [
+   "Data Preprocessing",
+   "訊號調理",
+   "Signal Conditioning"
+  ],
+  "cat": "AI",
+  "exp": "把原始資料整理乾淨再給模型：濾波去雜訊、處理異常值、正規化、對齊取樣率等。硬體上的「訊號調理」則指放大、濾波等讓感測訊號適合 ADC 讀取的電路。"
+ },
+ {
+  "term": "正規化",
+  "aliases": [
+   "Normalization"
+  ],
+  "cat": "AI",
+  "exp": "這個詞在本講義有兩種意思：① AI 資料前處理：把不同範圍的數值縮放到相近尺度（例如都變成 0～1），讓模型好學；② 資料庫設計：把資料表拆分以減少重複與更新異常（1NF、2NF、3NF）。看上下文判斷。"
+ },
+ {
+  "term": "模型壓縮",
+  "aliases": [
+   "Model Compression",
+   "輕量化"
+  ],
+  "cat": "AI",
+  "exp": "把訓練好的大模型變小、變快，才能放進 MCU、邊緣閘道器等資源有限的裝置。常見方法是量化與剪枝。增加網路層數不是壓縮，反而更重。"
+ },
+ {
+  "term": "量化",
+  "aliases": [
+   "Quantization"
+  ],
+  "cat": "AI",
+  "exp": "把模型參數從 32 位元浮點數（FP32）改成 8 位元整數（INT8）等較低精度表示，模型檔案與記憶體大約縮小到 1/4，執行更快更省電，精確度略降。",
+  "vs": "AI 的「量化」是降低模型數字精度；ADC 的「量化」是把類比電壓切成數位階數，兩者是不同層面的事。"
+ },
+ {
+  "term": "剪枝",
+  "aliases": [
+   "Pruning"
+  ],
+  "cat": "AI",
+  "exp": "把模型中影響很小的連線或神經元剪掉，讓模型變小變快，就像修剪樹枝。與量化並列為常見的模型壓縮方法。"
+ },
+ {
+  "term": "INT8",
+  "aliases": [
+   "FP32",
+   "8 位元整數"
+  ],
+  "cat": "AI",
+  "exp": "FP32＝32 位元浮點數，精確但占空間；INT8＝8 位元整數，只有 256 種值但小又快。量化通常就是 FP32 → INT8，NPU 特別擅長跑 INT8 模型。"
+ },
+ {
+  "term": "模型格式",
+  "aliases": [
+   "Model Format"
+  ],
+  "cat": "AI",
+  "exp": "模型結構與權重存成檔案的格式，例如 ONNX、TensorFlow、PyTorch 的格式。AIoT 工程師關心的是能否穩定部署到不同硬體、方便轉換與更新版本。"
+ },
+ {
+  "term": "ONNX",
+  "aliases": [
+   "Open Neural Network Exchange"
+  ],
+  "cat": "AI",
+  "exp": "開放的模型交換格式，讓不同框架訓練出的模型可以轉成同一種格式，再部署到各家硬體的推論引擎上，像是 AI 模型界的「通用檔案格式」。"
+ },
+ {
+  "term": "TensorFlow",
+  "aliases": [
+   "PyTorch"
+  ],
+  "cat": "AI",
+  "exp": "TensorFlow 與 PyTorch 是兩個最常見的深度學習開發框架（寫程式訓練模型的工具），各有自己的模型存檔格式。"
+ },
+ {
+  "term": "推論引擎",
+  "aliases": [
+   "Inference Engine"
+  ],
+  "cat": "AI",
+  "exp": "在實際硬體上「執行模型」的軟體元件，負責把模型運算對應到 CPU、GPU 或 NPU 等加速器，確保推論夠快、夠即時。"
+ },
+ {
+  "term": "生成式 AI",
+  "aliases": [
+   "GenAI",
+   "Generative AI"
+  ],
+  "cat": "AI",
+  "exp": "能「產生新內容」（文字、圖片、摘要）的 AI，例如聊天機器人。在 AIoT 中適合做告警說明、狀態摘要、操作建議等決策輔助，不直接控制設備。"
+ },
+ {
+  "term": "SLM",
+  "aliases": [
+   "小型語言模型",
+   "Small Language Model"
+  ],
+  "cat": "AI",
+  "exp": "參數量較小、可以在邊緣裝置上執行的語言模型。用途是把推論結果轉成人看得懂的摘要與建議，補強人機互動，而不是取代感測與預測模型，也不直接介入控制邏輯。"
+ },
+ {
+  "term": "TinyML",
+  "aliases": [
+   "微型機器學習"
+  ],
+  "cat": "AI",
+  "exp": "把機器學習模型壓縮到能在 MCU 這類極低功耗、只有 KB 級記憶體的小晶片上執行推論的做法。例：ESP32 等級的晶片直接聽聲音判斷馬達異常，不用連雲端。概念上就是「Edge AI 做到最小的裝置上」。"
+ },
+ {
+  "term": "邊緣運算",
+  "aliases": [
+   "Edge Computing",
+   "邊緣端"
+  ],
+  "cat": "AI",
+  "exp": "把運算放在「靠近資料產生的地方」（設備旁的閘道器、工業電腦），而不是全部丟到遠端雲端。好處是延遲低、省頻寬、資料不必離開現場。",
+  "vs": "邊緣＝靠近現場；雲端＝遠端資料中心。邊緣運算不是「移到雲端」。"
+ },
+ {
+  "term": "Edge AI",
+  "aliases": [
+   "邊緣 AI",
+   "邊緣推論",
+   "Edge Inference"
+  ],
+  "cat": "AI",
+  "exp": "在邊緣裝置上直接執行 AI 推論，只把結果或特徵上傳。三大理由：低延遲（即時告警）、省頻寬（不傳整段影像）、隱私（敏感影像留在現場）。"
+ },
+ {
+  "term": "邊緣裝置",
+  "aliases": [
+   "Edge Device"
+  ],
+  "cat": "AI",
+  "exp": "位在現場、靠近感測器的運算設備，例如邊緣閘道器、工業電腦、AI 攝影機、帶 NPU 的開發板。"
+ },
+ {
+  "term": "延遲",
+  "aliases": [
+   "Latency"
+  ],
+  "cat": "網路通訊",
+  "exp": "資料從送出到收到（或下指令到動作）所花的時間。安全告警、機器手臂控制都需要很低的延遲，這是把運算放在邊緣的重要原因。",
+  "vs": "延遲是「多快到」；頻寬是「一次能送多少」。"
+ },
+ {
+  "term": "頻寬",
+  "aliases": [
+   "Bandwidth"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳輸管道每秒能送多少資料（例如 100 Mbps），像水管的粗細。另一個意思是訊號最高與最低頻率的差（單位 Hz）。影像串流很吃頻寬。"
+ },
+ {
+  "term": "端雲協作",
+  "aliases": [
+   "Edge–Cloud Collaboration",
+   "邊雲協作"
+  ],
+  "cat": "AI",
+  "exp": "雲端和邊緣分工合作的架構，典型是「訓練在雲端、推論在邊緣」：雲端用大量歷史資料訓練並更新模型，邊緣負責即時判斷，網路斷了也能運作。"
+ },
+ {
+  "term": "聯合學習",
+  "aliases": [
+   "Federated Learning",
+   "FL",
+   "聯邦學習"
+  ],
+  "cat": "AI",
+  "exp": "各工廠或裝置用自己的資料在本地訓練，只把「模型更新參數」上傳雲端合併，原始資料不離開本地。適合醫療、跨公司製造等資料敏感的場合。"
+ },
+ {
+  "term": "CPU",
+  "aliases": [
+   "中央處理器",
+   "Central Processing Unit"
+  ],
+  "cat": "硬體",
+  "exp": "電腦的「大腦」，什麼都能算，擅長依序處理各種指令、跑作業系統與 I/O。只用 CPU 跑 AI 常常太慢或太耗電，所以會搭配加速器。",
+  "vs": "CPU 是一個運算核心；MCU 是把 CPU＋記憶體＋I/O 做在同一顆晶片上的小系統；MPU 是強力處理器但要外接記憶體。"
+ },
+ {
+  "term": "GPU",
+  "aliases": [
+   "圖形處理器",
+   "Graphics Processing Unit"
+  ],
+  "cat": "硬體",
+  "exp": "原本用來畫圖的晶片，有大量小核心可同時平行運算，很適合 AI 訓練與多路影像分析。缺點是功耗高，多用在雲端、工作站或工業電腦。",
+  "vs": "GPU＝力氣大吃電多（訓練、推論都可）；NPU＝推論專用超省電；FPGA＝可改線路、低延遲但開發難。"
+ },
+ {
+  "term": "NPU",
+  "aliases": [
+   "神經網路處理器",
+   "Neural Processing Unit"
+  ],
+  "cat": "硬體",
+  "exp": "專為深度學習「推論」設計的晶片（常做成 ASIC），針對矩陣與卷積運算最佳化，低功耗、擅長跑 INT8 量化模型，常內建在手機與邊緣 AI 晶片中。不適合訓練，作業系統與 I/O 仍由 CPU 負責。",
+  "vs": "NPU 推論專用、省電；FPGA 可重新配置硬體邏輯、超低延遲、門檻高；GPU 通用平行運算、耗電。"
+ },
+ {
+  "term": "FPGA",
+  "aliases": [
+   "現場可程式化邏輯閘陣列",
+   "Field-Programmable Gate Array"
+  ],
+  "cat": "硬體",
+  "exp": "買來之後還能「重新配置內部硬體線路」的晶片，可為特定任務客製電路，延遲非常低、可預期，適合工業控制、安全監測等極度即時的場合；缺點是開發門檻高。"
+ },
+ {
+  "term": "ASIC",
+  "aliases": [
+   "特殊應用積體電路",
+   "Application-Specific Integrated Circuit"
+  ],
+  "cat": "硬體",
+  "exp": "為單一用途量身打造的晶片，效能與省電最好，但做好後電路就不能改。很多 NPU 就是以 ASIC 形式實作。",
+  "vs": "ASIC 電路固定、量產便宜省電；FPGA 電路可改、彈性高但單價與功耗較高。"
+ },
+ {
+  "term": "TPU",
+  "aliases": [
+   "Tensor Processing Unit"
+  ],
+  "cat": "硬體",
+  "exp": "Google 設計的 AI 專用加速晶片，雲端版主要用於大規模模型訓練與推論。講義提到「雲端訓練多用 GPU 或 TPU」。"
+ },
+ {
+  "term": "MCU",
+  "aliases": [
+   "微控制器",
+   "Microcontroller",
+   "單晶片"
+  ],
+  "cat": "硬體",
+  "exp": "把 CPU、記憶體（Flash＋RAM）和 I/O 腳位整合在一顆晶片上的小電腦，便宜、省電、通電就跑，通常不跑完整作業系統。例：Arduino Uno 上的 ATmega328P、ESP32；冷氣、洗衣機裡的控制晶片也都是 MCU。",
+  "vs": "MCU＝一顆晶片自給自足、跑單一任務、省電；MPU／單板電腦＝處理器強、要外接記憶體、跑 Linux。"
+ },
+ {
+  "term": "MPU",
+  "aliases": [
+   "微處理器",
+   "Microprocessor"
+  ],
+  "cat": "硬體",
+  "exp": "運算能力較強的處理器，但記憶體等元件要外接，通常跑 Linux 等完整作業系統。例：Raspberry Pi 上的處理器。適合需要資料庫、Python、AI 推論、多工的場合。"
+ },
+ {
+  "term": "單板電腦",
+  "aliases": [
+   "SBC",
+   "Single Board Computer"
+  ],
+  "cat": "硬體",
+  "exp": "把處理器、記憶體、儲存、網路、GPIO 做在一塊板子上的完整小電腦，能跑 Linux，例如 Raspberry Pi。比 MCU 強，但較耗電、開機慢、需要正常關機。"
+ },
+ {
+  "term": "Arduino",
+  "aliases": [
+   "Arduino Uno"
+  ],
+  "cat": "硬體",
+  "exp": "最普及的開源 MCU 開發板與開發環境，適合初學者做感測與控制。Arduino Uno 用 ATmega328P（8 位元），I/O 電壓是 5 V。",
+  "vs": "Arduino Uno 是 5 V 的 MCU 板；ESP32 是 3.3 V、內建 Wi-Fi/BLE 的 MCU；Raspberry Pi 是跑 Linux 的單板電腦。"
+ },
+ {
+  "term": "ESP32",
+  "aliases": [
+   "ESP8266"
+  ],
+  "cat": "硬體",
+  "exp": "樂鑫（Espressif）推出的便宜 MCU，ESP32 內建 Wi-Fi 與藍牙（BLE），GPIO 為 3.3 V，是 IoT 專題最常見的晶片之一。前一代 ESP8266 只有 Wi-Fi，且只支援 2.4 GHz。"
+ },
+ {
+  "term": "Raspberry Pi",
+  "aliases": [
+   "樹莓派"
+  ],
+  "cat": "硬體",
+  "exp": "最常見的單板電腦，跑 Linux，可接螢幕、跑 Python 與資料庫。GPIO 為 3.3 V，沒有內建 ADC，讀類比感測器要外接 ADC 晶片。"
+ },
+ {
+  "term": "IPC",
+  "aliases": [
+   "工業電腦",
+   "Industrial PC"
+  ],
+  "cat": "硬體",
+  "exp": "為工廠環境設計的電腦，耐高溫、震動、粉塵，可長時間運作；常用來跑邊緣運算、AOI 影像分析、多協定轉換。"
+ },
+ {
+  "term": "HMI",
+  "aliases": [
+   "人機介面",
+   "Human Machine Interface"
+  ],
+  "cat": "製造管理",
+  "exp": "操作人員看設備狀態、按按鈕下指令的畫面或觸控面板，例如機台旁的觸控螢幕顯示溫度、轉速與警報。",
+  "vs": "HMI 是單台或單區的操作畫面；SCADA 是整廠或跨站點的監控與資料擷取系統（常包含很多 HMI 畫面）。"
+ },
+ {
+  "term": "SCADA",
+  "aliases": [
+   "監控與資料擷取系統",
+   "Supervisory Control and Data Acquisition"
+  ],
+  "cat": "製造管理",
+  "exp": "集中監看與遠端操作大量設備的系統：從各 PLC／感測器收集資料、顯示畫面、發警報、記錄歷史。例：中控室一面大螢幕看整座水廠或整條產線。屬 ISA-95 第 2 層。",
+  "vs": "SCADA 管「設備即時狀態」（秒級）；MES 管「生產怎麼排、做了多少、品質如何」（班、日級）。"
+ },
+ {
+  "term": "MES",
+  "aliases": [
+   "製造執行系統",
+   "Manufacturing Execution System"
+  ],
+  "cat": "製造管理",
+  "exp": "管理工廠現場生產活動的系統：派工單、追蹤每批產品做到哪、記錄生產履歷與品質、計算 OEE。位在 ERP（公司計畫）與 SCADA／PLC（設備控制）之間，屬 ISA-95 第 3 層。",
+  "vs": "ERP 管「公司接了什麼訂單、要買多少料」；MES 管「今天產線怎麼做、做得如何」。"
+ },
+ {
+  "term": "ERP",
+  "aliases": [
+   "企業資源規劃",
+   "Enterprise Resource Planning"
+  ],
+  "cat": "製造管理",
+  "exp": "管理整間公司資源的系統：訂單、採購、庫存、財務、人事、主生產計畫。屬 ISA-95 第 4 層，時間尺度是月、週、日。"
+ },
+ {
+  "term": "PLC",
+  "aliases": [
+   "可程式邏輯控制器",
+   "Programmable Logic Controller"
+  ],
+  "cat": "製造管理",
+  "exp": "工廠用的堅固控制器，讀感測器與開關、依程式（常用梯形圖）即時控制馬達、氣缸、輸送帶。耐環境、非常穩定，但比 MCU 貴、彈性較小。屬 ISA-95 第 1 層。",
+  "vs": "PLC 是工業級即時控制器；MCU 是便宜的小晶片，多用於消費性或自製裝置。"
+ },
+ {
+  "term": "致動器",
+  "aliases": [
+   "Actuator",
+   "執行器"
+  ],
+  "cat": "硬體",
+  "exp": "把電訊號變成「動作」的元件，是系統的輸出端。例：馬達、繼電器、電磁閥、LED、蜂鳴器、伺服機。感測器是「感覺」，致動器是「手腳」。",
+  "vs": "感測器＝輸入（物理量→電訊號）；致動器＝輸出（電訊號→動作）。"
+ },
+ {
+  "term": "感測器",
+  "aliases": [
+   "Sensor",
+   "感測元件"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把溫度、壓力、光、震動等物理或化學量轉成電訊號的元件，是系統的輸入端，等於設備的「感覺器官」。"
+ },
+ {
+  "term": "AOI",
+  "aliases": [
+   "自動光學檢測",
+   "Automated Optical Inspection"
+  ],
+  "cat": "AI",
+  "exp": "用相機拍產品、再用影像處理或 AI（常用 CNN）自動找出刮傷、缺件、焊點不良等瑕疵，取代人工目檢。通常屬於監督式學習。"
+ },
+ {
+  "term": "LiDAR",
+  "aliases": [
+   "光達"
+  ],
+  "cat": "感測與訊號",
+  "exp": "用雷射光測距的感測器，打出雷射並量反射時間，畫出周圍的 3D 點雲，常見於自駕車與機器人。"
+ },
+ {
+  "term": "HVAC",
+  "aliases": [
+   "空調系統",
+   "Heating, Ventilation and Air Conditioning"
+  ],
+  "cat": "AI",
+  "exp": "暖氣、通風與空調系統的統稱。講義中是強化學習節能控制的例子。"
+ },
+ {
+  "term": "預測性維護",
+  "aliases": [
+   "PdM",
+   "Predictive Maintenance"
+  ],
+  "cat": "製造管理",
+  "exp": "依設備「實際狀態」（震動、電流、溫度）配合 AI 預測何時會壞，在壞之前剛好的時間維修。比「壞了才修」停機少，比「固定週期保養」不浪費。",
+  "vs": "事後維修＝壞了才修；預防保養＝固定時間換；預測性維護＝看狀態在對的時間修。"
+ },
+ {
+  "term": "預防保養",
+  "aliases": [
+   "定期保養",
+   "Preventive Maintenance"
+  ],
+  "cat": "製造管理",
+  "exp": "不管設備狀況、依固定週期保養或換零件，例如每 3 個月換一次軸承。簡單但可能過度維護，也可能在週期中間突然壞掉。"
+ },
+ {
+  "term": "故障診斷",
+  "aliases": [
+   "Diagnosis"
+  ],
+  "cat": "AI",
+  "exp": "回答「現在正常嗎？是哪一種故障？」，屬於分類任務，輸出是類別。",
+  "vs": "Diagnosis 看「現在」（分類）；Prognosis 看「未來還能撐多久」（迴歸，RUL）。"
+ },
+ {
+  "term": "健康預測",
+  "aliases": [
+   "Prognosis",
+   "壽命預測"
+  ],
+  "cat": "AI",
+  "exp": "回答「還能撐多久？」，屬於迴歸任務，輸出剩餘有效壽命（RUL）這種連續數值。"
+ },
+ {
+  "term": "RUL",
+  "aliases": [
+   "剩餘有效壽命",
+   "Remaining Useful Life"
+  ],
+  "cat": "AI",
+  "exp": "設備或零件從現在到故障前大約還能用多久，例如「軸承還能運轉約 120 小時」。是 Prognosis（迴歸）的輸出。"
+ },
+ {
+  "term": "感測融合",
+  "aliases": [
+   "Sensor Fusion"
+  ],
+  "cat": "AI",
+  "exp": "把多種不同感測器的資料一起分析，讓判斷更準、更不怕單一感測器出錯。例：震動＋溫度一起看，區分真正故障還是環境干擾；代價是感測器變多、成本可能增加。"
+ },
+ {
+  "term": "強健性",
+  "aliases": [
+   "Robustness",
+   "穩健性"
+  ],
+  "cat": "AI",
+  "exp": "系統遇到雜訊、干擾或某個元件失效時，仍能維持正確運作的能力。感測融合的主要目的之一就是提升強健性。"
+ },
+ {
+  "term": "四位一體循環",
+  "aliases": [
+   "AIoT Integrated Cycle",
+   "四位一體"
+  ],
+  "cat": "AI",
+  "exp": "官方指引分析 AIoT 案例的框架：感知端（感測什麼）、通訊端（怎麼傳）、智慧端（AI 判斷或預測）、安全端（資訊安全）。這裡的「安全」是資安，不是工廠保全。"
+ },
+ {
+  "term": "PbD",
+  "aliases": [
+   "Privacy by Design",
+   "由設計起始的隱私",
+   "隱私設計"
+  ],
+  "cat": "資安",
+  "exp": "在系統一開始設計時就把隱私保護做進去，而不是出事後才補。例：攝影機在邊緣端就把人臉去識別化，只上傳骨架或特徵值。"
+ },
+ {
+  "term": "XAI",
+  "aliases": [
+   "可解釋 AI",
+   "Explainable AI"
+  ],
+  "cat": "AI",
+  "exp": "讓 AI 的判斷「說得出理由」的技術，例如指出是哪個頻段的震動讓模型判定異常。工控與公共安全場合特別需要，才能信任與追責。"
+ },
+ {
+  "term": "ISO/IEC 42001",
+  "aliases": [
+   "AI 管理系統"
+  ],
+  "cat": "AI",
+  "exp": "國際標準組織發布的「AI 管理系統」標準，協助組織建立 AI 治理、風險管理與問責流程。考試記住它是 AI 管理系統標準即可。"
+ },
+ {
+  "term": "AI Act",
+  "aliases": [
+   "歐盟 AI Act",
+   "歐盟人工智慧法"
+  ],
+  "cat": "AI",
+  "exp": "歐盟的人工智慧法規，核心精神是「依風險等級給不同要求」：不可接受風險禁止、高風險嚴格義務、有限風險要透明、最低風險較寬鬆。"
+ },
+ {
+  "term": "數位孿生",
+  "aliases": [
+   "Digital Twin",
+   "數位雙生"
+  ],
+  "cat": "製造管理",
+  "exp": "在電腦裡建立一個與實體設備或產線同步的虛擬模型，可以先在虛擬世界模擬、測試、預測，再套用到實體，降低試錯成本。"
+ },
+ {
+  "term": "CPS",
+  "aliases": [
+   "虛實整合系統",
+   "Cyber-Physical System"
+  ],
+  "cat": "製造管理",
+  "exp": "把實體設備（Physical）與電腦運算網路（Cyber）緊密結合，讓實體世界的資料即時進到數位世界分析，再回頭控制實體。工業 4.0 的核心概念。"
+ },
+ {
+  "term": "工業 4.0",
+  "aliases": [
+   "Industry 4.0"
+  ],
+  "cat": "製造管理",
+  "exp": "第四次工業革命的說法：用物聯網、雲端、大數據與 AI 讓工廠聯網、可視化並能自主調整。"
+ },
+ {
+  "term": "OT",
+  "aliases": [
+   "營運技術",
+   "Operational Technology",
+   "OT 與 IT 融合"
+  ],
+  "cat": "製造管理",
+  "exp": "控制實體設備的技術，例如 PLC、SCADA、產線網路；IT 則是辦公室資訊系統（ERP、郵件、資料庫）。智慧工廠要讓 OT 與 IT 資料互通，但也帶來資安風險。"
+ },
+ {
+  "term": "IIoT",
+  "aliases": [
+   "工業物聯網",
+   "Industrial IoT"
+  ],
+  "cat": "製造管理",
+  "exp": "用在工廠、能源、交通等工業場域的物聯網，比消費型 IoT 更重視可靠度、即時性與資安。"
+ },
+ {
+  "term": "儀表板",
+  "aliases": [
+   "Dashboard",
+   "看板畫面"
+  ],
+  "cat": "平台與資料",
+  "exp": "把重要數據用圖表集中顯示的畫面，例如即時溫度曲線、OEE、告警數量。常用工具如 Grafana。"
+ },
+ {
+  "term": "IoT",
+  "aliases": [
+   "物聯網",
+   "Internet of Things"
+  ],
+  "cat": "網路通訊",
+  "exp": "讓各種「東西」（感測器、家電、機台）連上網路，自動收集資料、互相溝通並可被遠端控制。三大特徵：全面感知、可靠傳遞、智慧處理。"
+ },
+ {
+  "term": "感知層",
+  "aliases": [
+   "Perception Layer"
+  ],
+  "cat": "網路通訊",
+  "exp": "物聯網三層架構的最底層，負責「感覺與識別」：感測器採集資料（類比轉數位）、RFID／QR Code 識別物品，也可做簡單的濾雜訊。",
+  "vs": "感知層＝收集；網路層＝傳送；應用層＝分析與服務。"
+ },
+ {
+  "term": "網路層",
+  "aliases": [
+   "Network Layer"
+  ],
+  "cat": "網路通訊",
+  "exp": "在 IoT 三層架構中，負責把感知層資料可靠送到應用層（Wi-Fi、Zigbee、4G/5G、閘道器）。在 OSI 模型中，網路層（第 3 層）則專指 IP 定址與路由。"
+ },
+ {
+  "term": "應用層",
+  "aliases": [
+   "Application Layer"
+  ],
+  "cat": "網路通訊",
+  "exp": "在 IoT 三層架構中，把資料變成服務與決策（雲端、大數據、AI、App）。在 OSI／TCP/IP 中是最上層，HTTP、MQTT 等協定就在這一層。"
+ },
+ {
+  "term": "閘道器",
+  "aliases": [
+   "Gateway",
+   "閘道",
+   "網關",
+   "邊緣閘道器"
+  ],
+  "cat": "網路通訊",
+  "exp": "不同網路之間的「翻譯官＋轉運站」：把 Zigbee、Modbus 等現場協定轉成 MQTT／HTTP 上雲，也能做資料過濾、斷線暫存與資安防護。例：智慧家庭 Hub 把 Zigbee 燈泡接上 Wi-Fi 網路。"
+ },
+ {
+  "term": "異質網路融合",
+  "aliases": [
+   "異質網路"
+  ],
+  "cat": "網路通訊",
+  "exp": "讓使用不同技術的網路（Zigbee、LoRa、乙太網路…）能互相溝通，通常靠閘道器做協定轉換。"
+ },
+ {
+  "term": "OSI",
+  "aliases": [
+   "OSI 七層",
+   "OSI 模型",
+   "開放系統互連"
+  ],
+  "cat": "網路通訊",
+  "exp": "ISO 提出的網路七層參考模型，由上到下：應用、表達、會議、傳輸、網路、資料鏈結、實體（口訣「應表會傳網鏈實」）。分層是為了讓不同廠牌、不同網路能互相連接。",
+  "vs": "OSI 是七層的「教科書模型」；TCP/IP 是實際網際網路用的四層（或五層）模型，把相近的層合併。"
+ },
+ {
+  "term": "TCP/IP",
+  "aliases": [
+   "TCP/IP 四層",
+   "TCP/IP 五層"
+  ],
+  "cat": "網路通訊",
+  "exp": "網際網路實際使用的協定組合與分層模型：應用層、傳輸層、網際網路層、網路介面層（四層；有時把實體層拆出來成五層）。"
+ },
+ {
+  "term": "TCP",
+  "aliases": [
+   "傳輸控制協定",
+   "Transmission Control Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳輸層協定，「連接導向」：傳資料前先三次握手建立連線，保證資料完整、按順序送達，遺失會重傳。可靠但開銷較大。MQTT、HTTP、Modbus TCP 都跑在 TCP 上。",
+  "vs": "TCP＝掛號信（可靠、慢一點）；UDP＝平信（快、不保證送到）。"
+ },
+ {
+  "term": "UDP",
+  "aliases": [
+   "使用者資料包協定",
+   "User Datagram Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳輸層協定，「無連接」：不先建立連線、不保證送達與順序，但速度快、負擔小。適合影音串流與即時應用；CoAP 跑在 UDP 上。"
+ },
+ {
+  "term": "三次握手",
+  "aliases": [
+   "Three-way Handshake"
+  ],
+  "cat": "網路通訊",
+  "exp": "TCP 建立連線的三個步驟：A 問「可以連嗎」、B 回「可以，你準備好了嗎」、A 回「好了」。之後才開始傳資料。"
+ },
+ {
+  "term": "IP",
+  "aliases": [
+   "網際網路協定",
+   "Internet Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "網路層協定，負責給每台裝置一個位址（IP 位址）並決定封包要走哪條路（路由）。"
+ },
+ {
+  "term": "IPv4",
+  "aliases": [
+   "IPv6"
+  ],
+  "cat": "網路通訊",
+  "exp": "IPv4 位址由 4 組 0–255 的數字組成（如 192.168.0.1），總數約 43 億個已不夠用；IPv6 用 128 位元、位址幾乎用不完，適合海量 IoT 裝置。"
+ },
+ {
+  "term": "ICMP",
+  "aliases": [
+   "Internet Control Message Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "網路層的控制訊息協定，用來回報錯誤與測試連通，常用的 ping 指令就是靠 ICMP。"
+ },
+ {
+  "term": "HTTP",
+  "aliases": [
+   "超文本傳輸協定",
+   "HyperText Transfer Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "網頁與 REST API 使用的應用層協定，採「請求／回應」：用戶端問一次、伺服器回一次。通用但標頭大，伺服器無法主動推播給裝置。"
+ },
+ {
+  "term": "HTTPS",
+  "aliases": [
+   "HTTP Secure"
+  ],
+  "cat": "網路通訊",
+  "exp": "加上 TLS 加密的 HTTP，網址列有鎖頭的那種。可防竊聽與竄改。"
+ },
+ {
+  "term": "FTP",
+  "aliases": [
+   "File Transfer Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳檔案用的應用層協定。"
+ },
+ {
+  "term": "SMTP",
+  "aliases": [
+   "Simple Mail Transfer Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "寄送電子郵件用的應用層協定。"
+ },
+ {
+  "term": "DNS",
+  "aliases": [
+   "網域名稱系統",
+   "Domain Name System"
+  ],
+  "cat": "網路通訊",
+  "exp": "把好記的網址（例如 example.com）翻成 IP 位址的「網路電話簿」。DNS 設錯時，裝置有網路卻連不到伺服器，可用 nslookup 檢查。"
+ },
+ {
+  "term": "SNMP",
+  "aliases": [
+   "Simple Network Management Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "用來監控與管理網路設備（路由器、交換器）狀態的應用層協定。"
+ },
+ {
+  "term": "Telnet",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "早期的遠端登入協定，傳輸完全不加密（帳密明文）。IoT 裝置若開著 Telnet 是很大的資安漏洞，應關閉或改用加密方式。"
+ },
+ {
+  "term": "封包",
+  "aliases": [
+   "Packet",
+   "Datagram",
+   "資料包"
+  ],
+  "cat": "網路通訊",
+  "exp": "資料在網路上傳送時被切成的一小段一小段，每段都帶有位址等標頭資訊。IoT 常是「小封包、高頻率」。"
+ },
+ {
+  "term": "訊框",
+  "aliases": [
+   "Frame"
+  ],
+  "cat": "網路通訊",
+  "exp": "資料鏈結層傳送的資料單位，用 MAC 位址指定送給誰，並帶有錯誤檢查碼。"
+ },
+ {
+  "term": "封裝",
+  "aliases": [
+   "Encapsulation",
+   "解封裝",
+   "Decapsulation"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳送時資料往下層走，每一層都加上自己的標頭（像信件一層層裝信封）＝封裝；接收端往上走、逐層拆掉標頭＝解封裝。"
+ },
+ {
+  "term": "標頭",
+  "aliases": [
+   "Header"
+  ],
+  "cat": "網路通訊",
+  "exp": "附在資料前面的控制資訊（位址、長度、類型等）。標頭越小越省頻寬：MQTT 最小 2 Bytes、CoAP 4 Bytes、HTTP 數百 Bytes。"
+ },
+ {
+  "term": "MAC 位址",
+  "aliases": [
+   "實體位址"
+  ],
+  "cat": "網路通訊",
+  "exp": "網路卡出廠時燒錄的硬體位址，資料鏈結層用它在同一個區域網路內找到對方。（與資安的「訊息鑑別碼 MAC」同縮寫但完全不同。）"
+ },
+ {
+  "term": "交換器",
+  "aliases": [
+   "Switch"
+  ],
+  "cat": "網路通訊",
+  "exp": "區域網路裡的集線設備，依 MAC 位址把訊框只送到正確的那個埠，屬資料鏈結層（第 2 層）。"
+ },
+ {
+  "term": "中繼器",
+  "aliases": [
+   "Repeater"
+  ],
+  "cat": "網路通訊",
+  "exp": "把訊號放大再送出去以延長傳輸距離的設備，屬實體層。它不看內容，所以無法做網路隔離。"
+ },
+ {
+  "term": "乙太網路",
+  "aliases": [
+   "Ethernet",
+   "IEEE 802.3"
+  ],
+  "cat": "網路通訊",
+  "exp": "最普及的有線區域網路標準（IEEE 802.3），就是電腦插網路線（RJ-45、雙絞線）或光纖的那種，例如 100Base-T、1000Base-T。"
+ },
+ {
+  "term": "LAN",
+  "aliases": [
+   "區域網路",
+   "Local Area Network"
+  ],
+  "cat": "網路通訊",
+  "exp": "小範圍（一棟或一組建築物）內的網路，例如工廠內網、家中網路。"
+ },
+ {
+  "term": "VLAN",
+  "aliases": [
+   "虛擬區域網路",
+   "Virtual LAN"
+  ],
+  "cat": "資安",
+  "exp": "在同一台交換器上用設定切出多個彼此隔離的邏輯網路，例如把 IoT 設備和辦公電腦分開，一台被入侵也不易擴散。"
+ },
+ {
+  "term": "埠號",
+  "aliases": [
+   "Port"
+  ],
+  "cat": "網路通訊",
+  "exp": "同一台主機上區分不同服務的號碼，像大樓的房間號碼。例：HTTP 80、HTTPS 443、MQTT 1883（TLS 8883）、Modbus TCP 502。"
+ },
+ {
+  "term": "RFID",
+  "aliases": [
+   "無線射頻識別",
+   "Radio Frequency Identification"
+  ],
+  "cat": "網路通訊",
+  "exp": "用無線電波非接觸讀取電子標籤（晶片＋天線）內的識別碼。常見被動式標籤不用電池，靠讀寫器電波供電。例：門禁卡、ETC、倉儲盤點；UHF 頻段可一次讀數百個。",
+  "vs": "RFID 讓「物」被系統大量辨識（UHF 可達數公尺）；NFC 是 RFID 高頻技術延伸，距離約 4 cm、可雙向，讓「人」與「物」互動。"
+ },
+ {
+  "term": "電子標籤",
+  "aliases": [
+   "Tag",
+   "RFID 標籤"
+  ],
+  "cat": "網路通訊",
+  "exp": "RFID 系統裡貼在物品上的小晶片＋天線，儲存唯一識別碼（UID）。被動式沒有電池、最常見。"
+ },
+ {
+  "term": "UHF",
+  "aliases": [
+   "超高頻",
+   "HF",
+   "LF"
+  ],
+  "cat": "網路通訊",
+  "exp": "RFID 頻段：LF 低頻 125–134 kHz（<10 cm，動物晶片、門禁）；HF 高頻 13.56 MHz（<1 m，悠遊卡、圖書館）；UHF 超高頻 860–960 MHz（3–10 m，可一次讀數百個，物流、ETC）。"
+ },
+ {
+  "term": "ETC",
+  "aliases": [
+   "電子收費"
+  ],
+  "cat": "網路通訊",
+  "exp": "高速公路電子收費，車上貼 RFID（UHF）標籤，通過門架時自動被讀取。"
+ },
+ {
+  "term": "NFC",
+  "aliases": [
+   "近場通訊",
+   "Near Field Communication"
+  ],
+  "cat": "網路通訊",
+  "exp": "由 RFID 高頻（13.56 MHz）演變而來的超短距離通訊，約 4 cm 內、可雙向。三種模式：卡片模擬（手機當悠遊卡、Apple Pay）、讀卡機（讀標籤）、點對點（碰一下配對藍牙／Wi-Fi）。"
+ },
+ {
+  "term": "NDEF",
+  "aliases": [
+   "NFC Data Exchange Format"
+  ],
+  "cat": "網路通訊",
+  "exp": "NFC Forum 定義的資料格式，規定 NFC 標籤裡的網址、文字等資料怎麼存放。"
+ },
+ {
+  "term": "安全元件",
+  "aliases": [
+   "SE",
+   "Secure Element"
+  ],
+  "cat": "資安",
+  "exp": "手機或卡片中專門保管金鑰與付款資料的安全晶片，NFC 卡片模擬（如行動支付）通常需要它。"
+ },
+ {
+  "term": "Wi-Fi",
+  "aliases": [
+   "IEEE 802.11",
+   "無線區域網路"
+  ],
+  "cat": "網路通訊",
+  "exp": "最常見的無線區域網路（IEEE 802.11），頻寬大、能直接用 IP 上網，適合影像與大量資料；缺點是較耗電（連線約 100–300 mA），不適合鈕扣電池跑好幾年。"
+ },
+ {
+  "term": "Wi-Fi HaLow",
+  "aliases": [
+   "802.11ah"
+  ],
+  "cat": "網路通訊",
+  "exp": "IoT 專用的 Wi-Fi，用 Sub-1 GHz 頻段，穿透力強、約 1 公里、低功耗，但速率較低。"
+ },
+ {
+  "term": "TWT",
+  "aliases": [
+   "目標喚醒時間",
+   "Target Wake Time"
+  ],
+  "cat": "網路通訊",
+  "exp": "Wi-Fi 6 的省電功能：裝置和基地台約好什麼時候醒來收發，其他時間睡覺，延長 IoT 裝置電池壽命。"
+ },
+ {
+  "term": "OFDMA",
+  "aliases": [
+   "正交分頻多工存取"
+  ],
+  "cat": "網路通訊",
+  "exp": "Wi-Fi 6 的技術，把一個頻道切成很多小塊同時分給多台裝置使用，解決裝置很多時的擁塞。"
+ },
+ {
+  "term": "MLO",
+  "aliases": [
+   "多重連結",
+   "Multi-Link Operation"
+  ],
+  "cat": "網路通訊",
+  "exp": "Wi-Fi 7 的功能，同時使用多個頻段傳輸，降低延遲、提高可靠度。"
+ },
+ {
+  "term": "SSID",
+  "aliases": [
+   "Service Set Identifier",
+   "基地台識別碼"
+  ],
+  "cat": "網路通訊",
+  "exp": "Wi-Fi 網路的名稱，就是手機搜尋 Wi-Fi 時看到的那串名字。"
+ },
+ {
+  "term": "RSSI",
+  "aliases": [
+   "訊號強度",
+   "Received Signal Strength Indicator"
+  ],
+  "cat": "網路通訊",
+  "exp": "接收到的無線訊號強度指標，通常是負的 dBm 值，越接近 0 越強（-50 比 -85 強）。可用來估算距離或排查 Wi-Fi 連線問題。"
+ },
+ {
+  "term": "藍牙",
+  "aliases": [
+   "Bluetooth",
+   "經典藍牙",
+   "Classic Bluetooth"
+  ],
+  "cat": "網路通訊",
+  "exp": "短距離無線技術。經典藍牙適合持續大量傳輸（耳機音訊）；BLE（低功耗藍牙）適合間歇小量資料（手環、感測器）。工作在 2.4 GHz。"
+ },
+ {
+  "term": "BLE",
+  "aliases": [
+   "低功耗藍牙",
+   "Bluetooth Low Energy"
+  ],
+  "cat": "網路通訊",
+  "exp": "藍牙 4.0 起的低功耗版本：平常睡覺、要傳時才短暫醒來，鈕扣電池可用數年。適合手環、心率帶、門鎖、Beacon。",
+  "vs": "BLE 一對一或星狀、手機原生支援；Zigbee 擅長大量節點網狀組網但手機不支援、需網關。"
+ },
+ {
+  "term": "GAP",
+  "aliases": [
+   "Generic Access Profile"
+  ],
+  "cat": "網路通訊",
+  "exp": "BLE 負責「廣播與連線」的規範：周邊裝置（手環）廣播自己，中央裝置（手機）掃描並發起連線。Beacon 推播就是靠 GAP 廣播。",
+  "vs": "GAP 管「怎麼找到並連上」；GATT 管「連上後怎麼交換資料」。"
+ },
+ {
+  "term": "GATT",
+  "aliases": [
+   "Generic Attribute Profile"
+  ],
+  "cat": "網路通訊",
+  "exp": "BLE 連線後交換資料的規範，資料以「服務（Service）→ 特徵（Characteristic）」分層，例如心率服務裡的心率數值。"
+ },
+ {
+  "term": "Beacon",
+  "aliases": [
+   "信標"
+  ],
+  "cat": "網路通訊",
+  "exp": "定期發出 BLE 廣播的小裝置，手機靠近時收到訊號就能推播優惠或做室內定位。"
+ },
+ {
+  "term": "Bluetooth Mesh",
+  "aliases": [
+   "藍牙 Mesh"
+  ],
+  "cat": "網路通訊",
+  "exp": "讓很多藍牙裝置多對多接力傳訊的網狀網路，例如整棟樓的燈泡互相轉傳指令。"
+ },
+ {
+  "term": "AoA",
+  "aliases": [
+   "AoD",
+   "到達角",
+   "出發角"
+  ],
+  "cat": "網路通訊",
+  "exp": "藍牙 5.1 的測角定位技術，用天線陣列量訊號的到達或出發角度，讓室內定位從公尺級提升到公分級。"
+ },
+ {
+  "term": "FHSS",
+  "aliases": [
+   "跳頻",
+   "跳頻展頻"
+  ],
+  "cat": "網路通訊",
+  "exp": "傳輸時在多個頻道之間快速切換，減少同頻干擾，藍牙就用這招與 Wi-Fi 共存於 2.4 GHz。"
+ },
+ {
+  "term": "Zigbee",
+  "aliases": [
+   "IEEE 802.15.4"
+  ],
+  "cat": "網路通訊",
+  "exp": "低速率（最高 250 kbps）、低功耗、可組大規模網狀網路的無線技術，常用於智慧家庭與樓宇感測。角色有協調器（每網一個）、路由器（轉發）、終端裝置（不轉發、多半睡覺）。手機沒有 Zigbee，要靠網關。"
+ },
+ {
+  "term": "協調器",
+  "aliases": [
+   "Coordinator"
+  ],
+  "cat": "網路通訊",
+  "exp": "Zigbee 網路的建立者與管理者：選頻道、設 PAN ID、分配位址、管金鑰。每個 Zigbee 網路只能有一個，通常是網關或 Hub。"
+ },
+ {
+  "term": "PAN ID",
+  "aliases": [
+   "Personal Area Network ID"
+  ],
+  "cat": "網路通訊",
+  "exp": "Zigbee 網路的識別碼，讓同一區域內的不同 Zigbee 網路彼此區分。"
+ },
+ {
+  "term": "網狀網路",
+  "aliases": [
+   "Mesh",
+   "網狀",
+   "Mesh 網路"
+  ],
+  "cat": "網路通訊",
+  "exp": "每個節點都能幫忙轉傳，資料可以多跳、繞路到目的地；某節點壞了會自動找別條路（自我修復）。Zigbee、Thread、Bluetooth Mesh 都用這種拓樸。"
+ },
+ {
+  "term": "自我修復",
+  "aliases": [
+   "Self-Healing"
+  ],
+  "cat": "網路通訊",
+  "exp": "網狀網路中某個路由節點故障時，網路自動改走其他路徑，不需人工處理。"
+ },
+ {
+  "term": "ZCL",
+  "aliases": [
+   "Zigbee Cluster Library"
+  ],
+  "cat": "網路通訊",
+  "exp": "Zigbee 定義的標準指令庫（例如 On/Off Cluster），讓不同品牌的燈泡、開關能互通。"
+ },
+ {
+  "term": "Thread",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "以 IEEE 802.15.4 為基礎、原生支援 IPv6 的低功耗網狀網路，是 Matter 支援的傳輸方式之一。"
+ },
+ {
+  "term": "Matter",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "由 CSA（前 Zigbee 聯盟）推動的智慧家庭互通標準，讓不同品牌裝置可共同運作。支援 Ethernet、Wi-Fi、Thread（配對用 BLE），不支援 LoRa。"
+ },
+ {
+  "term": "CSA",
+  "aliases": [
+   "連接標準聯盟",
+   "Connectivity Standards Alliance"
+  ],
+  "cat": "網路通訊",
+  "exp": "Zigbee 聯盟更名後的組織，是推動 Matter 標準的核心。"
+ },
+ {
+  "term": "LPWAN",
+  "aliases": [
+   "低功耗廣域網路",
+   "Low-Power Wide-Area Network"
+  ],
+  "cat": "網路通訊",
+  "exp": "專為「傳得遠、很省電、資料量很小」設計的無線網路，電池可用多年、距離數公里。代表是 NB-IoT 與 LoRa／LoRaWAN。適合水表、農田感測，不適合影像。"
+ },
+ {
+  "term": "NB-IoT",
+  "aliases": [
+   "窄頻物聯網",
+   "Narrowband IoT"
+  ],
+  "cat": "網路通訊",
+  "exp": "電信商在授權頻譜、架在既有 4G 基地台上的 LPWAN 技術，覆蓋好（地下室也收得到）、要 SIM 卡。適合智慧水電表、路燈。指引說法：不支援移動性，適合固定裝置。",
+  "vs": "NB-IoT＝電信商經營、授權頻譜、有月租；LoRaWAN＝非授權頻譜、可自建基地台。"
+ },
+ {
+  "term": "LoRa",
+  "aliases": [
+   "LoRaWAN"
+  ],
+  "cat": "網路通訊",
+  "exp": "LoRa 是長距離低功耗的無線調變技術，LoRaWAN 是建在其上的網路協定；用非授權頻譜（台灣 920–925 MHz），可自建基地台、不用月租，空曠處可達 10 公里以上。適合大農場、廠區監測，頻寬極低。"
+ },
+ {
+  "term": "授權頻譜",
+  "aliases": [
+   "非授權頻譜",
+   "Licensed Spectrum"
+  ],
+  "cat": "網路通訊",
+  "exp": "授權頻譜由政府標售給電信商獨家使用（干擾少、品質穩定，如 NB-IoT、4G/5G）；非授權頻譜任何人符合規範都能用（如 2.4 GHz Wi-Fi、LoRa），免費但較易互相干擾。"
+ },
+ {
+  "term": "Sub-GHz",
+  "aliases": [
+   "Sub-1 GHz",
+   "次 GHz"
+  ],
+  "cat": "網路通訊",
+  "exp": "低於 1 GHz 的頻段（例如 900 MHz 附近），頻率低、穿透與繞射好、傳得遠，LoRa、Wi-Fi HaLow 都使用。"
+ },
+ {
+  "term": "3GPP",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "制定 4G、5G、NB-IoT 等行動通訊標準的國際組織，標準以 Release（版本）推進。"
+ },
+ {
+  "term": "LTE",
+  "aliases": [
+   "4G",
+   "LTE Cat.1",
+   "Cat.1",
+   "Cat.4"
+  ],
+  "cat": "網路通訊",
+  "exp": "4G 行動通訊技術。Cat.1 約 10 Mbps、成本與功耗較低，適合共享單車、POS、電梯聯網；Cat.4 以上速度更快，適合行動監控攝影機。"
+ },
+ {
+  "term": "5G",
+  "aliases": [
+   "第五代行動通訊"
+  ],
+  "cat": "網路通訊",
+  "exp": "第五代行動通訊，三大場景：eMBB（超高速）、mMTC（超大量連線）、URLLC（超低延遲高可靠）。5G 不是「低功耗長距離」技術（那是 LPWAN）。"
+ },
+ {
+  "term": "eMBB",
+  "aliases": [
+   "增強型行動寬頻"
+  ],
+  "cat": "網路通訊",
+  "exp": "5G 場景之一：極致網速（可達 10 Gbps），用於 4K/8K 串流、AR/VR。",
+  "vs": "eMBB＝快；mMTC＝多；URLLC＝準（低延遲、高可靠）。"
+ },
+ {
+  "term": "mMTC",
+  "aliases": [
+   "大規模機器通訊"
+  ],
+  "cat": "網路通訊",
+  "exp": "5G 場景之一：每平方公里可連 100 萬個裝置，適合智慧城市大量感測器。"
+ },
+ {
+  "term": "URLLC",
+  "aliases": [
+   "超可靠低延遲通訊"
+  ],
+  "cat": "網路通訊",
+  "exp": "5G 場景之一：延遲小於 1 毫秒、可靠度 99.999%，用於車聯網、工業機器手臂、遠端手術。"
+ },
+ {
+  "term": "SIM",
+  "aliases": [
+   "SIM 卡",
+   "工業級 SIM"
+  ],
+  "cat": "網路通訊",
+  "exp": "行動網路的用戶識別卡。IoT 常用工業級 SIM（耐溫抗腐蝕）、eSIM（焊在板上、可遠端換電信商）、iSIM（直接整合進晶片）。"
+ },
+ {
+  "term": "eSIM",
+  "aliases": [
+   "iSIM"
+  ],
+  "cat": "網路通訊",
+  "exp": "eSIM 是焊在電路板上的 SIM 晶片，防震且可透過 OTA 遠端切換電信商；iSIM 更進一步整合進系統晶片（SoC），更小更便宜。"
+ },
+ {
+  "term": "OTA",
+  "aliases": [
+   "空中更新",
+   "Over-the-Air",
+   "OTA 更新"
+  ],
+  "cat": "資安",
+  "exp": "透過網路遠端更新裝置的韌體或設定，不用派人到現場。必須搭配數位簽章驗證更新檔，避免被植入惡意韌體。"
+ },
+ {
+  "term": "SoC",
+  "aliases": [
+   "系統單晶片",
+   "System on Chip"
+  ],
+  "cat": "硬體",
+  "exp": "把處理器、記憶體控制、通訊、繪圖等多種功能整合在一顆晶片上，手機處理器就是 SoC。"
+ },
+ {
+  "term": "V2X",
+  "aliases": [
+   "車聯網",
+   "Vehicle-to-Everything"
+  ],
+  "cat": "網路通訊",
+  "exp": "車輛與其他車、路口號誌、行人、雲端互相通訊的技術，需 5G 低延遲支援。"
+ },
+ {
+  "term": "GPS",
+  "aliases": [
+   "全球定位系統"
+  ],
+  "cat": "感測與訊號",
+  "exp": "接收衛星訊號算出所在經緯度的定位技術，用於物流追蹤、共享運具調度。GPS 模組常以 UART 輸出資料。"
+ },
+ {
+  "term": "MQTT",
+  "aliases": [
+   "Message Queuing Telemetry Transport"
+  ],
+  "cat": "網路通訊",
+  "exp": "IoT 最常用的輕量訊息協定，跑在 TCP 上、標頭最小 2 Bytes，採「發布／訂閱」：裝置把訊息依主題（Topic）丟給 Broker，Broker 再轉給訂閱者。有 QoS 0/1/2 可靠度等級。預設埠 1883、加密 8883。",
+  "vs": "MQTT＝TCP＋發布訂閱＋Broker；CoAP＝UDP＋請求回應（REST 風格）；HTTP＝TCP＋請求回應、標頭大。"
+ },
+ {
+  "term": "CoAP",
+  "aliases": [
+   "Constrained Application Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "為資源極少的裝置設計的「輕量版 HTTP」，跑在 UDP 上、標頭 4 Bytes，用 GET/POST/PUT/DELETE 請求回應，不需維持長連線。適合極低功耗感測器、NB-IoT 設備。加密用 DTLS。"
+ },
+ {
+  "term": "發布／訂閱",
+  "aliases": [
+   "Pub/Sub",
+   "Publish/Subscribe",
+   "發布/訂閱",
+   "發布訂閱"
+  ],
+  "cat": "網路通訊",
+  "exp": "一種訊息傳遞模式：發布者不直接找接收者，而是把訊息依主題交給中間人（Broker），有訂閱該主題的人都會收到，像 YouTube 頻道訂閱。雙方不必知道彼此，達到解耦。",
+  "vs": "發布／訂閱＝經 Broker 推播、一對多；請求／回應＝用戶端問一次、伺服器答一次。"
+ },
+ {
+  "term": "請求／回應",
+  "aliases": [
+   "Req/Res",
+   "Request/Response",
+   "請求-回應",
+   "請求/回應"
+  ],
+  "cat": "網路通訊",
+  "exp": "用戶端送出請求、伺服器回覆結果的模式，HTTP、CoAP、REST API 都是。伺服器不會主動推資料，用戶端要一直問（輪詢）才知道有沒有新資料。"
+ },
+ {
+  "term": "Broker",
+  "aliases": [
+   "中介代理者",
+   "代理伺服器"
+  ],
+  "cat": "網路通訊",
+  "exp": "MQTT 等發布／訂閱系統的中央「郵局」：接收發布者的訊息、依主題過濾，再轉送給所有訂閱者。發布者與訂閱者都是用戶端，Broker 是伺服器。"
+ },
+ {
+  "term": "Topic",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "MQTT 訊息的「頻道名稱」，用 / 分層，例如 factoryA/line1/machine05/temp。訂閱時 + 代表任一單層、# 代表其下所有層。區分大小寫。"
+ },
+ {
+  "term": "QoS",
+  "aliases": [
+   "服務品質",
+   "Quality of Service"
+  ],
+  "cat": "網路通訊",
+  "exp": "MQTT 的送達可靠度等級：0＝最多一次（可能遺失）、1＝至少一次（保證到但可能重複）、2＝恰好一次（四步握手，最可靠也最耗資源）。沒有 QoS 3。"
+ },
+ {
+  "term": "Keep Alive",
+  "aliases": [
+   "保活"
+  ],
+  "cat": "網路通訊",
+  "exp": "MQTT 用戶端定期送小訊息給 Broker 表示「我還活著」；超過約定時間太久沒收到，Broker 就判定斷線。"
+ },
+ {
+  "term": "LWT",
+  "aliases": [
+   "遺囑訊息",
+   "Last Will and Testament",
+   "遺囑"
+  ],
+  "cat": "網路通訊",
+  "exp": "MQTT 裝置連線時先寄放一則「遺囑」在 Broker；若它非正常斷線（沒電、斷網），Broker 會代為發出，讓大家知道它掉線了。"
+ },
+ {
+  "term": "保留訊息",
+  "aliases": [
+   "Retained Message"
+  ],
+  "cat": "網路通訊",
+  "exp": "MQTT 發布時可要求 Broker 保留該主題的最新一則訊息，之後新加入的訂閱者一訂閱就能立刻收到目前狀態。"
+ },
+ {
+  "term": "TLS",
+  "aliases": [
+   "SSL",
+   "TLS/SSL",
+   "Transport Layer Security"
+  ],
+  "cat": "資安",
+  "exp": "網路傳輸的加密協定，提供加密、身分驗證與完整性，HTTPS、MQTT over TLS（8883 埠）都靠它。做法是先用非對稱加密交換金鑰，再用對稱加密傳資料。SSL 是它的舊名。"
+ },
+ {
+  "term": "DTLS",
+  "aliases": [
+   "Datagram TLS"
+  ],
+  "cat": "資安",
+  "exp": "給 UDP 用的 TLS，CoAP 加密就用 DTLS。"
+ },
+ {
+  "term": "WebSocket",
+  "aliases": [],
+  "cat": "網路通訊",
+  "exp": "建立連線後可讓伺服器與用戶端「雙向、即時」互傳資料的協定，適合即時監控畫面、聊天、視訊；解決 HTTP 伺服器不能主動推播的問題。"
+ },
+ {
+  "term": "輪詢",
+  "aliases": [
+   "Polling",
+   "Long-polling"
+  ],
+  "cat": "硬體",
+  "exp": "反覆主動去問「有沒有新資料／狀態變了沒」。網路上指用戶端一直向伺服器發請求（HTTP 輪詢）；MCU 程式中指反覆檢查腳位狀態。簡單但浪費資源、反應較慢。",
+  "vs": "輪詢＝一直問；中斷＝有事時硬體主動通知 CPU，反應快又省電。"
+ },
+ {
+  "term": "REST",
+  "aliases": [
+   "RESTful API",
+   "RESTful",
+   "REST API"
+  ],
+  "cat": "平台與資料",
+  "exp": "一種設計 Web API 的風格：用網址（URI）代表資源，用 HTTP 方法做動作——GET 讀、POST 新增、PUT/PATCH 更新、DELETE 刪除。無狀態、客戶端與伺服器分離。"
+ },
+ {
+  "term": "API",
+  "aliases": [
+   "應用程式介面",
+   "Application Programming Interface"
+  ],
+  "cat": "平台與資料",
+  "exp": "程式之間溝通的「窗口與規則」，例如雲端平台提供 API，讓 App 用固定格式查詢裝置資料，不必知道後端怎麼寫。"
+ },
+ {
+  "term": "URI",
+  "aliases": [
+   "URL",
+   "網址"
+  ],
+  "cat": "平台與資料",
+  "exp": "URL 是網址；URI 是資源的唯一識別字串（URL 是其中一種）。REST 用 URI 指定要操作哪個資源，例如 /devices/TH-001。"
+ },
+ {
+  "term": "CRUD",
+  "aliases": [
+   "Create Read Update Delete"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料的四種基本操作：新增（Create）、讀取（Read）、更新（Update）、刪除（Delete），對應 REST 的 POST、GET、PUT/PATCH、DELETE，以及 SQL 的 INSERT、SELECT、UPDATE、DELETE。"
+ },
+ {
+  "term": "HTTP 狀態碼",
+  "aliases": [
+   "狀態碼",
+   "Status Code"
+  ],
+  "cat": "平台與資料",
+  "exp": "伺服器回應的三位數代碼：2xx 成功（200 OK、201 Created、204 No Content）、4xx 用戶端錯誤（400 格式錯、401 未認證、403 無權限、404 找不到）、5xx 伺服器錯誤（500、503）。"
+ },
+ {
+  "term": "Mock Server",
+  "aliases": [
+   "模擬伺服器"
+  ],
+  "cat": "平台與資料",
+  "exp": "假裝成後端回應的測試伺服器，讓前後端可以同時開發，也能模擬錯誤與延遲。"
+ },
+ {
+  "term": "Postman",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "常用的 API 測試工具，可手動送出 HTTP 請求、設定標頭與內容，查看狀態碼與回應時間。"
+ },
+ {
+  "term": "Modbus",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "1979 年就出現的工業通訊協定，簡單可靠，PLC、溫控器、變頻器普遍支援。採主從（Master/Slave）架構，可走串列（RS-232/485）或乙太網路。缺點：沒有加密與身分驗證。",
+  "vs": "Modbus＝老牌、簡單、無資安；OPC UA＝新一代、跨平台、有資訊模型與內建資安。"
+ },
+ {
+  "term": "Modbus RTU",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "Modbus 的串列版本，以二進位編碼、效率高，走 RS-232/RS-485，用 CRC 檢查錯誤。工廠現場最常見。",
+  "vs": "RTU＝二進位＋CRC；ASCII＝文字可讀＋LRC；TCP＝乙太網路＋502 埠。"
+ },
+ {
+  "term": "Modbus ASCII",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "Modbus 的串列版本，用 ASCII 文字字元編碼，人看得懂但效率較低，用 LRC 檢查錯誤。"
+ },
+ {
+  "term": "Modbus TCP",
+  "aliases": [
+   "Modbus TCP/IP"
+  ],
+  "cat": "工業通訊",
+  "exp": "把 Modbus 包在 TCP/IP 裡走乙太網路，加上 MBAP 標頭，常用 502 埠，錯誤檢查交給 TCP。"
+ },
+ {
+  "term": "PDU",
+  "aliases": [
+   "Protocol Data Unit",
+   "協定資料單元"
+  ],
+  "cat": "工業通訊",
+  "exp": "協定中真正的「內容部分」。Modbus PDU＝功能碼＋資料，再依 RTU 或 TCP 加上不同的外包裝。"
+ },
+ {
+  "term": "MBAP",
+  "aliases": [
+   "MBAP Header"
+  ],
+  "cat": "工業通訊",
+  "exp": "Modbus TCP 加在 PDU 前面的標頭，包含交易編號、長度、單元 ID 等資訊。"
+ },
+ {
+  "term": "CRC",
+  "aliases": [
+   "循環冗餘檢查",
+   "Cyclic Redundancy Check"
+  ],
+  "cat": "工業通訊",
+  "exp": "用數學運算產生的錯誤檢查碼，接收端重算比對，不一致就代表傳輸出錯。Modbus RTU 用 CRC。"
+ },
+ {
+  "term": "LRC",
+  "aliases": [
+   "縱向冗餘檢查",
+   "Longitudinal Redundancy Check"
+  ],
+  "cat": "工業通訊",
+  "exp": "比 CRC 簡單的錯誤檢查碼，Modbus ASCII 使用。"
+ },
+ {
+  "term": "RS-232",
+  "aliases": [
+   "RS232"
+  ],
+  "cat": "工業通訊",
+  "exp": "老牌的序列通訊介面，單端訊號、點對點、距離短（約 15 m），常見於舊儀器與設備。電壓準位與 MCU 的 TTL 不同，直接接會亂碼甚至損壞，要加轉換。",
+  "vs": "RS-232＝一對一、短距離；RS-485＝差動、多點、可達約 1200 m，工業首選。"
+ },
+ {
+  "term": "RS-485",
+  "aliases": [
+   "RS485"
+  ],
+  "cat": "工業通訊",
+  "exp": "工業常用的序列通訊介面，用 A/B 兩條線傳「差動訊號」，抗雜訊、可多點連線、距離可達約 1200 m，常搭配 Modbus RTU。A/B 接反或長線沒加終端電阻會通訊失敗。"
+ },
+ {
+  "term": "Coil",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "Modbus 資料區之一：1 位元、可讀可寫，位址 0xxxx，用來控制開關或繼電器。",
+  "vs": "能寫的只有 Coil 與 Holding Register；位元型是 Coil／Discrete Input，16 位元是兩種 Register。"
+ },
+ {
+  "term": "Discrete Input",
+  "aliases": [
+   "離散輸入"
+  ],
+  "cat": "工業通訊",
+  "exp": "Modbus 資料區之一：1 位元、唯讀，位址 1xxxx，用來讀開關狀態。"
+ },
+ {
+  "term": "Input Register",
+  "aliases": [
+   "輸入暫存器"
+  ],
+  "cat": "工業通訊",
+  "exp": "Modbus 資料區之一：16 位元、唯讀，位址 3xxxx，用來讀溫度、壓力等量測值。"
+ },
+ {
+  "term": "Holding Register",
+  "aliases": [
+   "保持暫存器"
+  ],
+  "cat": "工業通訊",
+  "exp": "Modbus 資料區之一：16 位元、可讀可寫，位址 4xxxx，用來設定參數或類比輸出。注意 40001 在通訊時常對應位址 0（偏移）。"
+ },
+ {
+  "term": "主從架構",
+  "aliases": [
+   "Master/Slave",
+   "主從",
+   "Client/Server",
+   "Server-Client",
+   "主站",
+   "從站"
+  ],
+  "cat": "工業通訊",
+  "exp": "一台（主站／Client）發號司令，其他（從站／Server）只在被問到時回答的架構。Modbus、RS-485、SPI、OPC UA 都屬這類。"
+ },
+ {
+  "term": "Slave ID",
+  "aliases": [
+   "從站位址"
+  ],
+  "cat": "工業通訊",
+  "exp": "Modbus RTU 每台從站設備的編號（1–247），主站靠它指定要問哪一台；設錯就收不到回應。"
+ },
+ {
+  "term": "OPC UA",
+  "aliases": [
+   "OPC Unified Architecture"
+  ],
+  "cat": "工業通訊",
+  "exp": "OPC 基金會制定的工業通訊標準，跨平台（不限 Windows）、內建加密與身分驗證、有豐富的資訊模型，採 Client/Server。讓不同廠牌設備用同一種方式提供資料給 MES、ERP 或 AI。資料存取有讀寫、資料變更通知、方法、事件通知四種。",
+  "vs": "OPC UA 可讀可寫、有資安；MTConnect 唯讀、XML over HTTP、專注工具機。"
+ },
+ {
+  "term": "資訊模型",
+  "aliases": [
+   "Information Model"
+  ],
+  "cat": "工業通訊",
+  "exp": "用結構化方式描述設備有哪些資料、意義與關係（例如「主軸→轉速→單位 rpm」），讓不同系統看到資料就懂意思。OPC UA 資訊模型中每個節點有不可重複的 NodeId。"
+ },
+ {
+  "term": "NodeId",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "OPC UA 資訊模型中每個節點的唯一識別碼，同一伺服器內不能重複。"
+ },
+ {
+  "term": "MTConnect",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "專為工具機等製造設備設計的開放標準，定義標準化的資料名稱。特色：唯讀、XML、HTTP；資料流為 Device → Adapter → Agent → Application，免授權費。"
+ },
+ {
+  "term": "XML",
+  "aliases": [
+   "eXtensible Markup Language",
+   "可延伸標記語言"
+  ],
+  "cat": "平台與資料",
+  "exp": "用成對標籤（<temp>26.5</temp>）描述資料的文字格式，可讀但較冗長。要「格式良好」：標籤成對、大小寫一致、正確巢狀、只有一個根元素。MTConnect、舊系統常用。",
+  "vs": "XML 標籤多、檔案大；JSON 簡潔、REST API 與 MQTT 最常用；CSV 只能平面表格。"
+ },
+ {
+  "term": "CNC",
+  "aliases": [
+   "電腦數值控制",
+   "Computer Numerical Control"
+  ],
+  "cat": "製造管理",
+  "exp": "用電腦程式控制刀具移動與加工的工具機（車床、銑床）。MTConnect 主要就是收集 CNC 的狀態資料。"
+ },
+ {
+  "term": "EtherCAT",
+  "aliases": [],
+  "cat": "工業通訊",
+  "exp": "以乙太網路為基礎的高速、低延遲工業現場匯流排，常用於運動控制與機器人。"
+ },
+ {
+  "term": "CAN Bus",
+  "aliases": [
+   "CAN",
+   "控制器區域網路"
+  ],
+  "cat": "工業通訊",
+  "exp": "差動訊號、多主控、內建錯誤偵測的匯流排，原本為汽車設計（車上各 ECU 溝通），也用於工業機械。"
+ },
+ {
+  "term": "ASCII",
+  "aliases": [
+   "美國資訊交換標準碼"
+  ],
+  "cat": "感測與訊號",
+  "exp": "7 位元的字元編碼，共 128 個字元（英文字母、數字、符號），擴充版用 8 位元。"
+ },
+ {
+  "term": "Baudot",
+  "aliases": [
+   "鮑多碼"
+  ],
+  "cat": "感測與訊號",
+  "exp": "最早的 5 位元電報碼（2⁵＝32 種），靠切換字母／數字模式擴充，沒有檢查字元。"
+ },
+ {
+  "term": "中介軟體",
+  "aliases": [
+   "Middleware"
+  ],
+  "cat": "平台與資料",
+  "exp": "夾在裝置與應用程式之間的軟體層，負責接收、轉送、轉換資料，讓兩邊不用直接綁在一起。指引定義：從感測閘道器之後到 AIoT 應用服務之間的所有軟體元件與協定。"
+ },
+ {
+  "term": "訊息中介軟體",
+  "aliases": [
+   "Message Broker",
+   "訊息佇列",
+   "Message Queue"
+  ],
+  "cat": "平台與資料",
+  "exp": "在資料產生端與處理端之間當「緩衝倉庫」，例如 RabbitMQ、Kafka。好處：解耦（兩邊各自運作）、削峰（尖峰流量先排隊，保護後端資料庫）。"
+ },
+ {
+  "term": "解耦",
+  "aliases": [
+   "Decoupling",
+   "Decoupled"
+  ],
+  "cat": "平台與資料",
+  "exp": "讓系統各部分不直接互相依賴：一邊壞掉或離線，另一邊照常運作。例：感測器故障，手機 App 不會跟著當掉。"
+ },
+ {
+  "term": "AMQP",
+  "aliases": [
+   "Advanced Message Queuing Protocol"
+  ],
+  "cat": "平台與資料",
+  "exp": "企業級訊息佇列協定，功能比 MQTT 豐富，RabbitMQ 支援。"
+ },
+ {
+  "term": "Kafka",
+  "aliases": [
+   "Apache Kafka"
+  ],
+  "cat": "平台與資料",
+  "exp": "高吞吐量的分散式訊息串流平台，訊息會寫入磁碟永久保存，斷電當機也不遺失，適合大量感測資料匯流。"
+ },
+ {
+  "term": "RabbitMQ",
+  "aliases": [
+   "ActiveMQ",
+   "Apache ActiveMQ"
+  ],
+  "cat": "平台與資料",
+  "exp": "常見的開源訊息中介軟體（Broker），支援 AMQP、MQTT 等協定。"
+ },
+ {
+  "term": "雲端運算",
+  "aliases": [
+   "Cloud Computing",
+   "雲端"
+  ],
+  "cat": "平台與資料",
+  "exp": "透過網路使用遠端資料中心的運算、儲存與軟體服務，用多少付多少，容易擴充。例：AWS、Google Cloud、Azure。"
+ },
+ {
+  "term": "地端",
+  "aliases": [
+   "On-Premise",
+   "地端部署"
+  ],
+  "cat": "平台與資料",
+  "exp": "系統放在企業自己管理的機房或伺服器上（含自建虛擬化），不是租用公有雲。重點是「營運管理屬於企業內部」，而不是機器規模。"
+ },
+ {
+  "term": "混合雲",
+  "aliases": [
+   "Hybrid-cloud",
+   "Hybrid Cloud"
+  ],
+  "cat": "平台與資料",
+  "exp": "部分資料與系統在地端、部分在雲端。常因資料安全、內部網路需求或上雲需要時間規劃而採用。"
+ },
+ {
+  "term": "IaaS",
+  "aliases": [
+   "基礎設施即服務",
+   "Infrastructure as a Service"
+  ],
+  "cat": "平台與資料",
+  "exp": "雲端只提供虛擬電腦、虛擬網路等「虛擬硬體」，作業系統、資料庫、備份都要自己管。例：租 AWS EC2 自己裝資料庫。",
+  "vs": "IaaS＝租空房子（自己裝潢）；PaaS＝租附家具的套房（只管應用程式）；SaaS＝住飯店（直接用軟體）。"
+ },
+ {
+  "term": "PaaS",
+  "aliases": [
+   "平台即服務",
+   "Platform as a Service"
+  ],
+  "cat": "平台與資料",
+  "exp": "雲端提供作業系統、執行環境、資料庫、網頁伺服器與維運，使用者只要專心寫應用程式。例：AWS RDS、GCP Cloud SQL（已含修補與備份）、AWS IoT Core。"
+ },
+ {
+  "term": "SaaS",
+  "aliases": [
+   "軟體即服務",
+   "Software as a Service"
+  ],
+  "cat": "平台與資料",
+  "exp": "直接使用雲端上的現成軟體，例如網頁版信箱、線上試算表，使用者只負責使用與設定。"
+ },
+ {
+  "term": "虛擬化",
+  "aliases": [
+   "Virtualization",
+   "VMware",
+   "Proxmox"
+  ],
+  "cat": "平台與資料",
+  "exp": "用軟體把一台實體伺服器切成多台虛擬機器，各自跑不同作業系統，提高硬體利用率。"
+ },
+ {
+  "term": "CI/CD",
+  "aliases": [
+   "CI",
+   "CD",
+   "持續整合",
+   "持續交付",
+   "持續部署"
+  ],
+  "cat": "平台與資料",
+  "exp": "CI 持續整合：程式改了就自動建置與測試；CD 持續交付／部署：測試通過就自動上線。讓更新更快、更少出錯，也能縮短 RTO。"
+ },
+ {
+  "term": "DevOps",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "開發（Dev）與維運（Ops）緊密合作、大量自動化的工作文化與做法，常搭配 CI/CD。"
+ },
+ {
+  "term": "IDC",
+  "aliases": [
+   "機房",
+   "網路資料中心"
+  ],
+  "cat": "平台與資料",
+  "exp": "傳統的網路資料中心機房，企業租機櫃放自己的伺服器、自己維運。"
+ },
+ {
+  "term": "關聯式資料庫",
+  "aliases": [
+   "RDBMS",
+   "Relational Database"
+  ],
+  "cat": "平台與資料",
+  "exp": "用「資料表」存資料、表與表用鍵值關聯、用 SQL 查詢，結構嚴謹並提供 ACID 交易保證。例：MySQL、PostgreSQL、SQL Server。適合裝置清單、使用者、工單等結構化資料。",
+  "vs": "關聯式＝固定欄位、強一致、ACID；NoSQL＝彈性結構、容易水平擴充、常採最終一致。"
+ },
+ {
+  "term": "NoSQL",
+  "aliases": [
+   "非關聯式資料庫"
+  ],
+  "cat": "平台與資料",
+  "exp": "不用固定表格結構的資料庫統稱，包括文件型（MongoDB）、鍵值型（Redis）、寬欄型（Cassandra）、圖形（Neo4j）。特色是容易橫向（水平）擴充、適合大量與半結構化資料。"
+ },
+ {
+  "term": "ACID",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "交易的四個保證：原子性（全做或全不做，像轉帳不能只扣款沒入帳）、一致性（資料規則不被破壞）、隔離性（同時進行的交易互不干擾）、持久性（完成後斷電也不會不見）。關聯式資料庫的特色。"
+ },
+ {
+  "term": "BASE",
+  "aliases": [
+   "最終一致性",
+   "Eventual Consistency"
+  ],
+  "cat": "平台與資料",
+  "exp": "許多 NoSQL 採用的取捨：優先保持可用與可擴充，資料在短時間內可能不一致，但「最終」會一致。與 ACID 的強一致相對。"
+ },
+ {
+  "term": "快取",
+  "aliases": [
+   "Cache",
+   "記憶體快取",
+   "Memory-cache",
+   "Redis",
+   "Memcached"
+  ],
+  "cat": "平台與資料",
+  "exp": "把常用資料放在記憶體裡，讀取極快（毫秒內），例如 Redis、Memcached。適合存裝置最新狀態、Session。"
+ },
+ {
+  "term": "SQL",
+  "aliases": [
+   "Structured Query Language",
+   "結構化查詢語言"
+  ],
+  "cat": "平台與資料",
+  "exp": "操作關聯式資料庫的語言，例如 SELECT 查詢、INSERT 新增、UPDATE 修改、DELETE 刪除。"
+ },
+ {
+  "term": "DDL",
+  "aliases": [
+   "DML",
+   "DCL"
+  ],
+  "cat": "平台與資料",
+  "exp": "SQL 指令分類：DDL 定義結構（CREATE、ALTER、DROP）、DML 操作資料（SELECT、INSERT、UPDATE、DELETE）、DCL 管權限（GRANT、REVOKE）。"
+ },
+ {
+  "term": "主鍵",
+  "aliases": [
+   "Primary Key",
+   "PK"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料表中唯一識別每一列的欄位，不可重複、不可為空。例：devices 表的 device_id。",
+  "vs": "主鍵＝自己這張表的身分證；外鍵＝指向別張表主鍵的欄位，用來建立關聯。"
+ },
+ {
+  "term": "外鍵",
+  "aliases": [
+   "Foreign Key",
+   "FK"
+  ],
+  "cat": "平台與資料",
+  "exp": "參照另一張表主鍵的欄位，用來建立關聯並維持參照完整性。例：readings 表的 device_id 指向 devices 表。"
+ },
+ {
+  "term": "1NF",
+  "aliases": [
+   "2NF",
+   "3NF",
+   "第一正規化"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料庫正規化的層級：1NF 每格只放單一值；2NF 非鍵欄位要完全依賴整個主鍵（去部分相依）；3NF 非鍵欄位不依賴其他非鍵欄位（去遞移相依）。目的是減少重複與更新異常。"
+ },
+ {
+  "term": "索引",
+  "aliases": [
+   "Index"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料庫為加快查詢建立的目錄，像書末的索引；查得快，但寫入變慢、佔空間。"
+ },
+ {
+  "term": "綱要",
+  "aliases": [
+   "Schema"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料庫的結構定義：有哪些表、哪些欄位、型別為何。關聯式資料庫綱要固定，文件型 NoSQL 綱要彈性。"
+ },
+ {
+  "term": "時序資料庫",
+  "aliases": [
+   "TSDB",
+   "Time Series Database",
+   "InfluxDB",
+   "TimescaleDB"
+  ],
+  "cat": "平台與資料",
+  "exp": "專門存「時間＋數值」資料的資料庫，寫入快、擅長查某段時間、能自動降採樣與設定保存期限。感測讀值、設備監控最典型的存放處，例如 InfluxDB。"
+ },
+ {
+  "term": "降採樣",
+  "aliases": [
+   "Downsampling"
+  ],
+  "cat": "平台與資料",
+  "exp": "把高頻率的舊資料彙總成較低頻率（例如每秒一筆→每小時平均），節省儲存空間。"
+ },
+ {
+  "term": "物件儲存",
+  "aliases": [
+   "Object Storage",
+   "S3"
+  ],
+  "cat": "平台與資料",
+  "exp": "以「檔案物件」為單位存放大量非結構化資料（影像、影片、備份）的雲端儲存，例如 AWS S3。"
+ },
+ {
+  "term": "結構化資料",
+  "aliases": [
+   "半結構化",
+   "非結構化",
+   "Structured Data"
+  ],
+  "cat": "平台與資料",
+  "exp": "結構化＝欄位固定的表格資料；半結構化＝有標記但欄位彈性（JSON、XML、YAML）；非結構化＝沒有固定格式（圖片、影片、文件）。"
+ },
+ {
+  "term": "JSON",
+  "aliases": [
+   "JavaScript Object Notation"
+  ],
+  "cat": "平台與資料",
+  "exp": "最常用的輕量資料交換格式，用 { } 物件與 [ ] 陣列表示資料，例如 {\"temp\": 26.5}。規則：鍵與字串都用雙引號、不能有註解、最後一項後不能多逗號；true／null 不加引號。"
+ },
+ {
+  "term": "YAML",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "用縮排表示層級的資料格式，常用於設定檔，比 JSON 更好讀，屬半結構化資料。"
+ },
+ {
+  "term": "CSV",
+  "aliases": [
+   "Comma-Separated Values"
+  ],
+  "cat": "平台與資料",
+  "exp": "用逗號分隔欄位的純文字表格，檔案最小、Excel 可開，但只能表示平面表格，沒有巢狀結構與標準驗證。"
+ },
+ {
+  "term": "CBOR",
+  "aliases": [
+   "Protocol Buffers",
+   "Protobuf"
+  ],
+  "cat": "平台與資料",
+  "exp": "比 JSON 更省空間的「二進位」資料格式，人眼看不懂但傳輸量小、解析快，適合頻寬或算力有限的裝置。"
+ },
+ {
+  "term": "gRPC",
+  "aliases": [
+   "RPC",
+   "遠端程序呼叫"
+  ],
+  "cat": "平台與資料",
+  "exp": "RPC 讓程式像呼叫本地函式一樣呼叫另一台電腦的功能；gRPC 是 Google 推出的高效能 RPC 框架。"
+ },
+ {
+  "term": "GraphQL",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "一種 API 查詢語言，用戶端可以精確指定要哪些欄位，避免一次拿太多或太少資料。"
+ },
+ {
+  "term": "ETL",
+  "aliases": [
+   "Extract Transform Load",
+   "擷取、轉換、載入"
+  ],
+  "cat": "平台與資料",
+  "exp": "資料整理三步驟：從來源擷取（Extract）、清洗轉換格式（Transform）、載入目的地資料庫或資料倉儲（Load）。分析前的必要工作。"
+ },
+ {
+  "term": "Hadoop",
+  "aliases": [
+   "Spark",
+   "BigQuery"
+  ],
+  "cat": "平台與資料",
+  "exp": "處理海量資料的大數據工具：Hadoop、Spark 可把運算分散到很多台電腦並行處理，BigQuery 是 Google 的雲端資料倉儲。價值在「資料處理與分析能力」。"
+ },
+ {
+  "term": "OCR",
+  "aliases": [
+   "光學字元辨識"
+  ],
+  "cat": "平台與資料",
+  "exp": "從圖片中辨識出文字的技術，可把掃描文件（非結構化）轉成可搜尋的文字。"
+ },
+ {
+  "term": "向量資料庫",
+  "aliases": [
+   "Vector Database"
+  ],
+  "cat": "平台與資料",
+  "exp": "把圖片、文字轉成一串數字（向量）存起來，可快速找「意思相近」的資料，常用於 AI 檢索。"
+ },
+ {
+  "term": "API Gateway",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "所有 API 請求的統一入口，負責驗證身分、限流、轉發到後端服務。"
+ },
+ {
+  "term": "Node-RED",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "用拖拉方塊連線來設計資料流程的開源工具，常用於 IoT 資料處理與規則設定（Apache 2.0 授權）。"
+ },
+ {
+  "term": "Grafana",
+  "aliases": [],
+  "cat": "平台與資料",
+  "exp": "常用的開源儀表板工具，可連接時序資料庫畫出即時監控圖表。"
+ },
+ {
+  "term": "AWS IoT Core",
+  "aliases": [
+   "Azure IoT Hub",
+   "IoT 平台"
+  ],
+  "cat": "平台與資料",
+  "exp": "公有雲提供的 IoT 平台服務（PaaS），負責裝置連線認證、MQTT 訊息接收、規則轉送等。"
+ },
+ {
+  "term": "規則引擎",
+  "aliases": [
+   "Rule Engine"
+  ],
+  "cat": "平台與資料",
+  "exp": "依設定好的條件自動處理資料的元件，例如「溫度 > 80°C 就發告警並寫入資料庫」。"
+ },
+ {
+  "term": "時間戳",
+  "aliases": [
+   "Timestamp",
+   "時間戳記"
+  ],
+  "cat": "平台與資料",
+  "exp": "標記資料是何時產生的時間資訊。裝置時鐘不準會讓時間戳錯亂，要用 NTP 校時。"
+ },
+ {
+  "term": "CIA",
+  "aliases": [
+   "CIA 三要素",
+   "機密性",
+   "完整性",
+   "可用性"
+  ],
+  "cat": "資安",
+  "exp": "資訊安全三大目標：機密性（Confidentiality，別人看不到，靠加密與存取控制）、完整性（Integrity，資料沒被竄改，靠雜湊、訊息鑑別碼、簽章）、可用性（Availability，需要時能用，靠備援、防 DDoS）。"
+ },
+ {
+  "term": "AAA",
+  "aliases": [
+   "稽核",
+   "Authentication",
+   "Authorization"
+  ],
+  "cat": "資安",
+  "exp": "存取控制三步驟：認證（Authentication，確認你是誰）、授權（Authorization，決定你能做什麼）、稽核（Auditing，事後查誰在何時做了什麼）。",
+  "vs": "認證＝驗明正身；授權＝給權限。登入成功是認證，能不能刪資料是授權。"
+ },
+ {
+  "term": "對稱式加密",
+  "aliases": [
+   "對稱加密",
+   "對稱式加解密",
+   "Symmetric Encryption"
+  ],
+  "cat": "資安",
+  "exp": "加密和解密用「同一把金鑰」，速度快，適合大量資料，例如 AES。難處是雙方怎麼安全地拿到同一把金鑰（要靠 DHE／ECDH 等金鑰交換）。",
+  "vs": "對稱＝一把鑰匙、快；非對稱＝公鑰＋私鑰一對、慢，用於交換金鑰與數位簽章。"
+ },
+ {
+  "term": "非對稱式加密",
+  "aliases": [
+   "非對稱加密",
+   "公鑰",
+   "私鑰",
+   "Asymmetric Encryption"
+  ],
+  "cat": "資安",
+  "exp": "每人有一對金鑰：公鑰可公開、私鑰自己保管。別人用你的公鑰加密，只有你的私鑰能解（保密）；你用私鑰簽章，別人用你的公鑰驗證（證明是你）。例：RSA、ECC。"
+ },
+ {
+  "term": "AES",
+  "aliases": [
+   "Advanced Encryption Standard"
+  ],
+  "cat": "資安",
+  "exp": "目前最常用的對稱式加密演算法，安全又快速。DES 是較舊、已不安全的前代。"
+ },
+ {
+  "term": "RSA",
+  "aliases": [
+   "ECC",
+   "橢圓曲線"
+  ],
+  "cat": "資安",
+  "exp": "常見的非對稱加密演算法；ECC（橢圓曲線密碼）用較短金鑰達到同等安全，較省運算，適合 IoT。"
+ },
+ {
+  "term": "金鑰交換",
+  "aliases": [
+   "DHE",
+   "ECDH",
+   "Elliptic Curve DH"
+  ],
+  "cat": "資安",
+  "exp": "讓通訊雙方在不安全的網路上，協商出只有彼此知道的對稱金鑰的方法，例如 DHE、ECDH（橢圓曲線版）。"
+ },
+ {
+  "term": "PSK",
+  "aliases": [
+   "預共享金鑰",
+   "Pre-shared key",
+   "預載金鑰",
+   "共享金鑰"
+  ],
+  "cat": "資安",
+  "exp": "事先把同一把金鑰燒進裝置與伺服器，省去複雜的金鑰交換，運算最輕，適合算力極低的感測節點；缺點是金鑰外洩影響大、管理不易。",
+  "ctx": {
+   "alias": "PSK",
+   "not": [
+    "考科一 3.2"
+   ]
+  }
+ },
+ {
+  "term": "雜湊",
+  "aliases": [
+   "Hash",
+   "雜湊函數"
+  ],
+  "cat": "資安",
+  "exp": "把任意資料算成固定長度「指紋」的函數，無法由結果反推原文；資料改一個字，指紋就完全不同。用來檢查完整性、保存密碼。例：SHA256。雜湊不是加密，不能「解密」。",
+  "vs": "加密＝可解回原文（保機密）；雜湊＝不可逆（保完整）。"
+ },
+ {
+  "term": "SHA256",
+  "aliases": [
+   "SHA512",
+   "SHA3",
+   "SHA-256"
+  ],
+  "cat": "資安",
+  "exp": "常見的安全雜湊演算法，輸出 256 位元的指紋。"
+ },
+ {
+  "term": "數位簽章",
+  "aliases": [
+   "Digital Signature",
+   "簽章"
+  ],
+  "cat": "資安",
+  "exp": "用自己的「私鑰」對資料簽名，別人用你的「公鑰」驗證，可證明確實是你發的且內容沒被改，達到不可否認性。韌體 OTA 更新檔也要簽章驗證。"
+ },
+ {
+  "term": "不可否認性",
+  "aliases": [
+   "Non-repudiation"
+  ],
+  "cat": "資安",
+  "exp": "發送者事後無法否認自己發過這則訊息，靠數位簽章達成（因為只有他有私鑰）。"
+ },
+ {
+  "term": "X.509",
+  "aliases": [
+   "數位憑證",
+   "X.509 憑證",
+   "X.509 數位憑證"
+  ],
+  "cat": "資安",
+  "exp": "標準格式的數位憑證，由可信任機構簽發，證明「這把公鑰屬於這台裝置／這個網站」。安全性高但管理複雜，適合閘道器、車聯網。"
+ },
+ {
+  "term": "Token",
+  "aliases": [
+   "JWT",
+   "Bearer token",
+   "Basic Auth",
+   "API Key",
+   "API key"
+  ],
+  "cat": "資安",
+  "exp": "登入成功後拿到的「通行證字串」，之後每次請求帶著它即可證明身分，不必每次傳帳密。輕量簡單，適合應用服務之間驗證。JWT 是常見格式。"
+ },
+ {
+  "term": "TPM（安全晶片）",
+  "aliases": [
+   "TPM",
+   "HSM",
+   "硬體安全模組",
+   "Trusted Platform Module"
+  ],
+  "cat": "資安",
+  "exp": "專門保管金鑰並執行加解密的安全硬體晶片（TPM 常在裝置上，HSM 多在伺服器端），即使被拆解也很難讀出金鑰。",
+  "ctx": {
+   "alias": "TPM",
+   "not": [
+    "考科二 2-3"
+   ]
+  }
+ },
+ {
+  "term": "mTLS",
+  "aliases": [
+   "雙向 TLS",
+   "Mutual TLS"
+  ],
+  "cat": "資安",
+  "exp": "一般 TLS 只有用戶端驗證伺服器；mTLS 是伺服器與裝置「互相」出示憑證驗證，安全性更高。"
+ },
+ {
+  "term": "訊息鑑別碼",
+  "aliases": [
+   "Message Authentication Code"
+  ],
+  "cat": "資安",
+  "exp": "用共享金鑰對訊息算出的一段驗證碼（縮寫也叫 MAC），接收端重算比對，可確認訊息沒被竄改且來自持有金鑰的人。保護完整性。（與網路卡的 MAC 位址不同）"
+ },
+ {
+  "term": "SLA",
+  "aliases": [
+   "服務等級協議",
+   "Service Level Agreement"
+  ],
+  "cat": "資安",
+  "exp": "服務供應商承諾的可用程度，例如 99.99%（每月停機約 4.3 分鐘）、99%（約 7.2 小時）。屬於可用性指標。"
+ },
+ {
+  "term": "負載平衡",
+  "aliases": [
+   "Load Balancer"
+  ],
+  "cat": "資安",
+  "exp": "把流量分散到多台伺服器，一台壞了其他頂上，提高可用性與效能。"
+ },
+ {
+  "term": "MITM",
+  "aliases": [
+   "中間人攻擊",
+   "Man-in-the-Middle"
+  ],
+  "cat": "資安",
+  "exp": "攻擊者偷偷夾在通訊雙方中間，竊聽或竄改資料，雙方卻以為在直接通訊。用 TLS 加密與憑證驗證可防範。"
+ },
+ {
+  "term": "殭屍網路",
+  "aliases": [
+   "Botnet"
+  ],
+  "cat": "資安",
+  "exp": "大量被駭客控制的裝置（常是弱密碼的 IoT 攝影機、路由器）組成的網路，聽命一起發動攻擊。Mirai 是經典案例。"
+ },
+ {
+  "term": "DoS",
+  "aliases": [
+   "阻斷服務攻擊",
+   "Denial of Service"
+  ],
+  "cat": "資安",
+  "exp": "用大量請求塞爆目標，讓正常使用者無法使用服務，破壞可用性。",
+  "vs": "DoS 是單一來源；DDoS 是成千上萬台裝置同時攻擊，更難擋。"
+ },
+ {
+  "term": "DDoS",
+  "aliases": [
+   "分散式阻斷服務攻擊",
+   "Distributed Denial of Service"
+  ],
+  "cat": "資安",
+  "exp": "利用大量分散的裝置（殭屍網路）同時灌爆目標的阻斷服務攻擊。例：Mirai 感染數十萬台 IoT 裝置發動 DDoS。防 DDoS 是保護可用性，不能防止個資外洩。"
+ },
+ {
+  "term": "Mirai",
+  "aliases": [],
+  "cat": "資安",
+  "exp": "2016 年出名的 IoT 惡意程式，用出廠預設帳密大量入侵攝影機、路由器組成殭屍網路，發動大規模 DDoS。說明「預設密碼」是 IoT 頭號弱點。"
+ },
+ {
+  "term": "SYN Flood",
+  "aliases": [],
+  "cat": "資安",
+  "exp": "利用 TCP 三次握手的 DoS 攻擊：狂送連線請求卻不完成握手，耗盡伺服器資源。"
+ },
+ {
+  "term": "JTAG",
+  "aliases": [],
+  "cat": "資安",
+  "exp": "晶片與電路板的除錯／燒錄介面。量產設備若沒關閉，攻擊者可直接接上讀出韌體與金鑰、取得控制權。"
+ },
+ {
+  "term": "網路隔離",
+  "aliases": [
+   "Network isolation",
+   "網路分段",
+   "網段"
+  ],
+  "cat": "資安",
+  "exp": "把網路切成互相隔開的區塊（VLAN、防火牆、不同 SSID），例如 IoT 裝置與辦公電腦分開，一區被入侵也不會橫向擴散。中繼器不能做隔離。"
+ },
+ {
+  "term": "防火牆",
+  "aliases": [
+   "Firewall",
+   "防火牆白名單",
+   "白名單"
+  ],
+  "cat": "資安",
+  "exp": "依規則決定哪些網路流量可以通過的設備或軟體，例如只允許特定 IP 與埠號（白名單）。",
+  "vs": "一般防火牆看 IP 與埠號（第 2/3 層）；WAF 深入到應用層看 HTTP 內容，能擋 SQL Injection、XSS。"
+ },
+ {
+  "term": "WAF",
+  "aliases": [
+   "網頁應用程式防火牆",
+   "Web Application Firewall"
+  ],
+  "cat": "資安",
+  "exp": "專門保護網站與 API 的防火牆，會檢查 HTTP 請求內容，阻擋 SQL Injection、XSS、惡意機器人等應用層攻擊。"
+ },
+ {
+  "term": "SQL Injection",
+  "aliases": [
+   "SQL 注入"
+  ],
+  "cat": "資安",
+  "exp": "攻擊者在輸入欄位塞入 SQL 指令片段，騙資料庫執行，可能偷資料或刪資料。"
+ },
+ {
+  "term": "XSS",
+  "aliases": [
+   "跨站腳本攻擊",
+   "Cross-Site Scripting"
+  ],
+  "cat": "資安",
+  "exp": "攻擊者把惡意 JavaScript 塞進網頁，其他使用者瀏覽時被執行，可能被盜取登入資訊。"
+ },
+ {
+  "term": "Secure Boot",
+  "aliases": [
+   "安全開機",
+   "韌體簽章"
+  ],
+  "cat": "資安",
+  "exp": "裝置開機時先驗證韌體的數位簽章，只執行合法簽署的韌體，防止被刷入惡意韌體。"
+ },
+ {
+  "term": "韌體",
+  "aliases": [
+   "Firmware"
+  ],
+  "cat": "硬體",
+  "exp": "燒在裝置晶片裡、直接控制硬體的程式，例如 MCU 裡跑的程式、路由器的系統。有漏洞時要靠 OTA 更新修補。"
+ },
+ {
+  "term": "DR",
+  "aliases": [
+   "災難復原",
+   "Disaster Recovery"
+  ],
+  "cat": "資安",
+  "exp": "發生火災、地震、勒索病毒等災難後，如何把系統與資料恢復的計畫與機制。"
+ },
+ {
+  "term": "RPO",
+  "aliases": [
+   "復原點目標",
+   "Recovery Point Objective"
+  ],
+  "cat": "資安",
+  "exp": "災難後「最多會遺失多少時間的資料」。例：每天備份一次 → RPO＝24 小時。",
+  "vs": "RPO＝資料回到哪個時間點（丟多少資料）；RTO＝系統多久恢復（停機多久）。"
+ },
+ {
+  "term": "RTO",
+  "aliases": [
+   "復原時間目標",
+   "Recovery Time Objective"
+  ],
+  "cat": "資安",
+  "exp": "災難後「系統要多久恢復服務」，也就是可容忍的停機時間。"
+ },
+ {
+  "term": "SDLC",
+  "aliases": [
+   "軟體開發生命週期",
+   "Software Development Life Cycle"
+  ],
+  "cat": "資安",
+  "exp": "軟體從規劃、開發、測試、上線到維護的整個過程；資安要在每個階段都做（程式碼掃描、套件弱點掃描、滲透測試）。"
+ },
+ {
+  "term": "滲透測試",
+  "aliases": [
+   "Penetration Test",
+   "弱點掃描"
+  ],
+  "cat": "資安",
+  "exp": "弱點掃描用工具自動找已知漏洞；滲透測試是由資安人員模擬駭客實際攻擊，找出能被利用的弱點。"
+ },
+ {
+  "term": "去識別化",
+  "aliases": [
+   "匿名化",
+   "假名化",
+   "Anonymization",
+   "Pseudonymization"
+  ],
+  "cat": "資安",
+  "exp": "處理個資讓人無法直接認出是誰。匿名化＝不可逆、無法再識別；假名化＝用代號取代，持有對照表仍可回推。例：攝影機只上傳人數或骨架，不傳人臉。"
+ },
+ {
+  "term": "資料最小化",
+  "aliases": [
+   "Data minimization"
+  ],
+  "cat": "資安",
+  "exp": "只蒐集達成目的「必要」的資料，例如人流計數只存人數、門禁只記進出時間，不保存整段影像。"
+ },
+ {
+  "term": "目的限制",
+  "aliases": [
+   "告知與同意",
+   "告知同意"
+  ],
+  "cat": "資安",
+  "exp": "蒐集個資要先告知用途並取得同意；若要拿去做原本沒說的用途（例如匯入 AI 分析），要再次取得同意。"
+ },
+ {
+  "term": "個人資料保護法",
+  "aliases": [
+   "個資法",
+   "GDPR"
+  ],
+  "cat": "資安",
+  "exp": "台灣規範個人資料蒐集、處理、利用的法律；GDPR 是歐盟的一般資料保護規則，要求更嚴格。"
+ },
+ {
+  "term": "OWASP",
+  "aliases": [
+   "OWASP IoT Top 10"
+  ],
+  "cat": "資安",
+  "exp": "開放式 Web 應用程式安全計畫，整理各類常見資安風險清單；IoT Top 10（2018）第一名是弱密碼、可猜測或寫死的密碼。"
+ },
+ {
+  "term": "重放攻擊",
+  "aliases": [
+   "Replay",
+   "Replay Attack"
+  ],
+  "cat": "資安",
+  "exp": "攻擊者錄下一段合法指令（例如開門訊號），之後再重送一次來冒用。防法是加入時間戳、一次性亂數（nonce）或序號。"
+ },
+ {
+  "term": "nonce",
+  "aliases": [
+   "一次性亂數"
+  ],
+  "cat": "資安",
+  "exp": "只使用一次的隨機數，放進訊息裡讓每次都不同，舊訊息被重送時會被識破，用來防重放攻擊。"
+ },
+ {
+  "term": "RBAC",
+  "aliases": [
+   "角色型存取控制",
+   "Role-Based Access Control"
+  ],
+  "cat": "資安",
+  "exp": "依「角色」給權限，例如操作員只能看、工程師可改參數、管理員可管帳號，而不是一個個人設定。"
+ },
+ {
+  "term": "ACL",
+  "aliases": [
+   "存取控制清單",
+   "Access Control List"
+  ],
+  "cat": "資安",
+  "exp": "列出「誰可以對什麼做什麼」的清單。例：MQTT Broker 用 ACL 限制每個裝置只能發布自己的 Topic。"
+ },
+ {
+  "term": "最小權限",
+  "aliases": [
+   "Least Privilege",
+   "最小權限原則"
+  ],
+  "cat": "資安",
+  "exp": "每個人或程式只給完成工作所需的最少權限，即使帳號被盜，損害也有限。"
+ },
+ {
+  "term": "ETSI EN 303 645",
+  "aliases": [
+   "ETSI"
+  ],
+  "cat": "資安",
+  "exp": "歐洲電信標準協會的消費性 IoT 資安基準，前三項要求：不得使用通用預設密碼、提供漏洞通報管道、保持軟體更新。"
+ },
+ {
+  "term": "SBOM",
+  "aliases": [
+   "軟體物料清單",
+   "Software Bill of Materials"
+  ],
+  "cat": "資安",
+  "exp": "列出產品用了哪些軟體元件、版本與授權的清單，方便盤點授權與追蹤漏洞。"
+ },
+ {
+  "term": "主動式感測器",
+  "aliases": [
+   "被動式感測器"
+  ],
+  "cat": "感測與訊號",
+  "exp": "依官方指引：主動式＝不需外加電源，自己就會產生電壓或電流（例：熱電偶）；被動式＝需外加激發電源才有輸出（例：應變規、加速規）。注意不同教科書定義可能相反，考試以指引為準。"
+ },
+ {
+  "term": "類比訊號",
+  "aliases": [
+   "Analog Signal"
+  ],
+  "cat": "感測與訊號",
+  "exp": "數值隨時間「連續」變化的訊號，例如溫度電壓緩慢上升、麥克風聲音波形。MCU 要經 ADC 轉成數字才能處理。",
+  "vs": "類比＝連續無限多值；數位＝只有 0 與 1（高低電位）。"
+ },
+ {
+  "term": "數位訊號",
+  "aliases": [
+   "Digital Signal"
+  ],
+  "cat": "感測與訊號",
+  "exp": "只有高、低兩種電位（代表 1 與 0）的訊號，抗雜訊、方便電腦處理。"
+ },
+ {
+  "term": "ADC",
+  "aliases": [
+   "類比數位轉換器",
+   "Analog-to-Digital Converter",
+   "類比數位轉換"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把類比電壓轉成數字的電路。n 位元 ADC 可分 2ⁿ 階，例如 10 位元＝1024 階（0～1023）；參考電壓 5 V 時，每階約 4.9 mV。位元越多解析度越細。",
+  "vs": "ADC＝類比→數位（讀感測器）；DAC＝數位→類比（輸出電壓）。"
+ },
+ {
+  "term": "DAC",
+  "aliases": [
+   "數位類比轉換器",
+   "Digital-to-Analog Converter"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把數字轉成類比電壓輸出的電路，例如輸出音訊或控制電壓。沒有 DAC 時常用 PWM 模擬。"
+ },
+ {
+  "term": "解析度",
+  "aliases": [
+   "Resolution"
+  ],
+  "cat": "感測與訊號",
+  "exp": "能分辨的最小變化量。例：溫度計解析度 0.1°C；數位化時與 ADC 位元數有關（2ⁿ 階）。"
+ },
+ {
+  "term": "靈敏度",
+  "aliases": [
+   "Sensitivity"
+  ],
+  "cat": "感測與訊號",
+  "exp": "輸出變化量 ÷ 待測量變化量，例如 10 mV/°C 代表溫度每升 1°C 輸出多 10 mV。越高越能感受微小變化。"
+ },
+ {
+  "term": "精確度",
+  "aliases": [
+   "Accuracy",
+   "準確度",
+   "準度"
+  ],
+  "cat": "感測與訊號",
+  "exp": "量測值離真實值有多近（準不準）。",
+  "vs": "準確度（Accuracy）＝離真值多近；精密度（Precision）／重複性＝多次量測彼此多接近。可能很集中但都偏離真值。"
+ },
+ {
+  "term": "精密度",
+  "aliases": [
+   "Precision"
+  ],
+  "cat": "感測與訊號",
+  "exp": "多次量測結果彼此有多接近（穩不穩），與重複性相關。"
+ },
+ {
+  "term": "重複性",
+  "aliases": [
+   "Repeatability"
+  ],
+  "cat": "感測與訊號",
+  "exp": "同一條件下重複量測多次，結果的變化程度，越小越可靠。"
+ },
+ {
+  "term": "線性度",
+  "aliases": [
+   "Linearity"
+  ],
+  "cat": "感測與訊號",
+  "exp": "感測器輸出與輸入的關係有多接近一條直線，以最大偏差占滿刻度的百分比表示，越小越好。"
+ },
+ {
+  "term": "遲滯",
+  "aliases": [
+   "Hysteresis",
+   "滯後"
+  ],
+  "cat": "感測與訊號",
+  "exp": "同一個待測值，在數值上升時與下降時量到不同結果（兩條曲線不重合）。注意：遲滯不是時間延遲。"
+ },
+ {
+  "term": "誤差",
+  "aliases": [
+   "Error",
+   "靜態誤差"
+  ],
+  "cat": "感測與訊號",
+  "exp": "量測值與真實值的差。靜態誤差＝測量值－實際值。"
+ },
+ {
+  "term": "量測範圍",
+  "aliases": [
+   "Range"
+  ],
+  "cat": "感測與訊號",
+  "exp": "感測器能正常量測的上限到下限，例如 DHT11 溫度 0–50°C。"
+ },
+ {
+  "term": "MEMS",
+  "aliases": [
+   "微機電系統",
+   "Micro-Electro-Mechanical Systems"
+  ],
+  "cat": "感測與訊號",
+  "exp": "在晶片上做出微小機械結構的技術，手機裡的加速度計、陀螺儀、麥克風多是 MEMS，體積小又便宜。"
+ },
+ {
+  "term": "IMU",
+  "aliases": [
+   "慣性量測單元",
+   "Inertial Measurement Unit"
+  ],
+  "cat": "感測與訊號",
+  "exp": "結合加速度計與陀螺儀（有時加磁力計）的模組，可算出物體的姿態與運動，例如 MPU6050。用於無人機、平衡車。"
+ },
+ {
+  "term": "陀螺儀",
+  "aliases": [
+   "Gyroscope"
+  ],
+  "cat": "感測與訊號",
+  "exp": "量測「旋轉角速度」的感測器（單位 dps，度/秒）。長時間積分會漂移，常與加速度計用濾波互補。",
+  "vs": "加速度計量直線加速度與傾斜；陀螺儀量旋轉速度。"
+ },
+ {
+  "term": "加速規",
+  "aliases": [
+   "加速度計",
+   "Accelerometer",
+   "振動感測器"
+  ],
+  "cat": "感測與訊號",
+  "exp": "量測加速度的感測器，也用來量振動、傾斜、跌倒。原理依牛頓第二定律 F＝ma，分壓阻式、壓電式、電容式。量微小振動要選靈敏度高的；太重會有質量效應影響量測。"
+ },
+ {
+  "term": "PIR",
+  "aliases": [
+   "被動紅外線感測器",
+   "Passive Infrared",
+   "HC-SR501"
+  ],
+  "cat": "感測與訊號",
+  "exp": "被動接收人體發出的紅外線「變化」來偵測有人移動，例如走廊感應燈。偵測不到靜止不動的人，也無法辨識身分。"
+ },
+ {
+  "term": "DHT11",
+  "aliases": [],
+  "cat": "感測與訊號",
+  "exp": "便宜的溫濕度感測模組，用單線數位介面輸出，濕度 20–90%RH、溫度 0–50°C，建議約 2 秒讀一次。"
+ },
+ {
+  "term": "HC-SR04",
+  "aliases": [
+   "超音波感測器"
+  ],
+  "cat": "感測與訊號",
+  "exp": "超音波測距模組：發出 40 kHz 聲波量回波時間，距離＝聲速×時間÷2，約 2–400 cm。量的是距離，不是噪音大小。"
+ },
+ {
+  "term": "ADXL345",
+  "aliases": [],
+  "cat": "感測與訊號",
+  "exp": "三軸 MEMS 加速度感測器，介面為 I²C 或 SPI，用於計步、傾斜、跌倒偵測。"
+ },
+ {
+  "term": "MPU6050",
+  "aliases": [],
+  "cat": "感測與訊號",
+  "exp": "6 軸 IMU（3 軸加速度＋3 軸陀螺儀），走 I²C，常用於無人機、平衡車姿態偵測。"
+ },
+ {
+  "term": "MQ-2",
+  "aliases": [
+   "MQ 系列"
+  ],
+  "cat": "感測與訊號",
+  "exp": "可燃氣體與煙霧感測器，內部加熱的 SnO₂ 半導體遇到氣體電阻下降。需預熱、選擇性差（酒精、油煙也會觸發）。"
+ },
+ {
+  "term": "熱敏電阻",
+  "aliases": [
+   "Thermistor"
+  ],
+  "cat": "感測與訊號",
+  "exp": "電阻會隨溫度明顯變化的半導體元件，靈敏度高，常見 NTC。"
+ },
+ {
+  "term": "NTC",
+  "aliases": [
+   "負溫度係數"
+  ],
+  "cat": "感測與訊號",
+  "exp": "負溫度係數熱敏電阻：溫度升高、電阻下降，靈敏度很高，常用於量溫度。",
+  "vs": "NTC 溫度↑電阻↓；PTC 到居禮溫度電阻急升（保護電路）；CTR 到臨界溫度電阻驟降。"
+ },
+ {
+  "term": "PTC",
+  "aliases": [
+   "正溫度係數"
+  ],
+  "cat": "感測與訊號",
+  "exp": "正溫度係數熱敏電阻：到達特定溫度（居禮溫度）時電阻急劇上升，常用來做過流、過熱保護。"
+ },
+ {
+  "term": "CTR",
+  "aliases": [
+   "臨界溫度電阻"
+  ],
+  "cat": "感測與訊號",
+  "exp": "臨界溫度熱敏電阻：到達臨界溫度時電阻驟降，可當溫度開關。"
+ },
+ {
+  "term": "RTD",
+  "aliases": [
+   "電阻式溫度計",
+   "電阻溫度偵測器",
+   "Resistance Temperature Detector"
+  ],
+  "cat": "感測與訊號",
+  "exp": "利用金屬（常用白金）電阻隨溫度上升而增加的特性量溫度，穩定、線性好但靈敏度較低。最常見 Pt100。"
+ },
+ {
+  "term": "Pt100",
+  "aliases": [],
+  "cat": "感測與訊號",
+  "exp": "白金 RTD，0°C 時電阻 100 Ω；溫度每升 1°C 電阻約增加 0.385 Ω（指引練習題用 0.4%/°C 近似）。"
+ },
+ {
+  "term": "熱電偶",
+  "aliases": [
+   "Thermocouple"
+  ],
+  "cat": "感測與訊號",
+  "exp": "兩種不同金屬一端接在一起，兩端有溫差就產生微小電壓（席貝克效應），量測範圍很廣，常用於高溫。屬主動式（自己發電），需要冷點補償。"
+ },
+ {
+  "term": "席貝克效應",
+  "aliases": [
+   "Seebeck",
+   "Seebeck 效應"
+  ],
+  "cat": "感測與訊號",
+  "exp": "溫差產生電壓的現象，熱電偶的原理。",
+  "vs": "席貝克＝溫差→電壓（熱電偶）；貝爾帖＝電流→溫差（致冷晶片）。"
+ },
+ {
+  "term": "貝爾帖效應",
+  "aliases": [
+   "Peltier",
+   "致冷晶片"
+  ],
+  "cat": "感測與訊號",
+  "exp": "通電流讓兩端產生溫差的現象，用於致冷晶片（小冰箱、CPU 散熱）。"
+ },
+ {
+  "term": "冷點補償",
+  "aliases": [
+   "冷接點補償",
+   "Cold Junction Compensation"
+  ],
+  "cat": "感測與訊號",
+  "exp": "熱電偶量的是「兩端溫差」，查表時假設冷端是 0°C，所以要另外量冷端實際溫度來修正。"
+ },
+ {
+  "term": "壓電效應",
+  "aliases": [
+   "壓電式",
+   "Piezoelectric"
+  ],
+  "cat": "感測與訊號",
+  "exp": "石英、陶瓷等材料受壓時表面產生電荷，電荷與受力成正比。壓電感測器輸出電荷極小，需搭配電荷放大器。"
+ },
+ {
+  "term": "電荷放大器",
+  "aliases": [
+   "Charge Amplifier"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把壓電感測器產生的微小電荷轉成可量測電壓的放大電路。"
+ },
+ {
+  "term": "應變規",
+  "aliases": [
+   "Strain Gauge"
+  ],
+  "cat": "感測與訊號",
+  "exp": "貼在物體上的電阻片，物體受力變形時電阻跟著改變，用來量力量、重量（電子秤）。電阻變化極小，要搭配惠斯登電橋。"
+ },
+ {
+  "term": "壓阻效應",
+  "aliases": [
+   "Piezoresistive"
+  ],
+  "cat": "感測與訊號",
+  "exp": "材料受力變形時電阻改變的現象，應變規與壓阻式感測器的原理。"
+ },
+ {
+  "term": "惠斯登電橋",
+  "aliases": [
+   "Wheatstone Bridge"
+  ],
+  "cat": "感測與訊號",
+  "exp": "四個電阻接成菱形的電路，平衡時輸出 0 V；只要其中一個電阻有微小變化就產生電壓，所以能量出應變規極小的電阻變化。"
+ },
+ {
+  "term": "LVDT",
+  "aliases": [
+   "線性可變差動變壓器"
+  ],
+  "cat": "感測與訊號",
+  "exp": "接觸式位移感測器，鐵芯移動改變兩組線圈的感應電壓差，用來精確量直線位移。"
+ },
+ {
+  "term": "渦電流",
+  "aliases": [
+   "渦電流位移計",
+   "Eddy Current"
+  ],
+  "cat": "感測與訊號",
+  "exp": "線圈產生高頻磁場，靠近金屬時在金屬表面感應出渦電流、改變線圈阻抗，藉此「非接觸」量測距離或位移。"
+ },
+ {
+  "term": "CMOS",
+  "aliases": [
+   "CMOS 影像感測器"
+  ],
+  "cat": "感測與訊號",
+  "exp": "最常見的影像感測晶片，手機相機、工業相機都用它把光轉成數位影像。"
+ },
+ {
+  "term": "光電效應",
+  "aliases": [
+   "光傳導",
+   "光伏特"
+  ],
+  "cat": "感測與訊號",
+  "exp": "光照射材料產生電的變化。光傳導＝電阻變化（光敏電阻、光二極體）；光發射＝電子射出；光伏特＝直接產生電壓（太陽能電池）。"
+ },
+ {
+  "term": "光敏電阻",
+  "aliases": [
+   "LDR",
+   "Light Dependent Resistor"
+  ],
+  "cat": "感測與訊號",
+  "exp": "光越強電阻越小的元件，便宜但反應較慢。要串一個固定電阻做分壓，再用 ADC 讀電壓。例：自動路燈。"
+ },
+ {
+  "term": "光二極體",
+  "aliases": [
+   "Photodiode"
+  ],
+  "cat": "感測與訊號",
+  "exp": "受光產生電流的半導體元件，反應比光敏電阻快很多。"
+ },
+ {
+  "term": "放射率",
+  "aliases": [
+   "Emissivity"
+  ],
+  "cat": "感測與訊號",
+  "exp": "物體表面放出熱輻射的能力（0～1）。紅外線非接觸測溫要依材質設定放射率，否則讀值會偏差。"
+ },
+ {
+  "term": "分壓",
+  "aliases": [
+   "分壓電路",
+   "Voltage Divider"
+  ],
+  "cat": "感測與訊號",
+  "exp": "兩個電阻串聯，中間點電壓依電阻比例分配。光敏電阻、熱敏電阻常用分壓把電阻變化轉成電壓讓 ADC 讀。"
+ },
+ {
+  "term": "卡爾曼濾波",
+  "aliases": [
+   "互補濾波",
+   "Kalman Filter"
+  ],
+  "cat": "感測與訊號",
+  "exp": "結合多個感測器（如加速度計＋陀螺儀）並估算雜訊，算出更準確姿態的演算法；互補濾波是較簡單的版本。"
+ },
+ {
+  "term": "振幅",
+  "aliases": [
+   "Amplitude"
+  ],
+  "cat": "感測與訊號",
+  "exp": "波形的大小（高度），例如電壓擺動多大。"
+ },
+ {
+  "term": "頻率",
+  "aliases": [
+   "Frequency",
+   "Hz"
+  ],
+  "cat": "感測與訊號",
+  "exp": "每秒重複幾次，單位赫茲（Hz），是週期的倒數。例：週期 0.01 秒 → 頻率 100 Hz。"
+ },
+ {
+  "term": "相位",
+  "aliases": [
+   "Phase"
+  ],
+  "cat": "感測與訊號",
+  "exp": "波形在一個週期中所處的位置（角度）。正弦波與餘弦波相差 90°。"
+ },
+ {
+  "term": "週期",
+  "aliases": [
+   "Period"
+  ],
+  "cat": "感測與訊號",
+  "exp": "波形重複一次所需的時間，頻率＝1／週期。"
+ },
+ {
+  "term": "串列傳輸",
+  "aliases": [
+   "串列",
+   "Serial"
+  ],
+  "cat": "感測與訊號",
+  "exp": "資料「一個位元接一個位元」用少數線傳送，線少、便宜、適合長距離，但速度較慢。例：UART、I²C、SPI、USB、RS-485。",
+  "vs": "串列＝一條路排隊走（便宜、長距離）；並列＝多線道同時走（快但貴、易干擾、只適合短距離）。"
+ },
+ {
+  "term": "並列傳輸",
+  "aliases": [
+   "Parallel"
+  ],
+  "cat": "感測與訊號",
+  "exp": "用多條線同時傳多個位元，速度快，但線路成本高、易互相干擾、只適合短距離（約 100 呎以內）。"
+ },
+ {
+  "term": "單工",
+  "aliases": [
+   "半雙工",
+   "全雙工",
+   "Simplex",
+   "Half-duplex",
+   "Full-duplex"
+  ],
+  "cat": "感測與訊號",
+  "exp": "單工＝只能單向（收音機）；半雙工＝雙向但同時只能一方說話（對講機）；全雙工＝雙方可同時說話（電話）。"
+ },
+ {
+  "term": "非同步傳輸",
+  "aliases": [
+   "非同步",
+   "同步傳輸",
+   "Asynchronous"
+  ],
+  "cat": "感測與訊號",
+  "exp": "非同步＝沒有共用時脈，每個字元前後加起始與停止位元讓對方對齊（如 UART，雙方要先約好鮑率）；同步＝有時脈線或同步字元，以區塊傳送、效率較高（如 I²C、SPI）。"
+ },
+ {
+  "term": "同位元",
+  "aliases": [
+   "Parity",
+   "同位檢查"
+  ],
+  "cat": "感測與訊號",
+  "exp": "加在資料後面的 1 個檢查位元，讓 1 的總數保持奇數或偶數，可發現單一位元錯誤。UART 的「8N1」中 N 表示無同位元。"
+ },
+ {
+  "term": "起始位元",
+  "aliases": [
+   "停止位元",
+   "Start Bit",
+   "Stop Bit"
+  ],
+  "cat": "感測與訊號",
+  "exp": "非同步傳輸時，每個字元前的起始位元告訴接收端「開始了」，結尾的停止位元表示「結束」。"
+ },
+ {
+  "term": "鮑率",
+  "aliases": [
+   "Baud Rate",
+   "Baud"
+  ],
+  "cat": "感測與訊號",
+  "exp": "每秒傳送的「訊號單元」數。UART 雙方鮑率（如 9600、115200）必須一致，不一致就會出現亂碼。",
+  "vs": "鮑率＝每秒訊號單元數；位元速率＝每秒位元數。一個訊號單元可帶多個位元，所以位元速率 ≥ 鮑率。"
+ },
+ {
+  "term": "位元速率",
+  "aliases": [
+   "bps",
+   "Bit Rate",
+   "kbps",
+   "Mbps"
+  ],
+  "cat": "感測與訊號",
+  "exp": "每秒傳送的位元數（bits per second），例如 250 kbps、100 Mbps。"
+ },
+ {
+  "term": "調變",
+  "aliases": [
+   "Modulation",
+   "AM",
+   "FM",
+   "PM"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把要傳的資料「載」到高頻載波上的方法：改振幅＝AM、改頻率＝FM（抗雜訊較佳）、改相位＝PM。"
+ },
+ {
+  "term": "ASK",
+  "aliases": [
+   "FSK",
+   "PSK",
+   "移轉鍵式",
+   "Shift Keying"
+  ],
+  "cat": "感測與訊號",
+  "exp": "把「數位資料」載到類比載波上的調變：ASK 改振幅、FSK 改頻率、PSK 改相位。",
+  "vs": "AM/FM/PM＝類比資料；ASK/FSK/PSK＝數位資料。",
+  "ctx": {
+   "alias": "PSK",
+   "only": [
+    "考科一 3.2"
+   ]
+  }
+ },
+ {
+  "term": "載波",
+  "aliases": [
+   "Carrier"
+  ],
+  "cat": "感測與訊號",
+  "exp": "用來承載資料的高頻訊號，調變就是改變它的振幅、頻率或相位。"
+ },
+ {
+  "term": "頻譜",
+  "aliases": [
+   "Spectrum",
+   "頻帶"
+  ],
+  "cat": "感測與訊號",
+  "exp": "所有頻率的範圍，再切成一段段頻帶分配給不同用途（廣播、Wi-Fi、行動通訊）。"
+ },
+ {
+  "term": "匯流排",
+  "aliases": [
+   "Bus"
+  ],
+  "cat": "感測與訊號",
+  "exp": "多個裝置共用的一組通訊線路，例如 RS-485、I²C、SPI、CAN Bus。"
+ },
+ {
+  "term": "拓樸",
+  "aliases": [
+   "Topology",
+   "星狀",
+   "樹狀",
+   "線性拓樸",
+   "網路拓樸"
+  ],
+  "cat": "感測與訊號",
+  "exp": "網路節點的連接形狀：線性（一條線串起來）、星狀（都接到中心，中心壞全掛）、樹狀（分層分支、易擴充但依賴根節點）、網狀（多路徑、可靠但路由複雜）。"
+ },
+ {
+  "term": "通訊協定",
+  "aliases": [
+   "Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "雙方溝通的規則與資料格式，例如誰先講、怎麼表示開始結束、怎麼檢查錯誤。HTTP、MQTT、Modbus 都是。"
+ },
+ {
+  "term": "UART",
+  "aliases": [
+   "通用非同步收發器"
+  ],
+  "cat": "硬體",
+  "exp": "最簡單的序列通訊：TX、RX 兩條線（加 GND），沒有時脈線，雙方先約好鮑率（如 9600 8N1），全雙工、一對一。用於 GPS 模組、除錯 Console。TX 要接對方的 RX。",
+  "vs": "UART＝非同步、2 線、一對一；I²C＝同步、2 線、半雙工、靠位址多裝置；SPI＝同步、4 線、全雙工、最快、靠 CS 選裝置。"
+ },
+ {
+  "term": "I²C",
+  "aliases": [
+   "I2C",
+   "IIC",
+   "SDA",
+   "SCL"
+  ],
+  "cat": "硬體",
+  "exp": "只用兩條線（SDA 資料、SCL 時脈）就能接很多感測器的同步、半雙工匯流排，每個裝置有 7 位元位址，線上需要上拉電阻。適合板子上短距離的晶片間通訊。"
+ },
+ {
+  "term": "SPI",
+  "aliases": [
+   "MOSI",
+   "MISO",
+   "SCLK",
+   "Serial Peripheral Interface"
+  ],
+  "cat": "硬體",
+  "exp": "四線式（SCLK 時脈、MOSI、MISO、CS 片選）同步全雙工介面，速度最快（可達數十 MHz），一主多從、每個從裝置一條 CS。常接 Flash、顯示器、高速 ADC。"
+ },
+ {
+  "term": "片選",
+  "aliases": [
+   "CS",
+   "SS",
+   "Chip Select"
+  ],
+  "cat": "硬體",
+  "exp": "SPI 用來指定「現在跟哪個從裝置說話」的訊號線，通常拉低（LOW）代表選中。"
+ },
+ {
+  "term": "時脈",
+  "aliases": [
+   "Clock",
+   "時脈線"
+  ],
+  "cat": "硬體",
+  "exp": "固定節奏的方波訊號，讓收發雙方在同一拍上讀寫資料；I²C 的 SCL、SPI 的 SCLK 就是時脈線。"
+ },
+ {
+  "term": "上拉電阻",
+  "aliases": [
+   "下拉電阻",
+   "Pull-up",
+   "Pull-down",
+   "INPUT_PULLUP"
+  ],
+  "cat": "硬體",
+  "exp": "接在輸入腳與電源（上拉）或地（下拉）之間的電阻，讓腳位沒被驅動時有確定的預設電位，避免浮接亂跳。I²C 線上一定要有上拉電阻。"
+ },
+ {
+  "term": "浮接",
+  "aliases": [
+   "Floating"
+  ],
+  "cat": "硬體",
+  "exp": "輸入腳沒接到確定的高或低電位，讀值會隨雜訊亂跳。加上拉或下拉電阻可解決。"
+ },
+ {
+  "term": "去彈跳",
+  "aliases": [
+   "Debounce",
+   "按鍵彈跳",
+   "Bounce"
+  ],
+  "cat": "硬體",
+  "exp": "機械按鈕按下瞬間接點會快速抖動好幾次，程式可能誤判按了很多下；用軟體延遲或 RC 電路濾掉就叫去彈跳。"
+ },
+ {
+  "term": "IrDA",
+  "aliases": [
+   "紅外線通訊"
+  ],
+  "cat": "感測與訊號",
+  "exp": "用紅外線傳資料的短距離通訊標準，像早期手機、電視遙控的原理。"
+ },
+ {
+  "term": "EEPROM",
+  "aliases": [],
+  "cat": "硬體",
+  "exp": "可電子抹除重寫、斷電不消失的小容量記憶體，用來存設定值。常經 I²C 或 SPI 連接。"
+ },
+ {
+  "term": "Flash",
+  "aliases": [
+   "快閃記憶體",
+   "Flash 記憶體"
+  ],
+  "cat": "硬體",
+  "exp": "斷電不會消失的記憶體，MCU 用它存放程式（韌體），隨身碟、SSD 也是 Flash。",
+  "vs": "Flash＝存程式、斷電保留（像書架）；RAM＝執行時暫存、斷電消失（像書桌）。"
+ },
+ {
+  "term": "RAM",
+  "aliases": [
+   "隨機存取記憶體"
+  ],
+  "cat": "硬體",
+  "exp": "程式執行時暫存變數與資料的記憶體，速度快但斷電就消失。MCU 的 RAM 通常只有幾 KB 到幾百 KB。記憶體洩漏會讓系統跑久了當機。"
+ },
+ {
+  "term": "8N1",
+  "aliases": [
+   "9600 8N1"
+  ],
+  "cat": "硬體",
+  "exp": "UART 常見的資料格式設定：8 個資料位元、No parity（無同位元）、1 個停止位元。兩端要一致。"
+ },
+ {
+  "term": "GPIO",
+  "aliases": [
+   "通用輸入輸出",
+   "General Purpose I/O"
+  ],
+  "cat": "硬體",
+  "exp": "MCU 或單板電腦上可用程式設定為輸入或輸出的腳位，例如讀按鈕、點亮 LED。每腳只能提供很小的電流（數 mA 到數十 mA），不能直接推馬達。"
+ },
+ {
+  "term": "I/O",
+  "aliases": [
+   "輸入輸出",
+   "Input/Output"
+  ],
+  "cat": "硬體",
+  "exp": "Input／Output，泛指裝置與外界交換訊號或資料的介面：輸入如按鈕、感測器；輸出如 LED、繼電器。"
+ },
+ {
+  "term": "DI",
+  "aliases": [
+   "DO",
+   "AI／AO",
+   "數位輸入",
+   "數位輸出",
+   "類比輸入",
+   "類比輸出"
+  ],
+  "cat": "硬體",
+  "exp": "工控常見的 I/O 分類：DI 數位輸入（按鈕、極限開關）、DO 數位輸出（LED、繼電器）、AI 類比輸入（經 ADC 讀溫度電壓）、AO 類比輸出（經 DAC 或 PWM 輸出）。（這裡的 AI 是 Analog Input，不是人工智慧。）"
+ },
+ {
+  "term": "PWM",
+  "aliases": [
+   "脈波寬度調變",
+   "Pulse Width Modulation"
+  ],
+  "cat": "硬體",
+  "exp": "用固定頻率的方波快速開關，改變「高電位時間占比」（占空比）來控制平均功率。平均電壓≈電源電壓×占空比，例如 5 V×25%＝1.25 V。用於 LED 調光、馬達調速、伺服機定位。"
+ },
+ {
+  "term": "占空比",
+  "aliases": [
+   "Duty Cycle",
+   "工作週期"
+  ],
+  "cat": "硬體",
+  "exp": "PWM 一個週期中高電位時間所占的比例，例如高 1 ms、週期 4 ms → 25%。"
+ },
+ {
+  "term": "電晶體",
+  "aliases": [
+   "BJT",
+   "Transistor"
+  ],
+  "cat": "硬體",
+  "exp": "用小電流控制大電流的半導體開關，讓 MCU 的小訊號能驅動較大負載（如小馬達、繼電器線圈）。"
+ },
+ {
+  "term": "MOSFET",
+  "aliases": [
+   "場效電晶體"
+  ],
+  "cat": "硬體",
+  "exp": "以電壓控制的電晶體開關，導通損耗小、切換快，常用於 PWM 馬達調速、大電流直流負載。"
+ },
+ {
+  "term": "繼電器",
+  "aliases": [
+   "Relay"
+  ],
+  "cat": "硬體",
+  "exp": "用小電流控制線圈、帶動機械接點開關大電流或交流市電的元件，控制端與負載端電氣隔離。缺點是有機械壽命、切換慢、有喀喀聲。",
+  "vs": "繼電器有機械接點、可切交流市電；固態繼電器（SSR）無接點、壽命長、無火花。"
+ },
+ {
+  "term": "SSR",
+  "aliases": [
+   "固態繼電器",
+   "Solid State Relay"
+  ],
+  "cat": "硬體",
+  "exp": "用半導體做開關、沒有機械接點的繼電器，無火花、壽命長、可快速切換。"
+ },
+ {
+  "term": "H 橋",
+  "aliases": [
+   "H-Bridge",
+   "L298N",
+   "馬達驅動 IC"
+  ],
+  "cat": "硬體",
+  "exp": "四個開關排成 H 字形的電路，可改變電流方向，讓直流馬達正轉或反轉並調速，例如 L298N 模組。"
+ },
+ {
+  "term": "飛輪二極體",
+  "aliases": [
+   "Flyback Diode",
+   "續流二極體"
+  ],
+  "cat": "硬體",
+  "exp": "並聯在繼電器線圈、馬達等「感性負載」兩端的二極體，斷電瞬間吸收線圈產生的反向高電壓（反電動勢），保護電晶體與 MCU 不被打壞。"
+ },
+ {
+  "term": "感性負載",
+  "aliases": [
+   "電感性負載",
+   "Inductive Load"
+  ],
+  "cat": "硬體",
+  "exp": "內部有線圈的負載，例如馬達、繼電器線圈、電磁閥。斷電時會產生反電動勢，要加飛輪二極體。"
+ },
+ {
+  "term": "反電動勢",
+  "aliases": [
+   "Back EMF"
+  ],
+  "cat": "硬體",
+  "exp": "線圈電流突然被切斷時產生的反向高電壓突波，可能燒壞驅動元件。"
+ },
+ {
+  "term": "光耦合器",
+  "aliases": [
+   "Optocoupler",
+   "光耦"
+  ],
+  "cat": "硬體",
+  "exp": "內部用 LED 發光、光感元件接收來傳遞訊號，讓控制端（MCU）與負載端（高壓、雜訊大）完全電氣隔離，抗雜訊又保護 MCU。"
+ },
+ {
+  "term": "中斷",
+  "aliases": [
+   "Interrupt"
+  ],
+  "cat": "硬體",
+  "exp": "事件發生時（例如按鈕被按、資料到達），硬體立刻通知 CPU 先處理，再回到原本工作。反應快，可讓 MCU 平時睡覺省電。"
+ },
+ {
+  "term": "計時器",
+  "aliases": [
+   "Timer"
+  ],
+  "cat": "硬體",
+  "exp": "MCU 內部的計數硬體，用來定時取樣、產生 PWM、量測時間。"
+ },
+ {
+  "term": "看門狗",
+  "aliases": [
+   "Watchdog",
+   "Watchdog Timer",
+   "看門狗計時器"
+  ],
+  "cat": "硬體",
+  "exp": "一個倒數計時器，程式要定期「餵狗」（重設計時）；若程式當機沒按時餵，時間到就自動重啟系統，讓無人看管的裝置能自我恢復。"
+ },
+ {
+  "term": "閉迴路",
+  "aliases": [
+   "開迴路",
+   "Closed Loop",
+   "回授"
+  ],
+  "cat": "硬體",
+  "exp": "開迴路＝只下命令不看結果（例：定時灌溉 10 分鐘）；閉迴路＝依感測器回授調整輸出（例：濕度低於門檻才灌溉、冷氣依室溫調整）。"
+ },
+ {
+  "term": "PID",
+  "aliases": [
+   "PID 控制"
+  ],
+  "cat": "硬體",
+  "exp": "最常見的閉迴路控制演算法，依「目前誤差（P）、累積誤差（I）、誤差變化趨勢（D）」計算輸出，讓溫度、轉速等穩定在設定值。"
+ },
+ {
+  "term": "4–20 mA",
+  "aliases": [
+   "4-20 mA",
+   "4～20 mA",
+   "電流迴路"
+  ],
+  "cat": "工業通訊",
+  "exp": "工業感測器常用的類比電流訊號：4 mA 代表最小值、20 mA 代表最大值。用電流傳不怕線阻、長距離抗雜訊；而 0 mA 就代表斷線，很容易診斷。"
+ },
+ {
+  "term": "差動訊號",
+  "aliases": [
+   "Differential Signal",
+   "差動"
+  ],
+  "cat": "工業通訊",
+  "exp": "用兩條線傳一正一反的訊號，接收端看兩線的「差」，外界雜訊同時加在兩線上會互相抵消，所以抗雜訊、可傳很遠。RS-485、CAN Bus 都用差動。"
+ },
+ {
+  "term": "終端電阻",
+  "aliases": [
+   "Termination Resistor"
+  ],
+  "cat": "工業通訊",
+  "exp": "接在 RS-485 等長距離匯流排兩端的電阻（約 120 Ω），防止訊號在線尾反射造成通訊錯誤。"
+ },
+ {
+  "term": "共地",
+  "aliases": [
+   "GND"
+  ],
+  "cat": "硬體",
+  "exp": "不同電路之間的地線（GND）要接在一起，電壓才有共同的參考點。感測器或通訊兩端沒共地，讀值或通訊常會錯亂。"
+ },
+ {
+  "term": "電壓下陷",
+  "aliases": [
+   "brownout",
+   "Brownout"
+  ],
+  "cat": "硬體",
+  "exp": "大負載（馬達、繼電器）啟動瞬間抽走大電流，讓電源電壓短暫掉下去，導致 MCU 重開機。解法：致動器獨立供電、加大電源、加電容。"
+ },
+ {
+  "term": "LDO",
+  "aliases": [
+   "穩壓 IC",
+   "低壓差穩壓器"
+  ],
+  "cat": "硬體",
+  "exp": "把較高電壓（如 5 V）穩定降到 3.3 V 等固定電壓的穩壓元件。"
+ },
+ {
+  "term": "電壓準位轉換",
+  "aliases": [
+   "準位轉換",
+   "Level Shifter"
+  ],
+  "cat": "硬體",
+  "exp": "讓 5 V 與 3.3 V 系統安全溝通的轉換電路。ESP32、Raspberry Pi 的 GPIO 不耐 5 V，直接接 5 V 訊號可能燒壞。"
+ },
+ {
+  "term": "TTL",
+  "aliases": [
+   "TTL 準位"
+  ],
+  "cat": "硬體",
+  "exp": "MCU 腳位使用的邏輯電壓準位（0 V／3.3 V 或 5 V）。與 RS-232 的正負電壓準位不同，接錯會亂碼或損壞。"
+ },
+ {
+  "term": "三用電表",
+  "aliases": [
+   "萬用電表",
+   "Multimeter"
+  ],
+  "cat": "硬體",
+  "exp": "量電壓、電流、電阻與通路的基本工具。量電壓要並聯、量電流要串聯、量電阻要先斷電。"
+ },
+ {
+  "term": "示波器",
+  "aliases": [
+   "Oscilloscope"
+  ],
+  "cat": "硬體",
+  "exp": "把電壓隨時間的變化畫成波形的儀器，可看 PWM、雜訊、訊號時序。",
+  "vs": "示波器看「類比波形」細節；邏輯分析儀同時抓多路「數位」訊號並解碼 UART／I²C／SPI。"
+ },
+ {
+  "term": "邏輯分析儀",
+  "aliases": [
+   "Logic Analyzer"
+  ],
+  "cat": "硬體",
+  "exp": "同時擷取多條數位訊號線，並能把 UART、I²C、SPI 的波形解碼成實際資料，是排查通訊問題的利器。"
+ },
+ {
+  "term": "Serial Monitor",
+  "aliases": [
+   "序列埠監控",
+   "序列埠"
+  ],
+  "cat": "硬體",
+  "exp": "電腦上查看 MCU 經序列埠（UART／USB）印出訊息的視窗，最基本的除錯方法。"
+ },
+ {
+  "term": "ping",
+  "aliases": [
+   "traceroute",
+   "nslookup",
+   "ipconfig",
+   "ifconfig"
+  ],
+  "cat": "網路通訊",
+  "exp": "網路排查指令：ping 測對方是否連得到；traceroute 看封包經過哪些路由；nslookup 查網域對應的 IP（DNS）；ipconfig／ifconfig 看本機 IP 設定。"
+ },
+ {
+  "term": "Wireshark",
+  "aliases": [
+   "封包分析"
+  ],
+  "cat": "網路通訊",
+  "exp": "免費的封包分析軟體，可擷取並逐層顯示網路封包內容，用來查協定問題。"
+ },
+ {
+  "term": "NTP",
+  "aliases": [
+   "網路時間協定",
+   "Network Time Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "讓裝置透過網路自動校正時間的協定。時鐘不同步會讓資料時間戳錯亂。"
+ },
+ {
+  "term": "DHCP",
+  "aliases": [
+   "Dynamic Host Configuration Protocol"
+  ],
+  "cat": "網路通訊",
+  "exp": "自動分配 IP 位址給裝置的協定。裝置拿不到 IP 時要檢查 DHCP。"
+ },
+ {
+  "term": "變頻器",
+  "aliases": [
+   "Inverter",
+   "VFD"
+  ],
+  "cat": "製造管理",
+  "exp": "調整供給馬達的電源頻率來控制馬達轉速的裝置，可節能，常用 Modbus 或 0–10 V 訊號設定。"
+ },
+ {
+  "term": "伺服機",
+  "aliases": [
+   "Servo",
+   "伺服馬達"
+  ],
+  "cat": "硬體",
+  "exp": "可依控制訊號轉到指定角度或位置的馬達，模型伺服機用 PWM 脈波寬度決定角度。"
+ },
+ {
+  "term": "電磁閥",
+  "aliases": [
+   "Solenoid Valve"
+  ],
+  "cat": "硬體",
+  "exp": "通電時用電磁力打開或關閉的閥門，例如灌溉水路、氣壓缸的開關。屬感性負載。"
+ },
+ {
+  "term": "RTOS",
+  "aliases": [
+   "即時作業系統",
+   "Real-Time Operating System",
+   "FreeRTOS",
+   "Zephyr"
+  ],
+  "cat": "硬體",
+  "exp": "可在 MCU 上執行、保證任務在時限內完成的輕量作業系統，例如 FreeRTOS、Zephyr。",
+  "vs": "MCU 常裸機或跑 RTOS；單板電腦跑 Linux 這類完整作業系統。"
+ },
+ {
+  "term": "Linux",
+  "aliases": [
+   "作業系統",
+   "OS"
+  ],
+  "cat": "硬體",
+  "exp": "作業系統（OS）是管理硬體、讓多個程式同時執行的底層軟體；Linux 是開源作業系統，單板電腦、閘道器、伺服器常用。"
+ },
+ {
+  "term": "限流電阻",
+  "aliases": [],
+  "cat": "硬體",
+  "exp": "串在 LED 上限制電流的電阻，R＝（電源電壓−LED 順向電壓）÷ 電流。例：(5−2)÷0.015＝200 Ω，實務選 220 Ω。"
+ },
+ {
+  "term": "PCB",
+  "aliases": [
+   "印刷電路板",
+   "Printed Circuit Board"
+  ],
+  "cat": "硬體",
+  "exp": "承載電子元件並以銅箔線路連接的電路板。開源硬體會公開 PCB 佈線檔。"
+ },
+ {
+  "term": "BOM",
+  "aliases": [
+   "物料清單",
+   "Bill of Materials"
+  ],
+  "cat": "硬體",
+  "exp": "產品需要的所有零件、規格、數量清單。"
+ },
+ {
+  "term": "開源硬體",
+  "aliases": [
+   "Open Source Hardware",
+   "OSHWA"
+  ],
+  "cat": "硬體",
+  "exp": "公開原理圖、PCB、BOM、韌體等設計檔，任何人都可研究、修改、製造、販售的硬體，例如 Arduino。OSHWA 是開源硬體協會。商標不在開源範圍內。"
+ },
+ {
+  "term": "CERN OHL",
+  "aliases": [
+   "CERN OHL v2",
+   "TAPR OHL"
+  ],
+  "cat": "硬體",
+  "exp": "開源硬體專用授權。CERN OHL v2 分 -P（寬鬆）、-W（弱互惠）、-S（強互惠）；TAPR OHL 是另一種常見開源硬體授權。"
+ },
+ {
+  "term": "CC BY-SA",
+  "aliases": [
+   "姓名標示－相同方式分享",
+   "創用 CC"
+  ],
+  "cat": "硬體",
+  "exp": "創用 CC 授權的一種：可自由使用修改，但要標示原作者，且衍生作品要用相同授權分享。Arduino 參考設計採用此授權。"
+ },
+ {
+  "term": "Copyleft",
+  "aliases": [
+   "著作傳染性",
+   "強 Copyleft",
+   "弱 Copyleft"
+  ],
+  "cat": "硬體",
+  "exp": "開源授權的「傳染」條款：散布修改後的作品時，必須以相同授權開放原始碼。GPL 是強 Copyleft，LGPL、MPL 較弱。",
+  "vs": "Copyleft（GPL）：衍生作品必須開源；寬鬆型（MIT、BSD、Apache）：保留聲明即可閉源商用。"
+ },
+ {
+  "term": "GPL",
+  "aliases": [
+   "GPLv2",
+   "GPLv3",
+   "GNU GPL"
+  ],
+  "cat": "硬體",
+  "exp": "強 Copyleft 開源授權：散布衍生作品時必須以 GPL 公開原始碼。Linux 核心是 GPLv2。只在內部使用、不散布則不需公開。"
+ },
+ {
+  "term": "LGPL",
+  "aliases": [],
+  "cat": "硬體",
+  "exp": "較寬鬆的 Copyleft：只是連結使用函式庫，自己的程式可以閉源；但修改函式庫本身要開源。Arduino 核心函式庫採 LGPL。"
+ },
+ {
+  "term": "MPL",
+  "aliases": [
+   "MPL 2.0"
+  ],
+  "cat": "硬體",
+  "exp": "檔案層級的 Copyleft：只有被修改到的那些檔案需要開源。"
+ },
+ {
+  "term": "MIT",
+  "aliases": [
+   "MIT License"
+  ],
+  "cat": "硬體",
+  "exp": "最寬鬆的開源授權之一：保留版權與授權聲明即可自由使用、修改、閉源商用。"
+ },
+ {
+  "term": "BSD",
+  "aliases": [
+   "BSD License"
+  ],
+  "cat": "硬體",
+  "exp": "寬鬆型開源授權，保留聲明即可閉源商用；部分版本禁止用原作者名義背書。"
+ },
+ {
+  "term": "Apache 2.0",
+  "aliases": [
+   "Apache License"
+  ],
+  "cat": "硬體",
+  "exp": "寬鬆型開源授權，需保留聲明與 NOTICE、標示修改，並含明確的專利授權。與 GPLv3 相容、與 GPLv2 不相容。"
+ },
+ {
+  "term": "AGPL",
+  "aliases": [],
+  "cat": "硬體",
+  "exp": "最嚴格的 Copyleft：即使只是透過網路提供服務（沒有散布程式），也必須公開原始碼。"
+ },
+ {
+  "term": "OEE",
+  "aliases": [
+   "設備綜合效率",
+   "Overall Equipment Effectiveness"
+  ],
+  "cat": "製造管理",
+  "exp": "衡量設備實際產出效率的指標：OEE＝可用率 × 效能 × 品質。例：90% × 80% × 95% ＝ 68.4%。停機換模扣可用率、跑慢或小停機扣效能、不良品扣品質。"
+ },
+ {
+  "term": "可用率",
+  "aliases": [],
+  "cat": "製造管理",
+  "exp": "OEE 的第一項：實際運轉時間 ÷ 計畫生產時間。故障停機、換線換模會降低可用率。（資安的「可用性」也叫 Availability，意思不同。）"
+ },
+ {
+  "term": "六大損失",
+  "aliases": [
+   "Six Big Losses"
+  ],
+  "cat": "製造管理",
+  "exp": "造成 OEE 下降的六種損失：故障停機、換線調整（扣可用率）；小停機空轉、速度降低（扣效能）；製程不良重工、開機啟動損失（扣品質）。"
+ },
+ {
+  "term": "精實生產",
+  "aliases": [
+   "Lean",
+   "精實"
+  ],
+  "cat": "製造管理",
+  "exp": "源自豐田生產方式的管理哲學，核心是消除一切不增加價值的浪費、持續改善。"
+ },
+ {
+  "term": "七大浪費",
+  "aliases": [
+   "Muda"
+  ],
+  "cat": "製造管理",
+  "exp": "精實生產要消除的七種浪費：過量生產、庫存、搬運、等待、動作、過度加工、不良。過量生產被視為最嚴重。"
+ },
+ {
+  "term": "WIP",
+  "aliases": [
+   "在製品",
+   "Work In Process"
+  ],
+  "cat": "製造管理",
+  "exp": "已經開始加工但還沒完成的半成品。WIP 堆太多代表庫存浪費與流程不順。"
+ },
+ {
+  "term": "JIT",
+  "aliases": [
+   "及時生產",
+   "Just In Time"
+  ],
+  "cat": "製造管理",
+  "exp": "在需要的時候、只生產需要的數量，減少庫存浪費。常靠看板拉式生產實現。"
+ },
+ {
+  "term": "看板",
+  "aliases": [
+   "Kanban",
+   "拉式生產",
+   "Pull"
+  ],
+  "cat": "製造管理",
+  "exp": "精實生產工具：用卡片或訊號告訴前工序「我用掉了，請補這麼多」，由後工序向前拉動生產（拉式），避免過量生產。（不是指電子儀表板。）"
+ },
+ {
+  "term": "Jidoka",
+  "aliases": [
+   "自働化",
+   "Andon",
+   "安燈"
+  ],
+  "cat": "製造管理",
+  "exp": "自働化（Jidoka）：機器發現異常就自動停下；安燈（Andon）：亮燈或響鈴通知異常。目的是不讓不良品流到下一站。"
+ },
+ {
+  "term": "防呆",
+  "aliases": [
+   "Poka-yoke"
+  ],
+  "cat": "製造管理",
+  "exp": "從設計上讓錯誤不可能發生或立刻被發現，例如 USB 插頭只能單向插入、少裝零件機台不能啟動。"
+ },
+ {
+  "term": "5S",
+  "aliases": [],
+  "cat": "製造管理",
+  "exp": "現場管理五步驟：整理（區分要與不要）、整頓（定位放好）、清掃、清潔（制度化維持）、素養（養成習慣）。"
+ },
+ {
+  "term": "SMED",
+  "aliases": [
+   "快速換模",
+   "Single-Minute Exchange of Die"
+  ],
+  "cat": "製造管理",
+  "exp": "縮短換線換模時間的方法：把能在機台運轉中先準備的工作（外部作業）移出停機時間，目標換模在 10 分鐘內。可提升可用率。"
+ },
+ {
+  "term": "TPM（全員生產保養）",
+  "aliases": [
+   "TPM",
+   "全員生產保養",
+   "Total Productive Maintenance"
+  ],
+  "cat": "製造管理",
+  "exp": "全員參與的設備保養制度，作業員也做日常自主保養（清潔、點檢、潤滑），目標零故障。（與資安的 TPM 晶片同縮寫，要看上下文。）",
+  "ctx": {
+   "alias": "TPM",
+   "only": [
+    "考科二 2-3"
+   ]
+  }
+ },
+ {
+  "term": "VSM",
+  "aliases": [
+   "價值流圖",
+   "Value Stream Mapping"
+  ],
+  "cat": "製造管理",
+  "exp": "畫出從原料到交貨的物流與資訊流，標出各站時間與庫存，找出浪費所在。"
+ },
+ {
+  "term": "Kaizen",
+  "aliases": [],
+  "cat": "製造管理",
+  "exp": "日文「改善」：全員持續進行小幅度的改進，積少成多。"
+ },
+ {
+  "term": "ISA-95",
+  "aliases": [
+   "IEC 62264"
+  ],
+  "cat": "製造管理",
+  "exp": "製造資訊系統分層標準：L4 企業（ERP）、L3 製造營運（MES）、L2 監控（SCADA、HMI）、L1 控制與感測（PLC）、L0 實體製程。越上層時間尺度越長。"
+ },
+ {
+  "term": "PDCA",
+  "aliases": [
+   "戴明循環"
+  ],
+  "cat": "製造管理",
+  "exp": "持續改善循環：計畫（Plan）→ 執行（Do）→ 檢查（Check）→ 行動（Act），然後再來一輪。"
+ },
+ {
+  "term": "DMAIC",
+  "aliases": [
+   "六標準差",
+   "Six Sigma"
+  ],
+  "cat": "製造管理",
+  "exp": "六標準差的改善流程：定義（Define）→ 量測（Measure）→ 分析（Analyze）→ 改善（Improve）→ 管制（Control）。"
+ },
+ {
+  "term": "SPC",
+  "aliases": [
+   "統計製程管制",
+   "Statistical Process Control"
+  ],
+  "cat": "製造管理",
+  "exp": "用統計方法監控製程是否穩定，主要工具是管制圖；及早發現偏移，減少報廢。"
+ },
+ {
+  "term": "管制圖",
+  "aliases": [
+   "Control Chart"
+  ],
+  "cat": "製造管理",
+  "exp": "把製程量測值依時間畫成圖，中心線為平均值，上下管制界限通常是平均值 ±3 個標準差（3σ）。點超出界限或連續偏向一側代表有異常原因。"
+ },
+ {
+  "term": "魚骨圖",
+  "aliases": [
+   "特性要因圖",
+   "4M1E"
+  ],
+  "cat": "製造管理",
+  "exp": "把問題放在魚頭，從人、機、料、法、環（4M1E，有時加「測」）幾根大骨找出可能原因的分析圖。"
+ },
+ {
+  "term": "柏拉圖",
+  "aliases": [
+   "Pareto",
+   "80/20 法則",
+   "80／20 法則"
+  ],
+  "cat": "製造管理",
+  "exp": "把問題依發生次數由多到少排成長條圖，找出造成約 80% 問題的少數關鍵原因，優先處理。"
+ },
+ {
+  "term": "瓶頸",
+  "aliases": [
+   "TOC",
+   "限制理論",
+   "Bottleneck"
+  ],
+  "cat": "製造管理",
+  "exp": "產線中最慢的那一站，決定整條線的產出。限制理論（TOC）：改善非瓶頸站無法提高總產出。"
+ },
+ {
+  "term": "節拍時間",
+  "aliases": [
+   "Takt Time"
+  ],
+  "cat": "製造管理",
+  "exp": "為了滿足客戶需求，每生產一件「應該」花的時間＝可用生產時間 ÷ 需求量。例：450 分鐘做 900 件 → 每 0.5 分鐘一件。",
+  "vs": "節拍時間＝客戶需求決定的節奏；週期時間＝實際做一件花多久。週期時間 > 節拍時間就跟不上需求。"
+ },
+ {
+  "term": "週期時間",
+  "aliases": [
+   "Cycle Time"
+  ],
+  "cat": "製造管理",
+  "exp": "某工作站實際完成一件產品所需的時間。"
+ },
+ {
+  "term": "固定成本",
+  "aliases": [
+   "變動成本"
+  ],
+  "cat": "製造管理",
+  "exp": "固定成本不隨產量變動（廠房折舊、租金）；變動成本隨產量增減（材料、計件工資、電費）。"
+ },
+ {
+  "term": "損益平衡點",
+  "aliases": [
+   "Break-even Point"
+  ],
+  "cat": "製造管理",
+  "exp": "收入剛好等於成本、不賺不賠的產量：固定成本 ÷（單價 − 單位變動成本）。"
+ },
+ {
+  "term": "CAPEX",
+  "aliases": [
+   "資本支出",
+   "Capital Expenditure"
+  ],
+  "cat": "製造管理",
+  "exp": "一次性購置資產的支出，例如買設備、伺服器、感測器硬體，分年折舊。",
+  "vs": "CAPEX＝一次買斷；OPEX＝持續付費（雲端訂閱、電信費、維護人力）。自建改上雲＝CAPEX 轉 OPEX。"
+ },
+ {
+  "term": "OPEX",
+  "aliases": [
+   "營運支出",
+   "Operating Expense"
+  ],
+  "cat": "製造管理",
+  "exp": "持續性的營運費用，例如雲端訂閱、電信月租、電費、維護人力。"
+ },
+ {
+  "term": "TCO",
+  "aliases": [
+   "總擁有成本",
+   "Total Cost of Ownership"
+  ],
+  "cat": "製造管理",
+  "exp": "一項設備或系統整個生命週期的總成本：購置＋建置整合＋維運＋能源＋教育訓練＋汰換，不能只看採購價。"
+ },
+ {
+  "term": "ROI",
+  "aliases": [
+   "投資報酬率",
+   "Return on Investment"
+  ],
+  "cat": "製造管理",
+  "exp": "（效益 − 成本）÷ 成本 × 100%。例：投資 200 萬、三年效益 240 萬 → ROI＝20%。"
+ },
+ {
+  "term": "回收期",
+  "aliases": [
+   "Payback",
+   "投資回收期"
+  ],
+  "cat": "製造管理",
+  "exp": "收回初始投資需要多久＝初始投資 ÷ 每年淨效益。例：200 萬 ÷ 每年 80 萬 ＝ 2.5 年。"
+ },
+ {
+  "term": "品質成本",
+  "aliases": [
+   "Cost of Quality"
+  ],
+  "cat": "製造管理",
+  "exp": "與品質相關的成本：預防成本、鑑定成本、內部失敗（報廢、重工）、外部失敗（退貨、保固、商譽）。越早預防通常總成本越低。"
+ }
+]

@@ -81,6 +81,13 @@ select,input[type=file]{font:inherit;padding:6px;border-radius:8px;border:1px so
 @media (max-width:520px){body{font-size:15.5px}.big{font-size:32px}main{padding:10px 8px 70px}.card{padding:13px}th,td{padding:5px 6px;font-size:13.5px}}
 .aud{background:#eef6ff;border:1px solid #bfdbfe}.aud.stick{position:sticky;top:46px;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,.12);padding:8px 12px}.aud.stick audio{margin-top:4px;height:40px}.aud.stick .ctl{margin-top:2px}.aud audio{width:100%;margin-top:6px}.aud .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:14px}.aud select{padding:3px 6px;font-size:14px}
 .alist .it{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #e5e7eb}.alist .it:last-child{border-bottom:0}
+.gl{border-bottom:1.5px dotted #2563eb;cursor:help;border-radius:2px}.gl:hover,.gl.on{background:#dbeafe}.gl:focus{outline:2px solid #93c5fd;outline-offset:1px}
+#glpop{position:fixed;z-index:60;display:none;background:#fff;color:var(--ink);border:1px solid #93c5fd;border-radius:12px;box-shadow:0 10px 28px rgba(15,23,42,.22);padding:10px 13px;font-size:14.5px;line-height:1.65;max-height:calc(100vh - 16px);overflow:auto;overflow-wrap:anywhere}
+#glpop b.t{font-size:16px;color:#1e3a8a}#glpop .ga{font-size:12.5px;color:var(--muted);margin:1px 0 4px}#glpop .gv{margin-top:6px;padding:6px 8px;background:#fef9c3;border-radius:8px;font-size:13.5px}#glpop .gmore{display:inline-block;margin-top:6px;font-size:13px}
+.gtag{display:inline-block;font-size:11.5px;border-radius:6px;padding:0 6px;line-height:19px;background:#f1f5f9;color:#475569;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.gdict summary{cursor:pointer;font-size:16px;list-style:revert}.gdict dl{margin:8px 0 0}.gitem{padding:8px 0;border-bottom:1px solid var(--line)}.gitem:last-child{border-bottom:0}.gitem dt{font-weight:700;color:#1e3a8a}.gitem dt .ga{font-weight:400;font-size:12.5px;color:var(--muted);margin-left:4px}.gitem dd{margin:2px 0 0}.gitem .gv{margin-top:4px;padding:5px 8px;background:#fef9c3;border-radius:8px;font-size:14px}.gitem .gd{font-size:13px;color:var(--muted);margin-top:3px}
+.gsearch{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid #93c5fd;border-radius:10px}.gjump{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.gjump a{font-size:13px;padding:1px 7px;border:1px solid var(--line);border-radius:6px;text-decoration:none;background:#fff}.ggrp h2{margin:4px 0 2px;font-size:18px}
+.cp{background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:12px;padding:12px 14px;margin:16px 0}.cph{font-weight:800;color:#5b21b6;display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-bottom:4px}.cpn{font-size:12px;font-weight:600;color:var(--muted);margin-left:auto}.cp .stem{font-weight:500}.cpfb{margin-top:8px;padding:10px 12px;border-radius:10px;font-size:15px}.cpfb.ok{background:var(--okbg)}.cpfb.no{background:var(--badbg)}
 </style>
 </head>
 <body>
@@ -107,18 +114,19 @@ function itemStats(code){let n=0,a=0,c=0;Object.values(QI).forEach(q=>{if(q.ref!
 function pct(c,a){return a?Math.round(c/a*100)+'%':'—'}
 function wrapTables(root){root.querySelectorAll('table').forEach(t=>{if(t.parentElement.classList.contains('tw'))return;const w=document.createElement('div');w.className='tw';t.replaceWith(w);w.appendChild(t)})}
 
-function navHtml(r){const td=todayDay();const items=[['#/','總覽','home'],[`#/day/${td}`,`今天 D${td}`,'day'+td],['#/wrong',`錯題本 (${Object.keys(S.wrong).length})`,'wrong'],['#/audio','🎧 有聲教材','audio'],['#/cheat','速記表','cheat'],['#/map','範圍對照','map'],['#/settings','設定','settings']];
+function navHtml(r){const td=todayDay();const items=[['#/','總覽','home'],[`#/day/${td}`,`今天 D${td}`,'day'+td],['#/wrong',`錯題本 (${Object.keys(S.wrong).length})`,'wrong'],['#/audio','🎧 有聲教材','audio'],['#/glossary','📚 名詞辭典','glossary'],['#/cheat','速記表','cheat'],['#/map','範圍對照','map'],['#/settings','設定','settings']];
  return items.map(([h,t,k])=>`<a href="${h}" class="${r===k?'on':''}">${t}</a>`).join('')}
 
-function route(){const h=location.hash.replace(/^#\/?/,'');const p=h.split('/');let r='home';
+function route(){const h=location.hash.replace(/^#\/?/,'').split('?')[0];const p=h.split('/');let r='home';
  if(p[0]==='day'&&DATA.days[+p[1]-1]){r='day'+(+p[1]);renderDay(+p[1],p[2]||'learn')}
  else if(p[0]==='wrong'){r='wrong';renderWrong()}
  else if(p[0]==='audio'){r='audio';renderAudioList()}
+ else if(p[0]==='glossary'){r='glossary';renderGlossary()}
  else if(p[0]==='cheat'){r='cheat';renderCheat()}
  else if(p[0]==='map'){r='map';renderMap()}
  else if(p[0]==='settings'){r='settings';renderSettings()}
  else renderHome();
- $('#nav').innerHTML=navHtml(r);wrapTables($('#app'));bindAudio();}
+ $('#nav').innerHTML=navHtml(r);wrapTables($('#app'));bindAudio();hidePop();}
 window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0)});
 
 function mapTable(){
@@ -176,7 +184,7 @@ function renderDay(id,tab){
  let h=`<div class="card"><div class="muted">D${d.id}｜${d.date.replace(/-/g,'/')}（${wk(d.date)}）｜第 ${d.id} / 13 天</div><h1>${d.title}</h1>${subjTag(d.subject)}${isMock?`<span class="tag mk">計時模擬考 ${d.questions.length} 題</span>`:`<span class="tag">今日驗證 ${d.questions.length} 題</span>`}
  <div class="row" style="margin-top:8px">${id>1?`<a class="btn ghost sm" href="#/day/${id-1}">← D${id-1}</a>`:''}${id<13?`<a class="btn ghost sm" href="#/day/${id+1}">D${id+1} →</a>`:''}</div></div>
  <div class="tabs"><button class="${tab==='learn'?'on':''}" onclick="location.hash='#/day/${id}/learn'">📖 今日學習</button><button class="${tab!=='learn'?'on':''}" onclick="location.hash='#/day/${id}/${qtab}'">✏️ ${isMock?'模擬考':'今日驗證'}${s.a?` (${s.c}/${s.n})`:''}</button></div>`;
- if(tab==='learn'){h+=audioHtml(d)+`<div class="card lec">${d.lecture}</div><div class="row"><a class="btn" href="#/day/${id}/${qtab}">讀完了，去${isMock?'模擬考':'做今日驗證'} →</a></div>`}
+ if(tab==='learn'){h+=audioHtml(d)+`<div class="card lec">${d.lecture}</div>${gdictHtml(d)}<div class="row"><a class="btn" href="#/day/${id}/${qtab}">讀完了，去${isMock?'模擬考':'做今日驗證'} →</a></div>`}
  else if(!isMock){h+=`<div class="card"><b>今日驗證</b>｜作答後立即顯示對錯與解析；答錯的題目自動收進錯題本。<div class="muted" id="qs">已作答 ${s.a}/${s.n}，答對 ${s.c}</div></div>`;
   d.questions.forEach((q,i)=>h+=quizCard(q,i+1,'practice'))}
  else h+=`<div id="mock"></div>`;
@@ -240,7 +248,7 @@ function renderSettings(){
  <div class="row"><button class="btn" id="exp">匯出進度（JSON）</button></div>
  <p style="margin-top:14px">匯入進度檔：<input type="file" id="imp" accept=".json,application/json"></p>
  <p style="margin-top:14px"><button class="btn red" id="rst">清除全部進度</button></p></div>
- <div class="card muted">題庫：共 ${Object.keys(QI).length} 題｜每日驗證為原創練習題；D6、D7 改編自官方學習指引練習評量；皆非考古題或官方題目。</div>`;
+ <div class="card muted">題庫：共 ${Object.keys(QI).length} 題｜每日驗證為原創練習題；D6、D7 改編自官方學習指引練習評量；講義中的「隨堂小測」${DATA.days.reduce((a,d)=>a+d.checks.length,0)} 題為原創練習、不計分也不存進度；皆非考古題或官方題目。</div>`;
  $('#exp').onclick=()=>{const b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ipas_aiot_progress_'+todayStr()+'.json';a.click()};
  $('#imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(!o.answers)throw 0;S=Object.assign({done:{},answers:{},wrong:{},mock:{}},o);save();alert('匯入完成');route()}catch(x){alert('檔案格式不正確')}})};
  $('#rst').onclick=()=>{if(confirm('確定清除全部進度、作答與錯題？此動作無法復原。')){S={done:{},answers:{},wrong:{},mock:{}};save();route()}}}
@@ -268,6 +276,64 @@ function renderAudioList(){const a=aLoad();let tot=0;const eps=DATA.days.filter(
  eps.forEach(d=>{const p=a.pos['d'+d.id];h+=`<div class="aud" style="border:0;background:none;padding:0"><div class="it"><div><b>D${d.id}</b> ${subjTag(d.subject)} ${d.short||d.title}<div class="muted">${fmtDur(d.audio.dur)}${p>5?'｜上次聽到 '+fmtDur(p):''}｜<a href="#/day/${d.id}">講義</a>｜<a href="${d.audio.src}" download="d${String(d.id).padStart(2,'0')}.mp3">下載 MP3</a></div></div></div>
  <audio controls preload="none" data-ep="d${d.id}" src="${d.audio.src}"></audio>${d.id===eps[0].id?`<div class="ctl">播放速度 <select class="arate">${[0.75,1,1.25,1.5,1.75,2].map(v=>`<option value="${v}" ${v==(a.rate||1)?'selected':''}>${v}x</option>`).join('')}</select><span class="muted apos"></span></div>`:''}</div>`});
  $('#app').innerHTML=h+'</div>'}
+
+/* ---------- glossary: tooltips, per-day dictionary, glossary page ---------- */
+const GL=DATA.glossary;
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function dayLinks(g){return g.days.length?'出現於：'+g.days.map(i=>`<a href="#/day/${i}">D${i}</a>`).join('、'):'補充名詞（講義未直接出現，供延伸理解）'}
+function gItem(i,withDays){const g=GL[i];return `<div class="gitem" id="g${i}" data-s="${esc((g.term+' '+g.aliases.join(' ')+' '+g.exp+' '+(g.vs||'')+' '+g.cat).toLowerCase())}"><dt>${esc(g.term)}<span class="gtag">${esc(g.cat)}</span>${g.aliases.length?`<div class="ga">${esc(g.aliases.join('・'))}</div>`:''}</dt><dd>${esc(g.exp)}${g.vs?`<div class="gv">🔀 易混淆：${esc(g.vs)}</div>`:''}${withDays?`<div class="gd">${dayLinks(g)}</div>`:''}</dd></div>`}
+function gdictHtml(d){if(!d.gloss||!d.gloss.length)return '';
+ return `<details class="card gdict" id="gdict"><summary><b>📚 D${d.id} 名詞小辭典</b> <span class="muted">（本日講義與題目用到的 ${d.gloss.length} 個名詞，點開查看）</span></summary><div class="muted" style="margin-top:6px">講義中有<span class="gl" style="cursor:default">虛線底線</span>的字，滑鼠移上去（手機點一下）就能看解釋。完整辭典見 <a href="#/glossary">📚 名詞辭典</a>。</div><dl>${d.gloss.map(i=>gItem(i,false)).join('')}</dl></details>`}
+let POP=null,POPEL=null,POPT=0;
+function glPopHtml(g){return `<b class="t">${esc(g.term)}</b><span class="gtag">${esc(g.cat)}</span>${g.aliases.length?`<div class="ga">${esc(g.aliases.join('・'))}</div>`:''}<div>${esc(g.exp)}</div>${g.vs?`<div class="gv">🔀 易混淆：${esc(g.vs)}</div>`:''}<a class="gmore" href="#/glossary?q=${encodeURIComponent(g.term)}">在名詞辭典查看 →</a>`}
+function showPop(el){clearTimeout(POPT);
+ if(!POP){POP=document.createElement('div');POP.id='glpop';POP.setAttribute('role','tooltip');document.body.appendChild(POP);
+  POP.addEventListener('mouseenter',()=>clearTimeout(POPT));POP.addEventListener('mouseleave',()=>hidePopSoon())}
+ if(POPEL)POPEL.classList.remove('on');POPEL=el;el.classList.add('on');
+ POP.innerHTML=glPopHtml(GL[+el.dataset.g]);POP.style.display='block';
+ const vw=document.documentElement.clientWidth,vh=window.innerHeight,w=Math.min(340,vw-16);POP.style.width=w+'px';
+ const r=el.getBoundingClientRect();let left=r.left+r.width/2-w/2;left=Math.max(8,Math.min(left,vw-w-8));
+ const ph=POP.offsetHeight;let top=r.bottom+8;
+ if(top+ph>vh-8){top=r.top-ph-8;if(top<8)top=Math.max(8,vh-ph-8)}
+ POP.style.left=left+'px';POP.style.top=top+'px'}
+function hidePop(){clearTimeout(POPT);if(POP)POP.style.display='none';if(POPEL)POPEL.classList.remove('on');POPEL=null}
+function hidePopSoon(){clearTimeout(POPT);POPT=setTimeout(hidePop,220)}
+const HOVER=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+document.addEventListener('mouseover',e=>{if(!HOVER)return;const el=e.target.closest&&e.target.closest('.gl[data-g]');if(el&&el!==POPEL)showPop(el);else if(el)clearTimeout(POPT)});
+document.addEventListener('mouseout',e=>{if(!HOVER)return;const el=e.target.closest&&e.target.closest('.gl[data-g]');if(el&&!(e.relatedTarget&&(el.contains(e.relatedTarget)||(POP&&POP.contains(e.relatedTarget)))))hidePopSoon()});
+document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('.gl[data-g]');
+ if(el){e.preventDefault();e.stopPropagation();if(POPEL===el&&!HOVER)hidePop();else showPop(el);return}
+ if(POP&&POP.contains(e.target))return; hidePop()},true);
+document.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('.gl[data-g]');if(el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();POPEL===el?hidePop():showPop(el)}else if(e.key==='Escape')hidePop()});
+window.addEventListener('scroll',()=>{if(POPEL&&POP&&POP.style.display==='block'&&!HOVER){const r=POPEL.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)hidePop()}else if(HOVER)hidePop()},{passive:true});
+window.addEventListener('resize',hidePop);
+/* checkpoint questions (隨堂小測): not saved, not counted in stats */
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.cpo');if(!b||b.disabled)return;const card=b.closest('.cp');const ans=+card.dataset.ans;const k=+b.dataset.k;const ok=k===ans;
+ card.querySelectorAll('.cpo').forEach((x,j)=>{x.disabled=true;if(j===ans)x.classList.add('right');else if(j===k)x.classList.add('wrong')});
+ const fb=card.querySelector('.cpfb');fb.hidden=false;fb.classList.add(ok?'ok':'no');fb.querySelector('.cpr').textContent=ok?'✅ 答對了！':'❌ 答錯了，正確答案是 '+L[ans];
+ if(!card.querySelector('.cpre')){fb.insertAdjacentHTML('afterend','<div style="margin-top:6px"><button class="btn ghost sm cpre">再試一次</button></div>')}});
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.cpre');if(!b)return;const card=b.closest('.cp');card.querySelectorAll('.cpo').forEach(x=>{x.disabled=false;x.classList.remove('right','wrong')});const fb=card.querySelector('.cpfb');fb.hidden=true;fb.classList.remove('ok','no');b.parentElement.remove()});
+function gSortKey(g){return g.term}
+function renderGlossary(){
+ const q0=decodeURIComponent((location.hash.split('?q=')[1]||''));
+ const idx=GL.map((g,i)=>i);const en=idx.filter(i=>/^[A-Za-z0-9]/.test(GL[i].term)).sort((a,b)=>GL[a].term.localeCompare(GL[b].term,'en',{sensitivity:'base',numeric:true}));
+ const zh=idx.filter(i=>!/^[A-Za-z0-9]/.test(GL[i].term));
+ const groups=[];const letter=t=>/^[0-9]/.test(t)?'0–9':t[0].toUpperCase();
+ en.forEach(i=>{const L1=letter(GL[i].term);let g=groups.find(x=>x.k===L1);if(!g)groups.push(g={k:L1,label:L1,items:[]});g.items.push(i)});
+ const CATS=['AI','硬體','感測與訊號','網路通訊','工業通訊','平台與資料','資安','製造管理'];
+ CATS.forEach(c=>{const it=zh.filter(i=>GL[i].cat===c).sort((a,b)=>GL[a].term.localeCompare(GL[b].term,'zh-Hant-TW'));if(it.length)groups.push({k:'zh-'+c,label:'中文名詞｜'+c,items:it})});
+ let h=`<div class="card"><h1>📚 名詞辭典</h1><div class="muted">共 ${GL.length} 個名詞（英文縮寫依 A–Z，中文名詞依主題分組）。每個名詞都附白話解釋、生活或工廠例子，常搞混的附「易混淆」比較，並標出出現在哪幾天的講義或題目。講義裡有虛線底線的字也能直接點開看。</div>
+ <input class="gsearch" id="gq" type="search" placeholder="搜尋：例如 MCU、致動器、SCADA、閘道器…" value="${esc(q0)}" autocomplete="off">
+ <div class="muted" id="gcnt" style="margin-top:6px"></div><div class="gjump">${groups.map(g=>`<a href="javascript:void 0" data-j="${esc(g.k)}">${esc(g.label.replace('中文名詞｜','中文・'))}</a>`).join('')}</div></div>`;
+ groups.forEach(g=>{h+=`<div class="card ggrp" id="gg-${esc(g.k)}"><h2>${esc(g.label)}</h2><dl>${g.items.map(i=>gItem(i,true)).join('')}</dl></div>`});
+ h+=`<div class="card" id="gnone" hidden>找不到符合的名詞，換個關鍵字試試（可用英文縮寫、中文或英文全名）。</div>`;
+ $('#app').innerHTML=h;
+ const inp=$('#gq');const filt=()=>{const t=inp.value.trim().toLowerCase();let n=0;
+  document.querySelectorAll('.ggrp').forEach(card=>{let c=0;card.querySelectorAll('.gitem').forEach(it=>{const hit=!t||it.dataset.s.includes(t);it.hidden=!hit;if(hit)c++});card.hidden=!c;n+=c});
+  $('#gcnt').textContent=t?`找到 ${n} 個名詞`:`共 ${n} 個名詞`;$('#gnone').hidden=n>0};
+ inp.addEventListener('input',filt);filt();
+ document.querySelectorAll('[data-j]').forEach(a=>a.onclick=()=>{const el=document.getElementById('gg-'+a.dataset.j);if(el){inp.value='';filt();el.scrollIntoView({behavior:'smooth'})}});
+ if(q0){const ex=GL.findIndex(g=>g.term===q0);if(ex>=0){setTimeout(()=>{const el=document.getElementById('g'+ex);if(el)el.scrollIntoView({block:'center'})},50)}}}
 
 route();
 </script>

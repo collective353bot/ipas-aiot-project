@@ -29,10 +29,24 @@ code{font-family:"DejaVu Sans Mono",monospace;font-size:9pt}
 .ans .src{color:#64748b;font-size:8.8pt}
 .cover{text-align:left;padding-top:6mm}
 .muted{color:#475569}
+.gl{border:0}
+.cp{display:none}
+.cpq{margin:8px 0 10px;break-inside:avoid;background:#f5f3ff;border-left:4px solid #8b5cf6;padding:6px 10px}
+.cpq .o{margin-left:1.2em}
+.cpq .a{margin-top:3px;font-size:9.6pt}
+.gdl{columns:2;column-gap:7mm;font-size:8.8pt;line-height:1.5}
+.gdl .gi{break-inside:avoid;margin:0 0 5px}
+.gdl .gi b{color:#1e3a8a}
+.gdl .ga{color:#64748b;font-size:8pt}
+.gdl .gv{color:#713f12}
+.gcat{column-span:all;font-weight:800;font-size:10.5pt;margin:8px 0 3px;border-bottom:1px solid #cbd5e1}
+.seen{font-size:8.8pt;color:#475569}
 </style></head><body>
 <div id="doc"></div>
 <script>
 const DATA=/*__DATA__*/null;const L='ABCD';
+const GL=DATA.glossary;const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function gi(i,days){const g=GL[i];return `<div class="gi"><b>${esc(g.term)}</b>${g.aliases.length?` <span class="ga">（${esc(g.aliases.join('、'))}）</span>`:''}：${esc(g.exp)}${g.vs?` <span class="gv">【易混淆】${esc(g.vs)}</span>`:''}${days&&g.days.length?` <span class="ga">〔${g.days.map(x=>'D'+x).join('、')}〕</span>`:''}</div>`}
 const WK='日一二三四五六';function wk(s){const [y,m,d]=s.split('-').map(Number);return WK[new Date(y,m-1,d).getDay()]}
 let h=`<div class="cover"><h1>iPAS AIoT 應用工程師（初級）<br>13 天考前講義</h1><p class="muted">考試日期：2026/10/31（六）｜考科一 AIoT基礎概論、考科二 物聯網系統與應用｜各 75 分鐘、70 分及格<br>讀書期間：2026/10/18～10/30，每天 30 分鐘（學習＋驗證）</p>
 <p>共 ${DATA.days.reduce((a,d)=>a+d.questions.length,0)} 題練習題。每天的題目後面附「答案與解析」。</p>${DATA.intro}
@@ -46,7 +60,16 @@ DATA.days.forEach(d=>{
  d.questions.forEach((q,i)=>{h+=`<div class="q"><b>${i+1}.</b> <span class="ref">${q.ref}</span>${q.src?`<span class="${/補充|能力指標|依簡章/.test(q.src)?'supp':'pg'}">${q.src}</span>`:''}<div class="stem">${q.stemH}</div>${q.optsH.map((o,k)=>`<div class="o">(${L[k]}) ${o}</div>`).join('')}</div>`});
  h+=`<div class="sec">✅ D${d.id} 答案與解析</div><p><b>答案速查：</b>${d.questions.map((q,i)=>`${i+1}.${L[q.ans]}`).join('　')}</p>`;
  d.questions.forEach((q,i)=>{h+=`<div class="ans"><b class="k">${i+1}. (${L[q.ans]})</b><span class="ref">${q.ref}</span> ${q.expH}<br><span class="src">來源：${q.origin}</span></div>`});
+ if(d.checks&&d.checks.length){h+=`<div class="sec">🧩 D${d.id} 隨堂小測（${d.checks.length} 題，含答案）</div><p class="muted">講義中各段落後的隨堂小測，為原創練習題（非考古題、不計分）。</p>`;
+  d.checks.forEach((c,i)=>{h+=`<div class="cpq"><b>小測 ${i+1}.</b> <span class="ref">${c.ref}</span><div class="stem">${c.stemH}</div>${c.optsH.map((o,k)=>`<div class="o">(${L[k]}) ${o}</div>`).join('')}<div class="a"><b>答案：(${L[c.ans]})</b> ${c.expH}</div></div>`})}
+ const first=d.gloss.filter(i=>GL[i].days[0]===d.id), seen=d.gloss.filter(i=>GL[i].days[0]!==d.id);
+ h+=`<div class="sec">📚 D${d.id} 名詞小辭典</div><p class="seen">本日首次出現 ${first.length} 個名詞，解釋如下。${seen.length?`本日也用到、已在前面章節解釋過的名詞：${seen.map(i=>esc(GL[i].term)+'（D'+GL[i].days[0]+'）').join('、')}。`:''}完整名詞請見書末「附錄：名詞辭典」。</p><div class="gdl">${first.map(i=>gi(i,false)).join('')}</div>`;
  h+=`</div>`});
 h+=`<div class="day"><div class="sec">考前速記表</div>${DATA.cheat}</div>`;
+{const idx=GL.map((g,i)=>i);const en=idx.filter(i=>/^[A-Za-z0-9]/.test(GL[i].term)).sort((a,b)=>GL[a].term.localeCompare(GL[b].term,'en',{sensitivity:'base',numeric:true}));
+ const CATS=['AI','硬體','感測與訊號','網路通訊','工業通訊','平台與資料','資安','製造管理'];
+ let a=`<div class="day"><div class="sec">附錄：名詞辭典（${GL.length} 個名詞）</div><p class="muted">英文縮寫依 A–Z 排列，中文名詞依主題分組；〔 〕內為出現的天數。</p><div class="gdl"><div class="gcat">英文縮寫與英文名詞（A–Z）</div>${en.map(i=>gi(i,true)).join('')}`;
+ CATS.forEach(c=>{const it=idx.filter(i=>!/^[A-Za-z0-9]/.test(GL[i].term)&&GL[i].cat===c).sort((x,y)=>GL[x].term.localeCompare(GL[y].term,'zh-Hant-TW'));if(it.length)a+=`<div class="gcat">中文名詞｜${c}</div>`+it.map(i=>gi(i,true)).join('')});
+ h+=a+`</div></div>`;}
 document.getElementById('doc').innerHTML=h;
 </script></body></html>
