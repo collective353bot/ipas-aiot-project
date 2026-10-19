@@ -79,7 +79,7 @@ select,input[type=file]{font:inherit;padding:6px;border-radius:8px;border:1px so
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .warnbox{background:var(--warnbg);border:1px solid #fde68a;border-radius:10px;padding:10px 12px;font-size:15px}
 @media (max-width:520px){body{font-size:15.5px}.big{font-size:32px}main{padding:10px 8px 70px}.card{padding:13px}th,td{padding:5px 6px;font-size:13.5px}}
-.aud{background:#eef6ff;border:1px solid #bfdbfe}.aud audio{width:100%;margin-top:6px}.aud .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:14px}.aud select{padding:3px 6px;font-size:14px}
+.aud{background:#eef6ff;border:1px solid #bfdbfe}.aud.stick{position:sticky;top:46px;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,.12);padding:8px 12px}.aud.stick audio{margin-top:4px;height:40px}.aud.stick .ctl{margin-top:2px}.aud audio{width:100%;margin-top:6px}.aud .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:14px}.aud select{padding:3px 6px;font-size:14px}
 .alist .it{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #e5e7eb}.alist .it:last-child{border-bottom:0}
 </style>
 </head>
@@ -250,7 +250,7 @@ function aLoad(){try{return Object.assign({pos:{},rate:1},JSON.parse(localStorag
 function aSave(a){try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}}
 function fmtDur(t){t=Math.round(t||0);return Math.floor(t/60)+':'+pad(t%60)}
 function audioHtml(d){if(!d.audio)return '';const a=aLoad();const r=a.rate||1;
- return `<div class="card aud"><b>🎧 有聲講義 D${d.id}</b> <span class="muted">（約 ${fmtDur(d.audio.dur)}，台灣華語口語版，可邊通勤邊聽）</span>
+ return `<div class="card aud stick"><b>🎧 有聲講義 D${d.id}</b> <span class="muted">（約 ${fmtDur(d.audio.dur)}，台灣華語口語版，可邊通勤邊聽）</span>
  <audio controls preload="metadata" data-ep="d${d.id}" src="${d.audio.src}"></audio>
  <div class="ctl">播放速度 <select class="arate">${[0.75,1,1.25,1.5,1.75,2].map(v=>`<option value="${v}" ${v==r?'selected':''}>${v}x</option>`).join('')}</select>
  <span class="muted apos"></span> <a class="btn ghost sm" href="#/audio">全部集數</a></div></div>`}
