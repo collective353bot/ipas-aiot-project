@@ -20,7 +20,7 @@ D1 10/19 AI 基礎與 AIoT 案例｜D2 10/20 物聯網架構與無線技術｜D3
 - `audio/`：有聲教材
   - `scripts/`：v1 講稿（edge-tts zh-TW-HsiaoChenNeural）
   - `scripts_v2/`：v2 生動版講稿（多範例、口訣、考題陷阱）
-  - `v2/`：v2 音檔以 Higgsfield ElevenLabs v4（Hana preset c25f78a0-714e-42af-8da3-a399cef94968）錄製（mp3 不進 git）
+  - `v2/`：v2 音檔以 Higgsfield ElevenLabs v4（Hana preset c25f78a0-714e-42af-8da3-a399cef94968）錄製
   - `tts.py`：edge-tts 重新產生 v1 音檔
 - `site/`：部署用，另一個 repo → https://github.com/collective353bot/ipas-aiot-study ，GitHub Pages：https://collective353bot.github.io/ipas-aiot-study/
 
