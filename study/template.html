@@ -265,7 +265,7 @@ function bindAudio(){document.querySelectorAll('audio[data-ep]').forEach(au=>{co
  if(sel)sel.onchange=()=>{const a=aLoad();a.rate=+sel.value;aSave(a);document.querySelectorAll('audio[data-ep]').forEach(o=>o.playbackRate=a.rate);document.querySelectorAll('.arate').forEach(s=>s.value=sel.value)}})}
 function renderAudioList(){const a=aLoad();let tot=0;const eps=DATA.days.filter(d=>d.audio);eps.forEach(d=>tot+=d.audio.dur);
  let h=`<div class="card"><h1>🎧 有聲教材</h1><div class="muted">共 ${eps.length} 集，總長約 ${Math.round(tot/60)} 分鐘。台灣華語口語講解，內容依各日講義（對應官方評鑑內容）改寫；每集結尾有口頭自測與 30 秒回顧。可調速 0.75x～2x，並自動記住每集上次聽到的位置。</div></div><div class="card alist">`;
- eps.forEach(d=>{const p=a.pos['d'+d.id];h+=`<div class="aud" style="border:0;background:none;padding:0"><div class="it"><div><b>D${d.id}</b> ${subjTag(d.subject)} ${d.short||d.title}<div class="muted">${fmtDur(d.audio.dur)}${p>5?'｜上次聽到 '+fmtDur(p):''}｜<a href="#/day/${d.id}">講義</a>｜<a href="${d.audio.src}" download>下載 MP3</a></div></div></div>
+ eps.forEach(d=>{const p=a.pos['d'+d.id];h+=`<div class="aud" style="border:0;background:none;padding:0"><div class="it"><div><b>D${d.id}</b> ${subjTag(d.subject)} ${d.short||d.title}<div class="muted">${fmtDur(d.audio.dur)}${p>5?'｜上次聽到 '+fmtDur(p):''}｜<a href="#/day/${d.id}">講義</a>｜<a href="${d.audio.src}" download="d${String(d.id).padStart(2,'0')}.mp3">下載 MP3</a></div></div></div>
  <audio controls preload="none" data-ep="d${d.id}" src="${d.audio.src}"></audio>${d.id===eps[0].id?`<div class="ctl">播放速度 <select class="arate">${[0.75,1,1.25,1.5,1.75,2].map(v=>`<option value="${v}" ${v==(a.rate||1)?'selected':''}>${v}x</option>`).join('')}</select><span class="muted apos"></span></div>`:''}</div>`});
  $('#app').innerHTML=h+'</div>'}
 

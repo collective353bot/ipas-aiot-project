@@ -4,3 +4,5 @@ audio/tmp/
 study/work/
 __pycache__/
 .venv*/
+audio/v2/raw/
+audio/v2/*.log

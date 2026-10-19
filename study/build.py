@@ -76,11 +76,15 @@ for d in DAYS['days']:
             problems.append(f'D{n} heading without ref: {line}')
     d['lectureChars'] = len(re.sub(r'\s', '', text))
     d['lecture'] = md(text)
-    mp3 = ROOT.parent / 'audio' / f'd{n:02d}.mp3'
+    # v2 recordings (ElevenLabs, scripts_v2) take precedence; ?v= busts browser caches
+    AUDIO_VER = 2
+    mp3 = ROOT.parent / 'audio' / 'v2' / f'd{n:02d}.mp3'
+    if not mp3.exists():
+        mp3 = ROOT.parent / 'audio' / f'd{n:02d}.mp3'
     if mp3.exists():
         import subprocess
         dur = float(subprocess.run(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0',str(mp3)],capture_output=True,text=True).stdout or 0)
-        d['audio'] = {'src': f'audio/d{n:02d}.mp3', 'dur': round(dur)}
+        d['audio'] = {'src': f'audio/d{n:02d}.mp3?v={AUDIO_VER}', 'dur': round(dur)}
     else:
         problems.append(f'D{n} no audio')
     d['questions'] = parse_questions(SRC / f'q{n:02d}.txt', n)

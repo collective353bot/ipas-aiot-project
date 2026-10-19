@@ -1,0 +1,18 @@
+d01 raw 892.2 expected 5 found 5 [816.32, 826.36, 837.41, 845.67, 854.02]
+d01 final 912.2
+d02 raw 787.3 expected 5 found 5 [705.12, 715.22, 724.82, 734.92, 743.73]
+d02 final 807.3
+d03 raw 707.0 expected 5 found 5 [612.6, 621.1, 630.98, 637.71, 646.53]
+d03 final 727.0
+d04 raw 679.6 expected 5 found 6 [600.63, 609.37, 617.03, 626.45, 633.15, 649.48]
+d04 MISMATCH - skipped
+d05 raw 698.7 expected 5 found 6 [614.01, 622.54, 630.56, 638.05, 647.84, 684.09]
+d05 MISMATCH - skipped
+d06 raw 446.9 expected 3 found 1 [410.06]
+d06 MISMATCH - skipped
+d07 raw 457.1 expected 3 found 3 [385.54, 396.19, 406.94]
+d07 final 469.1
+d08 raw 623.8 expected 4 found 3 [545.02, 556.36, 576.84]
+d08 MISMATCH - skipped
+d09 raw 671.0 expected 5 found 5 [577.8, 589.09, 597.3, 605.52, 615.12]
+d09 final 691.0
