@@ -99,7 +99,7 @@ const KEY = 'ipas_aiot_v1';
 const L = 'ABCD';
 let S = load();
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'{}');return Object.assign({done:{},answers:{},wrong:{},mock:{}},s)}catch(e){return{done:{},answers:{},wrong:{},mock:{}}}}
-function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+function save(){localStorage.setItem(KEY,JSON.stringify(S));try{syncNoteSave()}catch(e){}}
 const $=s=>document.querySelector(s);
 const QI={};DATA.days.forEach(d=>d.questions.forEach(q=>{q.day=d.id;QI[q.id]=q}));
 const pad=n=>String(n).padStart(2,'0');
@@ -115,7 +115,7 @@ function pct(c,a){return a?Math.round(c/a*100)+'%':'—'}
 function wrapTables(root){root.querySelectorAll('table').forEach(t=>{if(t.parentElement.classList.contains('tw'))return;const w=document.createElement('div');w.className='tw';t.replaceWith(w);w.appendChild(t)})}
 
 function navHtml(r){const td=todayDay();const items=[['#/','總覽','home'],[`#/day/${td}`,`今天 D${td}`,'day'+td],['#/wrong',`錯題本 (${Object.keys(S.wrong).length})`,'wrong'],['#/audio','🎧 有聲教材','audio'],['#/glossary','📚 名詞辭典','glossary'],['#/cheat','速記表','cheat'],['#/map','範圍對照','map'],['#/settings','設定','settings']];
- return items.map(([h,t,k])=>`<a href="${h}" class="${r===k?'on':''}">${t}</a>`).join('')}
+ return items.map(([h,t,k])=>`<a href="${h}" class="${r===k?'on':''}">${t}</a>`).join('')+(syncCfg()?`<a href="#/settings" class="syncst" style="font-size:12px;color:#9ca3af;margin-left:auto"></a>`:'')}
 
 function route(){const h=location.hash.replace(/^#\/?/,'').split('?')[0];const p=h.split('/');let r='home';
  if(p[0]==='day'&&DATA.days[+p[1]-1]){r='day'+(+p[1]);renderDay(+p[1],p[2]||'learn')}
@@ -126,8 +126,8 @@ function route(){const h=location.hash.replace(/^#\/?/,'').split('?')[0];const p
  else if(p[0]==='map'){r='map';renderMap()}
  else if(p[0]==='settings'){r='settings';renderSettings()}
  else renderHome();
- $('#nav').innerHTML=navHtml(r);wrapTables($('#app'));bindAudio();hidePop();}
-window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0)});
+ $('#nav').innerHTML=navHtml(r);syncPaint();wrapTables($('#app'));bindAudio();hidePop();}
+window.addEventListener('hashchange',()=>{syncTakeLink();route();window.scrollTo(0,0)});
 
 function mapTable(){
  let h=`<table><thead><tr><th>官方評鑑內容</th><th>名稱</th><th>依據</th><th>講義天數</th><th style="white-space:nowrap">題數</th><th style="white-space:nowrap">正確率</th></tr></thead><tbody>`;
@@ -173,7 +173,7 @@ function bindQuiz(root,after){
   save();
   const card=b.closest('.q');card.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(j===q.ans)x.classList.add('right');else if(j===k)x.classList.add('wrong')});
   card.insertAdjacentHTML('beforeend',fbHtml(q,ok)+(mode==='wrong'?`<div class="muted" style="margin-top:6px">${ok?'已移出錯題本。':'仍留在錯題本，下次再挑戰。'}</div>`:`<div style="margin-top:8px"><button class="btn ghost sm" data-redo="${q.id}">清除重做</button></div>`));
-  bindRedo(card);$('#nav').innerHTML=navHtml(location.hash.startsWith('#/wrong')?'wrong':'day'+(location.hash.split('/')[2]||''));after&&after()});
+  bindRedo(card);$('#nav').innerHTML=navHtml(location.hash.startsWith('#/wrong')?'wrong':'day'+(location.hash.split('/')[2]||''));syncPaint();after&&after()});
  bindRedo(root)}
 function bindRedo(root){root.querySelectorAll('[data-redo]').forEach(b=>b.onclick=()=>{delete S.answers[b.dataset.redo];save();route()})}
 
@@ -248,14 +248,108 @@ function renderSettings(){
  <div class="row"><button class="btn" id="exp">匯出進度（JSON）</button></div>
  <p style="margin-top:14px">匯入進度檔：<input type="file" id="imp" accept=".json,application/json"></p>
  <p style="margin-top:14px"><button class="btn red" id="rst">清除全部進度</button></p></div>
+ ${syncCard()}
  <div class="card muted">題庫：共 ${Object.keys(QI).length} 題｜每日驗證為原創練習題；D6、D7 改編自官方學習指引練習評量；講義中的「隨堂小測」${DATA.days.reduce((a,d)=>a+d.checks.length,0)} 題為原創練習、不計分也不存進度；皆非考古題或官方題目。</div>`;
  $('#exp').onclick=()=>{const b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ipas_aiot_progress_'+todayStr()+'.json';a.click()};
  $('#imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(!o.answers)throw 0;S=Object.assign({done:{},answers:{},wrong:{},mock:{}},o);save();alert('匯入完成');route()}catch(x){alert('檔案格式不正確')}})};
+ syncBind();
  $('#rst').onclick=()=>{if(confirm('確定清除全部進度、作答與錯題？此動作無法復原。')){S={done:{},answers:{},wrong:{},mock:{}};save();route()}}}
 
 const AKEY='ipas_aiot_audio';
 function aLoad(){try{return Object.assign({pos:{},rate:1},JSON.parse(localStorage.getItem(AKEY)||'{}'))}catch(e){return{pos:{},rate:1}}}
-function aSave(a){try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}}
+function aSave(a){let prev=null;try{prev=JSON.parse(localStorage.getItem(AKEY)||'null')}catch(e){}try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}try{syncNoteAudio(prev,a)}catch(e){}}
+/*SYNC_BEGIN*/
+// ---- 雲端自動同步：合併邏輯（純函式，可單元測試）----
+// 資料包 P = {s:{done,answers,wrong,mock}, a:{pos,rate}, m:{m:{'sec/id':ts}, x:{'sec/id':ts}}}
+// m = 每筆最後修改時間；x = 刪除墓碑時間。舊資料無時間戳時，以項目內的時間（t / 數值 / start）推估，否則為 0。
+const SYNC_SECS=['done','answers','wrong','mock'];
+function syncItemTime(v){if(typeof v==='number')return v;if(v&&typeof v==='object')return v.t||v.start||0;return 0}
+function syncMerge(A,B){A=A||{};B=B||{};const sa=A.s||{},sb=B.s||{},ma=(A.m||{}),mb=(B.m||{});
+ const am=ma.m||{},ax=ma.x||{},bm=mb.m||{},bx=mb.x||{};
+ const out={s:{},a:{pos:{},rate:1},m:{m:{},x:{}}};
+ const pick=(k,va,vb,ta,tb)=>{// returns [value|undefined, mtime, tomb]
+  const xa=ax[k]||0,xb=bx[k]||0,xt=Math.max(xa,xb);
+  const ca=[];if(va!==undefined)ca.push([va,am[k]||syncItemTime(va)]);if(vb!==undefined)ca.push([vb,bm[k]||syncItemTime(vb)]);
+  let best=null;ca.forEach(c=>{if(!best||c[1]>best[1])best=c});
+  if(best&&best[1]>=xt)return[best[0],best[1],0];return[undefined,0,xt]};
+ SYNC_SECS.forEach(sec=>{const A1=sa[sec]||{},B1=sb[sec]||{};out.s[sec]={};
+  new Set([...Object.keys(A1),...Object.keys(B1)]).forEach(id=>{const k=sec+'/'+id;const[v,t,x]=pick(k,A1[id],B1[id]);
+   if(v!==undefined){out.s[sec][id]=v;if(t)out.m.m[k]=t}else if(x)out.m.x[k]=x});
+  // 只剩墓碑的鍵也要保留
+  [ax,bx].forEach(X=>Object.keys(X).forEach(k=>{if(k.startsWith(sec+'/')&&!(k.slice(sec.length+1) in out.s[sec]))out.m.x[k]=Math.max(out.m.x[k]||0,X[k])}))});
+ const pa=(A.a||{}).pos||{},pb=(B.a||{}).pos||{};
+ new Set([...Object.keys(pa),...Object.keys(pb)]).forEach(ep=>{const k='pos/'+ep,ta=am[k]||0,tb=bm[k]||0,va=pa[ep],vb=pb[ep];
+  let v;if(va===undefined)v=vb;else if(vb===undefined)v=va;else if(ta||tb)v=ta>=tb?va:vb;else v=Math.max(va,vb);
+  out.a.pos[ep]=v;const t=Math.max(ta,tb);if(t)out.m.m[k]=t});
+ const ra=am['rate']||0,rb=bm['rate']||0;out.a.rate=(rb>ra?(B.a||{}).rate:(A.a||{}).rate)||(B.a||{}).rate||1;if(Math.max(ra,rb))out.m.m['rate']=Math.max(ra,rb);
+ return out}
+// 比較前後兩版，替變動項目蓋時間戳、替刪除項目留墓碑
+function syncStamp(meta,prev,cur,now){meta.m=meta.m||{};meta.x=meta.x||{};
+ SYNC_SECS.forEach(sec=>{const p=(prev&&prev[sec])||{},c=(cur&&cur[sec])||{};
+  Object.keys(c).forEach(id=>{if(JSON.stringify(c[id])!==JSON.stringify(p[id])){meta.m[sec+'/'+id]=now;delete meta.x[sec+'/'+id]}});
+  Object.keys(p).forEach(id=>{if(!(id in c)){meta.x[sec+'/'+id]=now;delete meta.m[sec+'/'+id]}})});return meta}
+function syncStampAudio(meta,prev,cur,now){meta.m=meta.m||{};const pp=(prev&&prev.pos)||{},cp=(cur&&cur.pos)||{};
+ Object.keys(cp).forEach(ep=>{if(cp[ep]!==pp[ep])meta.m['pos/'+ep]=now});
+ if(prev&&cur&&prev.rate!==cur.rate)meta.m['rate']=now;return meta}
+/*SYNC_END*/
+// ---- 雲端自動同步：用戶端 ----
+const SKEY='ipas_aiot_sync',MKEY='ipas_aiot_sync_meta';
+function syncCfg(){try{const c=JSON.parse(localStorage.getItem(SKEY)||'null');return c&&c.u&&c.k?c:null}catch(e){return null}}
+function syncMeta(){try{return Object.assign({m:{},x:{}},JSON.parse(localStorage.getItem(MKEY)||'{}'))}catch(e){return{m:{},x:{}}}}
+function syncMetaSave(m){try{localStorage.setItem(MKEY,JSON.stringify(m))}catch(e){}}
+let SYNC_PREV=JSON.parse(JSON.stringify(S));let SYNC_APREV=null;
+const SY={st:'',at:0,msg:'',busy:false,timer:0,again:false};
+function syncNoteSave(){const m=syncMeta();syncStamp(m,SYNC_PREV,S,Date.now());syncMetaSave(m);SYNC_PREV=JSON.parse(JSON.stringify(S));syncSoon(3000)}
+function syncNoteAudio(prev,cur){const m=syncMeta();syncStampAudio(m,prev,cur,Date.now());syncMetaSave(m);syncSoon(3000)}
+function syncSoon(ms){if(!syncCfg())return;clearTimeout(SY.timer);SY.timer=setTimeout(syncNow,ms)}
+function syncLabel(){if(!syncCfg())return '';if(SY.busy)return '同步中…';if(SY.st==='ok'){const d=new Date(SY.at);return '已同步 '+pad(d.getHours())+':'+pad(d.getMinutes())}
+ if(SY.st==='off')return '離線';if(SY.st==='err')return '錯誤';return '尚未同步'}
+function syncPaint(){const t=syncLabel();document.querySelectorAll('.syncst').forEach(e=>{e.textContent=t?'☁ '+t:'';e.title=SY.msg||''})}
+function syncLocalPkg(){return{s:S,a:aLoad(),m:syncMeta()}}
+async function syncCall(c,body){const r=await fetch(c.u,{method:'POST',body:JSON.stringify(Object.assign({k:c.k,id:c.id||'default'},body)),redirect:'follow'});
+ const j=JSON.parse(await r.text());if(!j.ok)throw new Error(j.error||'server error');return j}
+async function syncNow(){const c=syncCfg();if(!c)return;if(SY.busy){SY.again=true;return}
+ if(navigator.onLine===false){SY.st='off';syncPaint();return}
+ SY.busy=true;syncPaint();
+ try{const g=await syncCall(c,{op:'get'});let remote=null;try{remote=g.data?JSON.parse(g.data):null}catch(e){}
+  const local=syncLocalPkg();const merged=syncMerge(local,remote);
+  // 寫回本機（不觸發再次蓋時間戳）
+  const ms=JSON.stringify(merged.s);if(ms!==JSON.stringify({done:S.done,answers:S.answers,wrong:S.wrong,mock:S.mock})){Object.assign(S,merged.s);localStorage.setItem(KEY,JSON.stringify(S));SYNC_PREV=JSON.parse(JSON.stringify(S));syncRefreshView()}
+  const a0=aLoad();const a1=Object.assign({},a0,merged.a);try{localStorage.setItem(AKEY,JSON.stringify(a1))}catch(e){}
+  syncMetaSave(merged.m);
+  const out=JSON.stringify(merged);if(!remote||out!==JSON.stringify(syncMerge(remote,{})))await syncCall(c,{op:'put',data:out});
+  SY.st='ok';SY.at=Date.now();SY.msg=''}
+ catch(e){SY.st=(navigator.onLine===false||e instanceof TypeError)?'off':'err';SY.msg=String(e&&e.message||e)}
+ SY.busy=false;syncPaint();if(SY.again){SY.again=false;syncSoon(500)}}
+function syncRefreshView(){// 不打斷正在進行的模擬考或輸入
+ const h=location.hash;if(/mock/.test(h)&&document.querySelector('#msub'))return;if(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
+ if(document.querySelector('audio[data-ep]')&&[...document.querySelectorAll('audio')].some(a=>!a.paused))return;
+ const y=window.scrollY;route();window.scrollTo(0,y)}
+function syncParseLink(s){try{s=String(s||'').trim();const i=s.indexOf('#/sync?');const q=i>=0?s.slice(i+7):(s.startsWith('#/sync?')?s.slice(7):s);
+ const p=new URLSearchParams(q);const u=p.get('u'),k=p.get('k');if(u&&k&&/^https:\/\//.test(u))return{u,k,id:p.get('id')||'default'}}catch(e){}return null}
+function syncTakeLink(){if(!location.hash.startsWith('#/sync?'))return false;const c=syncParseLink(location.hash);
+ history.replaceState(null,'',location.pathname+location.search+'#/settings');
+ if(c){localStorage.setItem(SKEY,JSON.stringify(c));SY.st='';SY.flash='已設定雲端同步，正在同步…';setTimeout(syncNow,50)}else SY.flash='同步連結格式不正確';return true}
+function syncCard(){const c=syncCfg();return `<div class="card"><h2>雲端自動同步</h2>
+ <p class="muted">把進度自動同步到你自己的 Google 試算表（Apps Script）。未設定或離線時一切照常，恢復連線後自動合併（不會互相覆蓋：各題取較新的紀錄）。</p>
+ ${SY.flash?`<p><b>${SY.flash}</b></p>`:''}
+ <p>狀態：<b class="syncst">${c?'':'未設定'}</b></p>
+ ${c?`<p class="muted" style="word-break:break-all">端點：${c.u.replace(/^(https:\/\/[^/]+\/).{0,20}.*$/,'$1…')}</p>
+ <div class="row"><button class="btn" id="synow">立即同步</button> <button class="btn ghost" id="sylink">複製設定連結（給其他裝置）</button> <button class="btn red" id="syoff">停用此裝置同步</button></div>`
+ :`<p>貼上設定連結（或 Apps Script 網址 + 密鑰）：</p><p><input id="syin" style="width:100%" placeholder="https://…#/sync?u=…&k=…"></p>
+ <p><input id="syu" style="width:100%" placeholder="Web App 網址 https://script.google.com/macros/s/…/exec"></p><p><input id="syk" style="width:100%" placeholder="密鑰 SECRET"></p>
+ <div class="row"><button class="btn" id="syset">啟用同步</button></div>`}</div>`}
+function syncBind(){SY.flash='';syncPaint();const b=id=>document.getElementById(id);
+ if(b('synow'))b('synow').onclick=()=>syncNow();
+ if(b('syoff'))b('syoff').onclick=()=>{if(confirm('停用此裝置的雲端同步？（本機進度保留）')){localStorage.removeItem(SKEY);route()}};
+ if(b('sylink'))b('sylink').onclick=()=>{const c=syncCfg();const l=location.href.split('#')[0]+'#/sync?u='+encodeURIComponent(c.u)+'&k='+encodeURIComponent(c.k)+(c.id&&c.id!=='default'?'&id='+encodeURIComponent(c.id):'');
+  (navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>alert('已複製設定連結（內含密鑰，請勿公開分享）'),()=>prompt('複製這個連結（內含密鑰，請勿公開）：',l))};
+ if(b('syset'))b('syset').onclick=()=>{let c=syncParseLink(b('syin').value);if(!c){const u=b('syu').value.trim(),k=b('syk').value.trim();if(/^https:\/\//.test(u)&&k)c={u,k,id:'default'}}
+  if(!c){alert('請貼上設定連結，或填入 https 網址與密鑰');return}localStorage.setItem(SKEY,JSON.stringify(c));SY.flash='已啟用，正在同步…';route();syncNow()}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){if(syncCfg()){clearTimeout(SY.timer);syncNow()}}else syncSoon(300)});
+window.addEventListener('online',()=>syncSoon(300));window.addEventListener('offline',()=>{if(syncCfg()){SY.st='off';syncPaint()}});
+setInterval(()=>{if(document.visibilityState==='visible'&&syncCfg())syncNow()},60000);
+
 function fmtDur(t){t=Math.round(t||0);return Math.floor(t/60)+':'+pad(t%60)}
 function audioHtml(d){if(!d.audio)return '';const a=aLoad();const r=a.rate||1;
  return `<div class="card aud stick"><b>🎧 有聲講義 D${d.id}</b> <span class="muted">（約 ${fmtDur(d.audio.dur)}，台灣華語口語版，可邊通勤邊聽）</span>
@@ -335,7 +429,7 @@ function renderGlossary(){
  document.querySelectorAll('[data-j]').forEach(a=>a.onclick=()=>{const el=document.getElementById('gg-'+a.dataset.j);if(el){inp.value='';filt();el.scrollIntoView({behavior:'smooth'})}});
  if(q0){const ex=GL.findIndex(g=>g.term===q0);if(ex>=0){setTimeout(()=>{const el=document.getElementById('g'+ex);if(el)el.scrollIntoView({block:'center'})},50)}}}
 
-route();
+syncTakeLink();route();syncPaint();syncSoon(200);
 </script>
 </body>
 </html>

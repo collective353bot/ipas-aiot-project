@@ -119,6 +119,44 @@ async def main():
         print('#/glossary mobile scrollWidth', await pm.evaluate('document.documentElement.scrollWidth'))
         await pm.goto(URL+'#/audio'); await pm.wait_for_timeout(200)
         print('audio srcs:', await pm.evaluate("[...document.querySelectorAll('audio')].slice(0,2).map(a=>a.getAttribute('src'))"))
+        # ---------- cloud sync (mocked Apps Script endpoint) ----------
+        import urllib.parse
+        STORE={}; FAKE='https://script.google.com/macros/s/FAKE/exec'; SEC='test-secret-0123456789abcdef0123456789'
+        async def gas(route):
+            req=json.loads(route.request.post_data or '{}')
+            if req.get('k')!=SEC: body={'ok':False,'error':'unauthorized'}
+            elif req['op']=='get': d=STORE.get(req['id']); body={'ok':True,'data':d and d[0],'updatedAt':d and d[1] or 0}
+            else: STORE[req['id']]=(req['data'],1); body={'ok':True,'updatedAt':1}
+            await route.fulfill(status=200,content_type='application/json',headers={'Access-Control-Allow-Origin':'*'},body=json.dumps(body))
+        link=URL+'#/sync?u='+urllib.parse.quote(FAKE,safe='')+'&k='+urllib.parse.quote(SEC)
+        sp=[]
+        for i in range(2):
+            c=await b.new_context(viewport={'width':390,'height':844}); await c.route(FAKE+'*',gas)
+            pp=await c.new_page(); pp.on('pageerror',lambda e:errs.append(str(e))); pp.on('dialog',lambda d: asyncio.ensure_future(d.accept())); sp.append(pp)
+        A,B=sp
+        await A.goto(URL+'#/day/1/quiz'); await A.wait_for_timeout(200)
+        q=await A.evaluate('DATA.days[0].questions.map(q=>q.ans)')
+        await A.click(f'#q_d1q1 .opt[data-k="{q[0]}"]'); await A.check('#donecb')   # offline/unconfigured edits first
+        await A.goto(link); await A.wait_for_timeout(600)
+        print('setup link stripped:', A.url.endswith('#/settings') and 'k=' not in A.url, await A.text_content('.card .syncst'))
+        assert 'k=' not in A.url and STORE
+        await B.goto(URL+'#/day/2/quiz'); await B.wait_for_timeout(200)
+        q2=await B.evaluate('DATA.days[1].questions.map(q=>q.ans)')
+        await B.click(f'#q_d2q1 .opt[data-k="{(q2[0]+1)%4}"]'); await B.check('#donecb')
+        await B.goto(link); await B.wait_for_timeout(600)
+        sb=json.loads(await B.evaluate("localStorage.getItem('ipas_aiot_v1')"))
+        await A.evaluate('syncNow()'); await A.wait_for_timeout(400)
+        sa=json.loads(await A.evaluate("localStorage.getItem('ipas_aiot_v1')"))
+        print('sync A done/answers:', sorted(sa['done']), sorted(sa['answers']), '| B:', sorted(sb['done']), sorted(sb['answers']))
+        assert sorted(sa['done'])==sorted(sb['done'])==['1','2'] and set(sa['answers'])==set(sb['answers'])=={'d1q1','d2q1'} and 'd2q1' in sa['wrong']
+        # B fixes wrong answer via redo on wrong page -> A gets wrong removed (tombstone); debounced auto-push
+        await B.goto(URL+'#/wrong'); await B.wait_for_timeout(200)
+        await B.click(f'.q .opt[data-k="{q2[0]}"]'); await B.wait_for_timeout(3800)
+        await A.evaluate('syncNow()'); await A.wait_for_timeout(400)
+        sa=json.loads(await A.evaluate("localStorage.getItem('ipas_aiot_v1')"))
+        print('after B redo, A wrong:', sa['wrong'], 'A d2q1 ok:', sa['answers']['d2q1']['ok'], 'nav:', await A.text_content('nav .syncst'))
+        assert 'd2q1' not in sa['wrong'] and sa['answers']['d2q1']['ok']
+        await A.goto(URL+'#/settings'); await A.wait_for_timeout(300); await A.screenshot(path=SS+'sync_settings.png')
         print('errors:', errs)
         await b.close()
 asyncio.run(main())

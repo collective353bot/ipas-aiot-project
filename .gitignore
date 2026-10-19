@@ -6,3 +6,5 @@ __pycache__/
 .venv*/
 audio/v2/raw/
 audio/v2/*.log
+sync/secret.txt
+sync/Code.gs
