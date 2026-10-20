@@ -70,4 +70,4 @@ bash -c 'set -m; HYPERFRAMES_RENDER_DETACHED=1 npx hyperframes render -o d03.mp4
 # frames
 for t in 5 90 260 420 568 765; do ffmpeg -v error -ss $t -i d03.mp4 -frames:v 1 frames/f_${t}s.png; done
 ```
-D2 numbers (8 vCPU box, software GPU, beginframe capture): 60 s preview in 38 s; full 13:27 video — see repo commit message / report.
+D2 numbers (8 vCPU box, software GPU, beginframe capture): 60 s preview in 38 s; full 13:27 video in 7 min 14 s (3 workers), 56 MB H.264 CRF16 + AAC.
