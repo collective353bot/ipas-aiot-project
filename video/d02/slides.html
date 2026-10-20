@@ -1,0 +1,243 @@
+<!--
+  D2 slide spec. Each <section> = one slide; build.py resolves data-anchor (a phrase from the
+  narration script / segments) to a start time. Inside a slide, any element with data-at="phrase"
+  is revealed when that phrase is spoken (searched forward from the slide start, in document order).
+  data-hl="phrase" flashes a highlight on an already-visible element. Content only from study/src/d02.md.
+-->
+<section data-kind="title" data-anchor="大家好" data-title="物聯網架構、感測與無線通訊">
+  <div class="t-badge">iPAS AIoT 應用工程師 初級 · 考科一</div>
+  <div class="t-day">D2</div>
+  <div class="t-main">物聯網架構、感測與無線通訊</div>
+  <div class="t-sub">三層架構 ｜ 感測模組 ｜ OSI ｜ RFID／NFC ｜ Wi-Fi・BLE・Zigbee・LPWAN・5G</div>
+</section>
+
+<section data-anchor="今天要把物聯網" data-title="今天要搞懂的 5 件事" data-code="">
+  <ol class="goals">
+    <li data-at="三層架構"><b>物聯網三層架構</b>：感知層、網路層、應用層各做什麼</li>
+    <li data-at="感測模組"><b>常見感測模組</b>：PIR、DHT11、HC-SR04、ADXL345、MPU6050、MQ-2、光敏電阻</li>
+    <li data-at="OSI 七層"><b>OSI 七層 vs. TCP/IP 四層</b>，各層代表協定</li>
+    <li data-at="RFID 和 NFC"><b>RFID 頻段表</b>、RFID vs. NFC、NFC 三種模式</li>
+    <li data-at="各種無線通訊"><b>Wi-Fi、BLE、Zigbee、NB-IoT、LoRaWAN、4G/5G</b> 的「距離／功耗／頻寬」取捨</li>
+  </ol>
+</section>
+
+<section data-anchor="第一段" data-title="1. 物聯網三層架構" data-code="考科一 2.1｜指引 p.4-1">
+  <div class="chips center" data-at="三大特徵"><span>全面感知</span><span>可靠傳遞</span><span>智慧處理</span></div>
+  <div class="layers">
+    <div class="layer l3" data-at="應用層，是老闆"><div class="ln">應用層 <small>Application</small></div><div class="lw"><b>把資料變成有價值的資訊或決策</b><br/>雲端運算、大數據、AI；設備管理、數據儲存、API</div><div class="le">智慧家庭、交通、城市、工廠、農業、醫療</div></div>
+    <div class="arrow-up" data-at="網路層，是外送員">▲</div>
+    <div class="layer l2" data-at="網路層，是外送員"><div class="ln">網路層 <small>Network</small></div><div class="lw"><b>把資料「無縫、透明」送到應用層</b><br/>存取網路＋核心網路；異質網路融合（閘道器把 Zigbee 轉 TCP/IP）</div><div class="le">Wi-Fi、Zigbee、LoRa、4G/5G、閘道器</div></div>
+    <div class="arrow-up" data-at="感知層，是店員">▲</div>
+    <div class="layer l1" data-at="感知層，是店員"><div class="ln">感知層 <small>Perception</small></div><div class="lw"><b>物理世界與數位世界的介面</b><br/>數據採集（類比→數位）、識別（RFID、NFC、QR Code）、簡單邊緣運算</div><div class="le">溫濕度、加速度、氣體感測器；RFID 標籤</div></div>
+  </div>
+</section>
+
+<section data-anchor="IoT 的傳輸特性" data-title="1. 三層架構：重點與口訣" data-code="考科一 2.1｜指引 p.4-1">
+  <ul class="pts">
+    <li data-at="IoT 的傳輸特性">IoT 傳輸特性：<b>「小封包、高頻率」</b>或<b>「事件驅動（Event-driven）」</b></li>
+    <li data-at="封包遺失率">網路層要特別注意 <b>封包遺失率與延遲</b></li>
+    <li data-at="感知層元件不是">感知層元件<b>不是各自獨立運作</b>：按門鈴 → 通知攝影機開始人臉辨識，元件間要交換資料</li>
+  </ul>
+  <div class="mnemo" data-at="口訣">口訣　感知・網路・應用 ＝ <b>看・送・想</b></div>
+</section>
+
+<section data-anchor="第二段" data-title="2. 感知層常見感測模組" data-code="考科一 2.1｜指引 p.4-2～4-8">
+  <table class="tbl sensors">
+    <tr><th>模組</th><th>量什麼</th><th>原理（白話）</th><th>輸出／介面</th></tr>
+    <tr data-at="HC-SR501"><td>HC-SR501</td><td>人體移動</td><td><b>被動</b>接收人體紅外線變化；菲涅爾透鏡　<em>偵測不到靜止的人</em></td><td>GPIO 高電位</td></tr>
+    <tr data-at="DHT11"><td>DHT11</td><td>溫度＋濕度</td><td>電阻式濕度元件＋NTC 熱敏電阻；約 2 秒讀一次</td><td>單線數位</td></tr>
+    <tr data-at="HC-SR04"><td>HC-SR04</td><td>距離</td><td>40kHz 超音波量回波時間：距離＝聲速×時間÷2</td><td>Trig／Echo</td></tr>
+    <tr data-at="ADXL345"><td>ADXL345</td><td>三軸加速度</td><td>MEMS 差動電容；計步、傾斜、跌倒偵測</td><td>I²C 或 SPI</td></tr>
+    <tr data-at="MPU6050"><td>MPU6050</td><td>6 軸 IMU</td><td>陀螺儀靠科里奧利力；漂移 → 互補／卡爾曼濾波</td><td>I²C</td></tr>
+    <tr data-at="MQ-2"><td>MQ-2</td><td>可燃氣體、煙霧</td><td>加熱 SnO₂，遇氣體電阻下降；需預熱、選擇性差</td><td>類比（ADC）</td></tr>
+    <tr data-at="光敏電阻："><td>光敏電阻 LDR</td><td>亮度</td><td>光越強電阻越小；需串固定電阻做<b>分壓</b></td><td>ADC 讀</td></tr>
+  </table>
+  <div class="warn" data-at="超音波感測器量什麼">⚠️ 易混淆：超音波感測器量「<b>距離</b>」，不是量噪音分貝</div>
+  <div class="warn" data-at="另一個陷阱">⚠️ 室內燈光控制用不到電子羅盤與加速度計</div>
+</section>
+
+<section data-anchor="第三段" data-title="3. OSI 七層與 TCP/IP 四層" data-code="考科一 2.1｜指引 p.4-9～4-12">
+  <div class="osi">
+    <div class="osi-col">
+      <div class="osi-h">OSI（ISO 提出）</div>
+      <div class="ol a" data-at="應用層是你要寄什麼"><i>7</i>應用層<span>HTTP、FTP、SMTP</span></div>
+      <div class="ol a hlp" data-at="表達層負責"><i>6</i>表達層<span>格式轉換、壓縮、加密</span></div>
+      <div class="ol a" data-at="會議層"><i>5</i>會議層<span>建立、管理、終止會談</span></div>
+      <div class="ol b" data-at="傳輸層負責"><i>4</i>傳輸層<span>TCP、UDP</span></div>
+      <div class="ol c" data-at="網路層負責"><i>3</i>網路層<span>IP、ICMP</span></div>
+      <div class="ol d" data-at="資料鏈結層"><i>2</i>資料鏈結層<span>訊框、錯誤偵測；乙太網路</span></div>
+      <div class="ol d" data-at="實體層傳送"><i>1</i>實體層<span>傳送位元；電纜、光纖</span></div>
+    </div>
+    <div class="osi-col tcp" data-at="不是砍掉層">
+      <div class="osi-h">TCP/IP 四層（合併功能相近的層）</div>
+      <div class="tl a" style="height:276px">應用層</div>
+      <div class="tl b">傳輸層</div>
+      <div class="tl c">網路層</div>
+      <div class="tl d" style="height:180px">鏈結層</div>
+    </div>
+    <div class="osi-side">
+      <div class="mnemo small" data-at="口訣從上到下">由上到下<br/><b>應表會傳網鏈實</b></div>
+      <div class="note" data-at="異構網路互連">分七層：解決<b>異構網路互連的相容性</b>問題</div>
+      <div class="warn" data-at="加密、壓縮在哪一層">加密、壓縮在哪一層？→ <b>表達層</b></div>
+      <div class="note" data-at="五層說明">指引另以「五層」說明，四層或五層都別慌</div>
+    </div>
+  </div>
+</section>
+
+<section data-anchor="第四段" data-title="4. 應用層場域速覽" data-code="考科一 2.1｜指引 p.4-13～4-21">
+  <div class="cards c4">
+    <div class="card" data-at="智慧家庭"><h4>智慧家庭</h4>「回家模式」場景化；Wi-Fi、Zigbee、Thread</div>
+    <div class="card" data-at="智慧交通"><h4>智慧交通</h4>AI 影像＋地磁感測器算車流、動態調號誌；V2X</div>
+    <div class="card" data-at="智慧城市"><h4>智慧城市</h4>智慧路燈變城市節點；智慧水務抓漏</div>
+    <div class="card" data-at="科技執法"><h4>科技執法</h4>區間測速；聲音照相（陣列麥克風）</div>
+    <div class="card" data-at="智慧工廠"><h4>智慧工廠</h4>OT 與 IT 融合；預測性維護；數位孿生</div>
+    <div class="card" data-at="智慧農業"><h4>智慧農業</h4>看天吃飯 → 精密農業；LoRaWAN、NB-IoT 回傳</div>
+    <div class="card" data-at="智慧醫療"><h4>智慧醫療</h4>連續血糖監測、遠距照護</div>
+    <div class="card warn-card" data-at="自動駕駛汽車"><h4>⚠️ 陷阱</h4>「自動駕駛汽車」不是智慧醫療的例子</div>
+  </div>
+  <div class="note wide" data-at="數位孿生，就像">數位孿生＝在虛擬世界建立與實體一樣的模型，<b>先模擬驗證再套用到實體產線</b></div>
+</section>
+
+<section data-anchor="第五段" data-title="5. RFID：頻段表必背" data-code="考科一 2.2｜指引 p.4-26～4-27">
+  <div class="chips" data-at="三元件"><span>電子標籤 Tag</span><span>讀寫器 Reader</span><span>後端應用系統</span><em>最常見：被動式（無電池，靠讀寫器電波供電）</em></div>
+  <table class="tbl">
+    <tr><th>頻段</th><th>頻率</th><th>距離</th><th>特性與應用</th></tr>
+    <tr data-at="低頻 125"><td>低頻 LF</td><td>125–134 kHz</td><td>&lt; 10 cm</td><td>穿透強、受金屬與水干擾小；動物晶片、門禁卡</td></tr>
+    <tr data-at="高頻 13.56"><td>高頻 HF</td><td>13.56 MHz</td><td>&lt; 1 m</td><td>圖書館、電子護照、智慧卡</td></tr>
+    <tr data-at="超高頻 860"><td>超高頻 UHF</td><td>860–960 MHz</td><td>3–10 m+</td><td><b>防碰撞可一次讀數百個</b>；物流倉儲、ETC、零售盤點</td></tr>
+    <tr data-at="微波 2.45"><td>微波</td><td>2.45 / 5.8 GHz</td><td>&gt; 10 m</td><td>指向性強、易受干擾；行李追蹤</td></tr>
+  </table>
+  <div class="mnemo" data-at="口訣：「低頻">口訣　低頻動物門禁・高頻圖書護照・超高頻倉儲 ETC・微波追行李</div>
+</section>
+
+<section data-anchor="第六段" data-title="6. NFC 與 RFID 比較" data-code="考科一 2.2｜指引 p.4-28～4-29">
+  <div class="chips" data-at="NFC 從"><span>源自 RFID 的 HF</span><span>13.56 MHz</span><span>實務 4 cm 以內</span><span>資料格式 NDEF</span></div>
+  <div class="cards c3">
+    <div class="card" data-at="卡片模擬"><h4>① 卡片模擬</h4>手機變 IC 卡：Apple Pay、手機悠遊卡；通常需安全元件 SE</div>
+    <div class="card" data-at="讀卡機模式"><h4>② 讀卡機 Reader/Writer</h4>手機讀寫外部標籤：智慧海報、防偽標籤</div>
+    <div class="card" data-at="點對點"><h4>③ 點對點 P2P</h4>快速配對 Handover：碰一下傳連線資訊，再切到藍牙／Wi-Fi</div>
+  </div>
+  <table class="tbl compact" data-at="比較哲學">
+    <tr><th></th><th>RFID（UHF）</th><th>NFC</th></tr>
+    <tr><td>距離</td><td>可達 10 m 以上</td><td>&lt; 10 cm</td></tr>
+    <tr><td>同時讀取</td><td>強（數百個）</td><td>弱（通常一對一）</td></tr>
+    <tr><td>哲學</td><td>讓「物」被系統看見</td><td>讓「人」與「物」互動</td></tr>
+  </table>
+</section>
+
+<section data-anchor="第七段" data-title="7. Wi-Fi（IEEE 802.11）" data-code="考科一 2.2｜指引 p.4-29～4-31">
+  <table class="tbl">
+    <tr><th>世代</th><th>標準</th><th>頻段</th><th>AIoT 定位</th></tr>
+    <tr data-at="Wi-Fi 4 是"><td>Wi-Fi 4</td><td>802.11n</td><td>2.4/5 GHz</td><td>目前最主流 IoT 標準，ESP32/ESP8266 多採用</td></tr>
+    <tr data-at="Wi-Fi 5 是"><td>Wi-Fi 5</td><td>802.11ac</td><td>5 GHz</td><td>高頻寬、穿牆弱</td></tr>
+    <tr data-at="Wi-Fi 6 是"><td>Wi-Fi 6/6E</td><td>802.11ax</td><td>2.4/5/6 GHz</td><td><b>TWT＋OFDMA</b> → 省電、解多裝置擁塞</td></tr>
+    <tr data-at="Wi-Fi 7 是"><td>Wi-Fi 7</td><td>802.11be</td><td>2.4/5/6 GHz</td><td>極低延遲、MLO 多重連結</td></tr>
+    <tr data-at="Wi-Fi HaLow"><td>Wi-Fi HaLow</td><td>802.11ah</td><td>Sub-1 GHz</td><td>IoT 專用：穿透強、約 1 公里、極低功耗</td></tr>
+  </table>
+  <ul class="pts small">
+    <li data-at="優勢是原生">優勢：<b>原生 IP 連線</b>，不用閘道器轉換即可上雲</li>
+    <li data-at="穿牆好">2.4 GHz 穿牆好但與藍牙、微波爐共用；5/6 GHz 快但穿牆差</li>
+    <li data-at="限制是耗電">限制：耗電，不適合鈕扣電池跑數年　｜　<b>SSID＝基地台識別碼</b></li>
+  </ul>
+</section>
+
+<section data-anchor="第八段" data-title="8. 藍牙：經典藍牙 vs. BLE" data-code="考科一 2.2｜指引 p.4-32～4-34">
+  <div class="vs">
+    <div class="vs-a" data-at="經典藍牙適合"><h4>經典藍牙 Classic</h4>持續大量傳輸（音訊串流）<br/>保持常時連線<br/>耳機、車用免持</div>
+    <div class="vs-mid">VS</div>
+    <div class="vs-b" data-at="B L E 低功耗"><h4>低功耗藍牙 BLE</h4>間歇小量（感測數值）<br/>平常休眠，毫秒級喚醒<br/>鈕扣電池可用數年：手環、心率帶、門鎖</div>
+  </div>
+  <div class="flow">
+    <div class="fbox" data-at="G A P 管">GAP：周邊 Peripheral（手環）廣播 → 中央 Central（手機）掃描並連線</div>
+    <div class="fbox" data-at="G A T T 管">GATT：服務 Service → 特徵 Characteristic（心率服務 → 心率數值）</div>
+  </div>
+  <div class="chips" data-at="藍牙 5.0"><span>5.0：2 倍速＋Long Range</span><span data-at="5.1">5.1：AoA/AoD 測角定位</span><span data-at="Mesh">Mesh：燈泡接力</span><span data-at="Beacon">Beacon：廣播推優惠券</span><span data-at="無鑰匙解鎖">無鑰匙解鎖：RSSI 判斷距離</span></div>
+</section>
+
+<section data-anchor="第九段" data-title="9. Zigbee（IEEE 802.15.4）" data-code="考科一 2.2｜指引 p.4-34～4-36">
+  <div class="zig">
+    <svg class="mesh" viewBox="0 0 640 520" data-at="三個角色">
+      <g stroke="#38bdf8" stroke-width="3" opacity=".55">
+        <line x1="320" y1="90" x2="160" y2="250"/><line x1="320" y1="90" x2="480" y2="250"/><line x1="160" y1="250" x2="480" y2="250"/>
+        <line x1="160" y1="250" x2="80" y2="430"/><line x1="160" y1="250" x2="240" y2="430"/><line x1="480" y1="250" x2="400" y2="430"/><line x1="480" y1="250" x2="560" y2="430"/>
+      </g>
+      <circle cx="320" cy="90" r="46" fill="#f59e0b"/><text x="320" y="99" text-anchor="middle" font-size="26" fill="#111">協調器</text>
+      <circle cx="160" cy="250" r="40" fill="#38bdf8"/><text x="160" y="259" text-anchor="middle" font-size="24" fill="#111">路由器</text>
+      <circle cx="480" cy="250" r="40" fill="#38bdf8"/><text x="480" y="259" text-anchor="middle" font-size="24" fill="#111">路由器</text>
+      <g fill="#a78bfa"><circle cx="80" cy="430" r="32"/><circle cx="240" cy="430" r="32"/><circle cx="400" cy="430" r="32"/><circle cx="560" cy="430" r="32"/></g>
+      <g font-size="20" fill="#111" text-anchor="middle"><text x="80" y="437">終端</text><text x="240" y="437">終端</text><text x="400" y="437">終端</text><text x="560" y="437">終端</text></g>
+    </svg>
+    <div class="roles">
+      <div class="role r1" data-at="協調器是老闆"><h4>協調器 Coordinator（老闆）</h4>選頻道、設 PAN ID、分配位址；<b>每個網路只能有一個</b></div>
+      <div class="role r2" data-at="路由器是主管"><h4>路由器 Router（主管）</h4>轉發封包、延伸覆蓋；插電設備：燈泡、插座</div>
+      <div class="role r3" data-at="終端裝置是員工"><h4>終端裝置 End Device（員工）</h4><b>不轉發</b>、大多睡眠；門窗感測器</div>
+      <div class="note" data-at="網狀多跳">網狀 Mesh 多跳；路由器壞了自動找替代路徑＝<b>自我修復</b></div>
+      <div class="warn" data-at="限制：最高">限制：最高 <b>250 kbps</b>；手機沒有 Zigbee 晶片，<b>必須透過網關</b></div>
+      <div class="note" data-at="Zigbee 聯盟">Zigbee 聯盟更名 CSA，推動 Matter；Matter <b>不支援 LoRa</b></div>
+    </div>
+  </div>
+</section>
+
+<section data-anchor="第十段" data-title="10. LPWAN：NB-IoT vs. LoRaWAN" data-code="考科一 2.2｜指引 p.4-37～4-38">
+  <table class="tbl">
+    <tr><th></th><th>NB-IoT</th><th>LoRaWAN</th></tr>
+    <tr data-at="授權頻譜"><td>頻譜</td><td><b>授權頻譜</b>，架在現有 LTE 基地台</td><td data-at="非授權頻譜"><b>非授權頻譜</b>（台灣 920–925 MHz），可自建基地台、不用月租</td></tr>
+    <tr data-at="覆蓋超好"><td>優勢</td><td>覆蓋極佳：地下室、下水道</td><td data-at="空曠地">空曠地可達 10 km 以上</td></tr>
+    <tr data-at="適合智慧水表"><td>應用</td><td>智慧水電表、路燈、人孔蓋</td><td data-at="適合大農場">土壤監測、土石流預警</td></tr>
+  </table>
+  <div class="mnemo" data-at="比喻">比喻　NB-IoT 像辦手機門號；LoRa 像自己在農場架對講機</div>
+  <div class="warn" data-at="注意這個標註">⚠️ 指引寫 NB-IoT「不支援移動性」，為早期版本特性，後續已改善——<b>考試以指引說法作答</b></div>
+</section>
+
+<section data-anchor="第十一段" data-title="11. 4G／5G 與 SIM 型態" data-code="考科一 2.2｜指引 p.4-38～4-40">
+  <div class="g5">
+    <div class="g5-left">
+      <div class="card" data-at="LTE Cat.1"><h4>LTE Cat.1</h4>約 10 Mbps、成本功耗低；公車動態、共享單車、電梯聯網</div>
+      <div class="chips col" data-at="SIM 有工業級"><span>工業級 SIM</span><span>eSIM：OTA 遠端換電信商</span><span>iSIM：整合進 SoC</span></div>
+      <div class="warn" data-at="考題陷阱：5G">⚠️ 5G 不是「低功耗長距離」技術（那是 LPWAN）</div>
+    </div>
+    <svg class="tri" viewBox="0 0 760 640" data-at="5G 三大場景">
+      <polygon points="300,60 60,540 540,540" fill="rgba(56,189,248,.08)" stroke="#38bdf8" stroke-width="4"/>
+      <g data-at="e M B B 網速"><circle cx="300" cy="60" r="16" fill="#f59e0b"/><text x="420" y="58" font-size="34" fill="#fff" font-weight="700">eMBB 快</text><text x="420" y="98" font-size="24" fill="#cbd5e1">可達 10 Gbps：8K 串流、AR/VR</text></g>
+      <g data-at="m M T C 每平方"><circle cx="60" cy="540" r="16" fill="#a78bfa"/><text x="170" y="400" text-anchor="middle" font-size="34" fill="#fff" font-weight="700">mMTC 多</text><text x="170" y="440" text-anchor="middle" font-size="22" fill="#cbd5e1">每平方公里 100 萬個裝置</text></g>
+      <g data-at="U R L L C 延遲"><circle cx="540" cy="540" r="16" fill="#34d399"/><text x="440" y="580" text-anchor="middle" font-size="34" fill="#fff" font-weight="700">URLLC 準</text><text x="440" y="618" text-anchor="middle" font-size="22" fill="#cbd5e1">延遲 &lt; 1 ms：車聯網、遠端手術</text></g>
+    </svg>
+  </div>
+</section>
+
+<section data-anchor="第十二段" data-title="12. 選型總表（考前必看）" data-code="考科一 2.2｜指引 p.4-40">
+  <table class="tbl pick">
+    <tr><th>需求</th><th>首選</th></tr>
+    <tr data-at="路邊水表"><td>極低資料量＋電池供電</td><td>NB-IoT／LoRaWAN</td></tr>
+    <tr data-at="共享機車"><td>中等資料量＋移動</td><td>LTE Cat.1</td></tr>
+    <tr data-at="路口監視器"><td>大資料量（影像）＋即時</td><td>4G LTE Cat.4／5G eMBB</td></tr>
+    <tr data-at="自駕車"><td>不容許延遲＋生命安全</td><td>5G URLLC</td></tr>
+    <tr data-at="家裡看影片"><td>室內影音、AR/VR</td><td>Wi-Fi</td></tr>
+    <tr data-at="手環？"><td>穿戴、手機配件</td><td>BLE</td></tr>
+    <tr data-at="整棟樓"><td>居家／樓宇大量低速節點</td><td>Zigbee（Mesh）</td></tr>
+    <tr data-at="碰一下支付"><td>碰一下支付／配對</td><td>NFC</td></tr>
+  </table>
+</section>
+
+<section data-anchor="口頭自測" data-title="口頭自測" data-code="考科一 2.1・2.2">
+  <div class="quiz">
+    <div class="q" data-at="第一題"><span class="qn">Q1</span>OSI 哪一層負責加密和壓縮？<b class="ans" data-at="答案是表達層">表達層</b></div>
+    <div class="q" data-at="第二題"><span class="qn">Q2</span>倉庫一次讀取幾百件貨物，選哪個 RFID 頻段？<b class="ans" data-at="答案是超高頻">超高頻 UHF</b></div>
+    <div class="q" data-at="第三題"><span class="qn">Q3</span>Zigbee 網路裡，協調器可以有幾個？<b class="ans" data-at="答案是只能有一個">只能有一個</b></div>
+    <div class="q" data-at="第四題"><span class="qn">Q4</span>可自建基地台、不用月租的 LPWAN？<b class="ans" data-at="答案是 LoRaWAN">LoRaWAN</b></div>
+    <div class="q" data-at="第五題"><span class="qn">Q5</span>5G 裡延遲小於 1 ms 的場景？<b class="ans" data-at="答案是 URLLC">URLLC</b></div>
+  </div>
+</section>
+
+<section data-anchor="最後回顧" data-title="今日 30 秒回顧" data-code="">
+  <div class="recap">
+    <div data-at="三層架構：看">感知 → 網路 → 應用<small>看・送・想</small></div>
+    <div data-at="OSI：應表會">應表會傳網鏈實<small>表達層管加密壓縮</small></div>
+    <div data-at="超高頻一次">UHF 一次讀數百<small>NFC 13.56MHz・4cm</small></div>
+    <div data-at="Wi-Fi 6 是 TWT">Wi-Fi 6＝TWT＋OFDMA<small>HaLow＝Sub-1GHz</small></div>
+    <div data-at="BLE：GAP">BLE<small>GAP 廣播連線・GATT 服務特徵</small></div>
+    <div data-at="Zigbee 協調器">Zigbee<small>協調器只有一個・終端不轉發</small></div>
+    <div data-at="NB-IoT 授權">NB-IoT 授權頻譜<small>LoRa 非授權可自建</small></div>
+    <div data-at="5G：快">5G<small>eMBB 快・mMTC 多・URLLC 準</small></div>
+  </div>
+</section>

@@ -8,3 +8,7 @@ audio/v2/raw/
 audio/v2/*.log
 sync/secret.txt
 sync/Code.gs
+sync/setup_link.txt
+video/*/assets/
+video/*/.hyperframes/
+video/*/renders/

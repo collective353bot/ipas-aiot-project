@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face { font-family: "Noto Sans TC"; src: url("assets/fonts/NotoSansTC.ttf"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0b1220; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Noto Sans TC", sans-serif; color: #e5edf7; }
+.bg { position: absolute; inset: 0; background: radial-gradient(1200px 700px at 85% -10%, rgba(56,189,248,.18), transparent 60%), radial-gradient(900px 600px at -10% 110%, rgba(167,139,250,.16), transparent 60%), linear-gradient(160deg, #0b1220, #101a2e); }
+.topbar { position: absolute; left: 0; right: 0; top: 0; height: 84px; display: flex; align-items: center; gap: 28px; padding: 0 64px; border-bottom: 1px solid rgba(148,163,184,.18); background: rgba(8,13,25,.55); }
+.brand { font-weight: 800; font-size: 30px; color: #0b1220; background: linear-gradient(90deg,#38bdf8,#a78bfa); padding: 6px 18px; border-radius: 10px; }
+.topic { font-size: 28px; color: #94a3b8; font-weight: 500; }
+.slide { position: absolute; left: 0; right: 0; top: 84px; height: 770px; }
+.slide-in { position: absolute; inset: 0; padding: 30px 72px 0; display: flex; flex-direction: column; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+.head h2 { font-size: 54px; font-weight: 800; color: #f8fafc; }
+.code { font-size: 26px; font-weight: 700; color: #fde68a; border: 2px solid rgba(253,230,138,.6); background: rgba(253,230,138,.08); padding: 8px 18px; border-radius: 12px; white-space: nowrap; }
+.body { flex: 1; display: flex; flex-direction: column; gap: 22px; font-size: 30px; line-height: 1.45; }
+.brk { display: block; }
+b { color: #7dd3fc; font-weight: 800; }
+em { font-style: normal; color: #fca5a5; }
+/* title */
+.title-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; text-align: center; }
+.t-badge { font-size: 34px; color: #cbd5e1; letter-spacing: .08em; }
+.t-day { font-size: 220px; line-height: 1; font-weight: 900; background: linear-gradient(90deg,#38bdf8,#a78bfa); -webkit-background-clip: text; color: transparent; }
+.t-main { font-size: 84px; font-weight: 800; color: #f8fafc; }
+.t-sub { font-size: 32px; color: #94a3b8; }
+/* lists */
+.goals { list-style: none; counter-reset: g; display: flex; flex-direction: column; gap: 22px; font-size: 36px; }
+.goals li { counter-increment: g; display: flex; gap: 22px; align-items: center; background: rgba(30,41,59,.6); border: 1px solid rgba(148,163,184,.2); border-radius: 16px; padding: 18px 26px; }
+.goals li::before { content: counter(g); flex: none; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: #38bdf8; color: #0b1220; font-weight: 900; }
+.pts { list-style: none; display: flex; flex-direction: column; gap: 22px; font-size: 38px; }
+.pts li { padding: 18px 26px 18px 30px; border-left: 8px solid #38bdf8; background: rgba(30,41,59,.55); border-radius: 0 14px 14px 0; }
+.pts.small { font-size: 28px; gap: 12px; }
+.pts.small li { padding: 10px 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; font-size: 30px; }
+.chips.center { justify-content: center; }
+.chips.col { flex-direction: column; align-items: stretch; }
+.chips span { background: rgba(56,189,248,.14); border: 2px solid rgba(56,189,248,.55); color: #e0f2fe; padding: 8px 20px; border-radius: 999px; font-weight: 700; }
+.chips em { font-size: 26px; color: #cbd5e1; }
+.mnemo { font-size: 40px; font-weight: 800; color: #0b1220; background: linear-gradient(90deg,#fde68a,#fbbf24); padding: 18px 30px; border-radius: 16px; align-self: flex-start; }
+.mnemo b { color: #7c2d12; }
+.mnemo.small { font-size: 34px; line-height: 1.4; }
+.warn { font-size: 30px; background: rgba(248,113,113,.12); border: 2px solid rgba(248,113,113,.6); border-radius: 14px; padding: 12px 22px; color: #fee2e2; }
+.warn b { color: #fca5a5; }
+.note { font-size: 28px; background: rgba(148,163,184,.1); border: 1px solid rgba(148,163,184,.35); border-radius: 14px; padding: 12px 22px; }
+/* layers */
+.layers { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+.layer { display: grid; grid-template-columns: 330px 1fr 470px; gap: 24px; align-items: center; padding: 16px 26px; border-radius: 18px; font-size: 26px; line-height: 1.4; }
+.layer .ln { font-size: 40px; font-weight: 900; }
+.layer .ln small { display: block; font-size: 22px; font-weight: 500; opacity: .8; }
+.layer .le { color: #cbd5e1; }
+.l3 { background: linear-gradient(90deg, rgba(167,139,250,.35), rgba(167,139,250,.08)); border: 2px solid #a78bfa; }
+.l2 { background: linear-gradient(90deg, rgba(56,189,248,.35), rgba(56,189,248,.08)); border: 2px solid #38bdf8; }
+.l1 { background: linear-gradient(90deg, rgba(52,211,153,.35), rgba(52,211,153,.08)); border: 2px solid #34d399; }
+.arrow-up { text-align: center; font-size: 26px; color: #64748b; line-height: 1; }
+/* tables */
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-size: 28px; }
+.tbl th { text-align: left; font-size: 24px; color: #94a3b8; font-weight: 700; padding: 4px 20px; }
+.tbl td { background: rgba(30,41,59,.7); padding: 12px 20px; }
+.tbl td:first-child { font-weight: 800; color: #f8fafc; border-radius: 12px 0 0 12px; white-space: nowrap; }
+.tbl td:last-child { border-radius: 0 12px 12px 0; }
+.tbl.sensors { font-size: 26px; border-spacing: 0 6px; }
+.tbl.sensors td { padding: 8px 18px; }
+.tbl.compact { font-size: 26px; }
+.tbl.pick td { font-size: 30px; padding: 10px 24px; }
+.tbl.pick td:last-child { color: #7dd3fc; font-weight: 800; }
+/* osi */
+.osi { display: grid; grid-template-columns: 720px 400px 1fr; gap: 30px; }
+.osi-h { font-size: 26px; color: #94a3b8; font-weight: 700; margin-bottom: 8px; }
+.ol, .tl { height: 84px; margin-bottom: 8px; border-radius: 12px; display: flex; align-items: center; gap: 16px; padding: 0 20px; font-size: 32px; font-weight: 800; }
+.ol i { font-style: normal; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: rgba(15,23,42,.7); font-size: 26px; }
+.ol span { margin-left: auto; font-size: 24px; font-weight: 500; color: #e2e8f0; }
+.tl { justify-content: center; font-size: 36px; }
+.a { background: rgba(167,139,250,.3); border: 2px solid #a78bfa; }
+.b { background: rgba(56,189,248,.3); border: 2px solid #38bdf8; }
+.c { background: rgba(52,211,153,.28); border: 2px solid #34d399; }
+.d { background: rgba(251,191,36,.25); border: 2px solid #fbbf24; }
+.tcp .tl.a { height: 268px; }
+.tcp .tl.d { height: 176px; }
+.osi-side { display: flex; flex-direction: column; gap: 18px; }
+/* cards */
+.cards { display: grid; gap: 18px; }
+.cards.c4 { grid-template-columns: repeat(4, 1fr); }
+.cards.c3 { grid-template-columns: repeat(3, 1fr); }
+.card { background: rgba(30,41,59,.7); border: 1px solid rgba(148,163,184,.25); border-top: 6px solid #38bdf8; border-radius: 16px; padding: 18px 22px; font-size: 26px; line-height: 1.45; }
+.card h4 { font-size: 32px; color: #f8fafc; margin-bottom: 8px; }
+.warn-card { border-top-color: #f87171; background: rgba(248,113,113,.1); }
+/* vs */
+.vs { display: grid; grid-template-columns: 1fr 100px 1fr; gap: 20px; align-items: stretch; font-size: 28px; }
+.vs-a, .vs-b { border-radius: 18px; padding: 18px 26px; line-height: 1.5; }
+.vs-a { background: rgba(148,163,184,.14); border: 2px solid #94a3b8; }
+.vs-b { background: rgba(56,189,248,.16); border: 2px solid #38bdf8; }
+.vs h4 { font-size: 34px; margin-bottom: 6px; color: #f8fafc; }
+.vs-mid { display: grid; place-items: center; font-size: 44px; font-weight: 900; color: #fbbf24; }
+.flow { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.fbox { font-size: 26px; background: rgba(167,139,250,.15); border: 2px solid #a78bfa; border-radius: 14px; padding: 12px 22px; }
+/* zigbee */
+.zig { display: grid; grid-template-columns: 620px 1fr; gap: 36px; }
+.mesh { width: 620px; height: 504px; font-family: "Noto Sans TC", sans-serif; font-weight: 800; }
+.roles { display: flex; flex-direction: column; gap: 12px; font-size: 26px; }
+.role { border-radius: 14px; padding: 10px 20px; background: rgba(30,41,59,.7); border-left: 8px solid; }
+.role h4 { font-size: 30px; color: #f8fafc; }
+.r1 { border-color: #f59e0b; } .r2 { border-color: #38bdf8; } .r3 { border-color: #a78bfa; }
+.roles .note, .roles .warn { font-size: 25px; padding: 8px 18px; }
+/* 5g */
+.g5 { display: grid; grid-template-columns: 900px 1fr; gap: 40px; }
+.g5-left { display: flex; flex-direction: column; gap: 20px; }
+.tri { width: 760px; height: 640px; font-family: "Noto Sans TC", sans-serif; }
+/* quiz */
+.quiz { display: flex; flex-direction: column; gap: 16px; }
+.q { display: flex; align-items: center; gap: 22px; font-size: 34px; background: rgba(30,41,59,.7); border-radius: 16px; padding: 16px 26px; }
+.qn { flex: none; font-weight: 900; color: #0b1220; background: #a78bfa; border-radius: 10px; padding: 2px 14px; }
+.ans { margin-left: auto; color: #0b1220; background: #34d399; border-radius: 10px; padding: 2px 18px; }
+/* recap */
+.recap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.recap div { background: rgba(30,41,59,.75); border: 2px solid rgba(56,189,248,.45); border-radius: 18px; padding: 24px; font-size: 34px; font-weight: 800; color: #f8fafc; min-height: 250px; }
+.recap small { display: block; margin-top: 14px; font-size: 26px; font-weight: 500; color: #cbd5e1; }
+/* subtitles + progress */
+.subwrap { position: absolute; left: 0; right: 0; top: 880px; height: 130px; }
+.sub { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.sub span { font-size: 46px; font-weight: 700; color: #fff; background: rgba(2,6,23,.82); padding: 10px 34px; border-radius: 14px; max-width: 1760px; text-align: center; line-height: 1.35; }
+.progress { position: absolute; left: 64px; right: 64px; bottom: 26px; height: 30px; }
+.track { position: absolute; left: 0; right: 0; top: 12px; height: 8px; border-radius: 4px; background: rgba(148,163,184,.25); }
+.bar { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 4px; background: linear-gradient(90deg,#38bdf8,#a78bfa); transform-origin: left center; }
+.track i { position: absolute; top: -6px; width: 3px; height: 20px; background: rgba(226,232,240,.6); }
+.track i b { position: absolute; top: -26px; left: -10px; width: 24px; text-align: center; font-size: 16px; color: #94a3b8; font-weight: 700; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="807.340" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="topbar"><span class="brand">iPAS AIoT 初級 · D2</span><span class="topic">物聯網架構、感測與無線通訊</span></div>
+  <section id="s0" class="clip slide" data-start="0.000" data-duration="7.620" data-track-index="1"><div class="title-wrap" id="s0-in">
+  <div class="t-badge">iPAS AIoT 應用工程師 初級 · 考科一</div>
+  <div class="t-day">D2</div>
+  <div class="t-main">物聯網架構、感測與無線通訊</div>
+  <div class="t-sub">三層架構 ｜ 感測模組 ｜ OSI ｜ RFID／NFC ｜ Wi-Fi・BLE・Zigbee・LPWAN・5G</div>
+</div></section><section id="s1" class="clip slide" data-start="7.620" data-duration="17.060" data-track-index="1"><div class="slide-in" id="s1-in"><div class="head"><h2>今天要搞懂的 5 件事</h2></div><div class="body">
+  <ol class="goals">
+    <li id="e1" data-t="11.64"><b>物聯網三層架構</b>：感知層、網路層、應用層各做什麼</li>
+    <li id="e2" data-t="11.64"><b>常見感測模組</b>：PIR、DHT11、HC-SR04、ADXL345、MPU6050、MQ-2、光敏電阻</li>
+    <li id="e3" data-t="13.84"><b>OSI 七層 vs. TCP/IP 四層</b>，各層代表協定</li>
+    <li id="e4" data-t="13.84"><b>RFID 頻段表</b>、RFID vs. NFC、NFC 三種模式</li>
+    <li id="e5" data-t="13.84"><b>Wi-Fi、BLE、Zigbee、NB-IoT、LoRaWAN、4G/5G</b> 的「距離／功耗／頻寬」取捨</li>
+  </ol>
+</div></div></section><section id="s2" class="clip slide" data-start="24.680" data-duration="46.060" data-track-index="1"><div class="slide-in" id="s2-in"><div class="head"><h2>1. 物聯網三層架構</h2><div class="code">評鑑項目　考科一 2.1｜指引 p.4-1</div></div><div class="body">
+  <div class="chips center" id="e6" data-t="28.82"><span>全面感知</span><span>可靠傳遞</span><span>智慧處理</span></div>
+  <div class="layers">
+    <div class="layer l3" id="e7" data-t="62.56"><div class="ln">應用層 <small>Application</small></div><div class="lw"><b>把資料變成有價值的資訊或決策</b><span class="brk"></span>雲端運算、大數據、AI；設備管理、數據儲存、API</div><div class="le">智慧家庭、交通、城市、工廠、農業、醫療</div></div>
+    <div class="arrow-up" id="e8" data-t="49.80">▲</div>
+    <div class="layer l2" id="e9" data-t="49.80"><div class="ln">網路層 <small>Network</small></div><div class="lw"><b>把資料「無縫、透明」送到應用層</b><span class="brk"></span>存取網路＋核心網路；異質網路融合（閘道器把 Zigbee 轉 TCP/IP）</div><div class="le">Wi-Fi、Zigbee、LoRa、4G/5G、閘道器</div></div>
+    <div class="arrow-up" id="e10" data-t="37.10">▲</div>
+    <div class="layer l1" id="e11" data-t="37.10"><div class="ln">感知層 <small>Perception</small></div><div class="lw"><b>物理世界與數位世界的介面</b><span class="brk"></span>數據採集（類比→數位）、識別（RFID、NFC、QR Code）、簡單邊緣運算</div><div class="le">溫濕度、加速度、氣體感測器；RFID 標籤</div></div>
+  </div>
+</div></div></section><section id="s3" class="clip slide" data-start="70.740" data-duration="22.220" data-track-index="1"><div class="slide-in" id="s3-in"><div class="head"><h2>1. 三層架構：重點與口訣</h2><div class="code">評鑑項目　考科一 2.1｜指引 p.4-1</div></div><div class="body">
+  <ul class="pts">
+    <li id="e12" data-t="71.24">IoT 傳輸特性：<b>「小封包、高頻率」</b>或<b>「事件驅動（Event-driven）」</b></li>
+    <li id="e13" data-t="75.58">網路層要特別注意 <b>封包遺失率與延遲</b></li>
+    <li id="e14" data-t="79.38">感知層元件<b>不是各自獨立運作</b>：按門鈴 → 通知攝影機開始人臉辨識，元件間要交換資料</li>
+  </ul>
+  <div class="mnemo" id="e15" data-t="88.36">口訣　感知・網路・應用 ＝ <b>看・送・想</b></div>
+</div></div></section><section id="s4" class="clip slide" data-start="92.960" data-duration="103.860" data-track-index="1"><div class="slide-in" id="s4-in"><div class="head"><h2>2. 感知層常見感測模組</h2><div class="code">評鑑項目　考科一 2.1｜指引 p.4-2～4-8</div></div><div class="body">
+  <table class="tbl sensors">
+    <tr><th>模組</th><th>量什麼</th><th>原理（白話）</th><th>輸出／介面</th></tr>
+    <tr id="e16" data-t="96.78"><td>HC-SR501</td><td>人體移動</td><td><b>被動</b>接收人體紅外線變化；菲涅爾透鏡　<em>偵測不到靜止的人</em></td><td>GPIO 高電位</td></tr>
+    <tr id="e17" data-t="113.56"><td>DHT11</td><td>溫度＋濕度</td><td>電阻式濕度元件＋NTC 熱敏電阻；約 2 秒讀一次</td><td>單線數位</td></tr>
+    <tr id="e18" data-t="122.32"><td>HC-SR04</td><td>距離</td><td>40kHz 超音波量回波時間：距離＝聲速×時間÷2</td><td>Trig／Echo</td></tr>
+    <tr id="e19" data-t="147.06"><td>ADXL345</td><td>三軸加速度</td><td>MEMS 差動電容；計步、傾斜、跌倒偵測</td><td>I²C 或 SPI</td></tr>
+    <tr id="e20" data-t="156.84"><td>MPU6050</td><td>6 軸 IMU</td><td>陀螺儀靠科里奧利力；漂移 → 互補／卡爾曼濾波</td><td>I²C</td></tr>
+    <tr id="e21" data-t="171.70"><td>MQ-2</td><td>可燃氣體、煙霧</td><td>加熱 SnO₂，遇氣體電阻下降；需預熱、選擇性差</td><td>類比（ADC）</td></tr>
+    <tr id="e22" data-t="182.60"><td>光敏電阻 LDR</td><td>亮度</td><td>光越強電阻越小；需串固定電阻做<b>分壓</b></td><td>ADC 讀</td></tr>
+  </table>
+  <div class="warn" id="e23" data-t="141.40">⚠️ 易混淆：超音波感測器量「<b>距離</b>」，不是量噪音分貝</div>
+  <div class="warn" id="e24" data-t="191.48">⚠️ 室內燈光控制用不到電子羅盤與加速度計</div>
+</div></div></section><section id="s5" class="clip slide" data-start="196.820" data-duration="66.180" data-track-index="1"><div class="slide-in" id="s5-in"><div class="head"><h2>3. OSI 七層與 TCP/IP 四層</h2><div class="code">評鑑項目　考科一 2.1｜指引 p.4-9～4-12</div></div><div class="body">
+  <div class="osi">
+    <div class="osi-col">
+      <div class="osi-h">OSI（ISO 提出）</div>
+      <div class="ol a" id="e25" data-t="213.98"><i>7</i>應用層<span>HTTP、FTP、SMTP</span></div>
+      <div class="ol a hlp" id="e26" data-t="218.46"><i>6</i>表達層<span>格式轉換、壓縮、加密</span></div>
+      <div class="ol a" id="e27" data-t="226.22"><i>5</i>會議層<span>建立、管理、終止會談</span></div>
+      <div class="ol b" id="e28" data-t="226.22"><i>4</i>傳輸層<span>TCP、UDP</span></div>
+      <div class="ol c" id="e29" data-t="231.20"><i>3</i>網路層<span>IP、ICMP</span></div>
+      <div class="ol d" id="e30" data-t="238.28"><i>2</i>資料鏈結層<span>訊框、錯誤偵測；乙太網路</span></div>
+      <div class="ol d" id="e31" data-t="242.81"><i>1</i>實體層<span>傳送位元；電纜、光纖</span></div>
+    </div>
+    <div class="osi-col tcp" id="e32" data-t="253.42">
+      <div class="osi-h">TCP/IP 四層（合併功能相近的層）</div>
+      <div class="tl a" style="height:276px">應用層</div>
+      <div class="tl b">傳輸層</div>
+      <div class="tl c">網路層</div>
+      <div class="tl d" style="height:180px">鏈結層</div>
+    </div>
+    <div class="osi-side">
+      <div class="mnemo small" id="e33" data-t="208.66">由上到下<span class="brk"></span><b>應表會傳網鏈實</b></div>
+      <div class="note" id="e34" data-t="204.46">分七層：解決<b>異構網路互連的相容性</b>問題</div>
+      <div class="warn" id="e35" data-t="247.96">加密、壓縮在哪一層？→ <b>表達層</b></div>
+      <div class="note" id="e36" data-t="258.48">指引另以「五層」說明，四層或五層都別慌</div>
+    </div>
+  </div>
+</div></div></section><section id="s6" class="clip slide" data-start="263.000" data-duration="47.360" data-track-index="1"><div class="slide-in" id="s6-in"><div class="head"><h2>4. 應用層場域速覽</h2><div class="code">評鑑項目　考科一 2.1｜指引 p.4-13～4-21</div></div><div class="body">
+  <div class="cards c4">
+    <div class="card" id="e37" data-t="267.02"><h4>智慧家庭</h4>「回家模式」場景化；Wi-Fi、Zigbee、Thread</div>
+    <div class="card" id="e38" data-t="270.84"><h4>智慧交通</h4>AI 影像＋地磁感測器算車流、動態調號誌；V2X</div>
+    <div class="card" id="e39" data-t="277.52"><h4>智慧城市</h4>智慧路燈變城市節點；智慧水務抓漏</div>
+    <div class="card" id="e40" data-t="282.46"><h4>科技執法</h4>區間測速；聲音照相（陣列麥克風）</div>
+    <div class="card" id="e41" data-t="285.54"><h4>智慧工廠</h4>OT 與 IT 融合；預測性維護；數位孿生</div>
+    <div class="card" id="e42" data-t="296.88"><h4>智慧農業</h4>看天吃飯 → 精密農業；LoRaWAN、NB-IoT 回傳</div>
+    <div class="card" id="e43" data-t="302.76"><h4>智慧醫療</h4>連續血糖監測、遠距照護</div>
+    <div class="card warn-card" id="e44" data-t="305.92"><h4>⚠️ 陷阱</h4>「自動駕駛汽車」不是智慧醫療的例子</div>
+  </div>
+  <div class="note wide" id="e45" data-t="290.38">數位孿生＝在虛擬世界建立與實體一樣的模型，<b>先模擬驗證再套用到實體產線</b></div>
+</div></div></section><section id="s7" class="clip slide" data-start="310.360" data-duration="65.820" data-track-index="1"><div class="slide-in" id="s7-in"><div class="head"><h2>5. RFID：頻段表必背</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-26～4-27</div></div><div class="body">
+  <div class="chips" id="e46" data-t="318.02"><span>電子標籤 Tag</span><span>讀寫器 Reader</span><span>後端應用系統</span><em>最常見：被動式（無電池，靠讀寫器電波供電）</em></div>
+  <table class="tbl">
+    <tr><th>頻段</th><th>頻率</th><th>距離</th><th>特性與應用</th></tr>
+    <tr id="e47" data-t="327.86"><td>低頻 LF</td><td>125–134 kHz</td><td>&lt; 10 cm</td><td>穿透強、受金屬與水干擾小；動物晶片、門禁卡</td></tr>
+    <tr id="e48" data-t="337.58"><td>高頻 HF</td><td>13.56 MHz</td><td>&lt; 1 m</td><td>圖書館、電子護照、智慧卡</td></tr>
+    <tr id="e49" data-t="343.96"><td>超高頻 UHF</td><td>860–960 MHz</td><td>3–10 m+</td><td><b>防碰撞可一次讀數百個</b>；物流倉儲、ETC、零售盤點</td></tr>
+    <tr id="e50" data-t="361.50"><td>微波</td><td>2.45 / 5.8 GHz</td><td>&gt; 10 m</td><td>指向性強、易受干擾；行李追蹤</td></tr>
+  </table>
+  <div class="mnemo" id="e51" data-t="368.68">口訣　低頻動物門禁・高頻圖書護照・超高頻倉儲 ETC・微波追行李</div>
+</div></div></section><section id="s8" class="clip slide" data-start="376.180" data-duration="46.520" data-track-index="1"><div class="slide-in" id="s8-in"><div class="head"><h2>6. NFC 與 RFID 比較</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-28～4-29</div></div><div class="body">
+  <div class="chips" id="e52" data-t="380.68"><span>源自 RFID 的 HF</span><span>13.56 MHz</span><span>實務 4 cm 以內</span><span>資料格式 NDEF</span></div>
+  <div class="cards c3">
+    <div class="card" id="e53" data-t="393.56"><h4>① 卡片模擬</h4>手機變 IC 卡：Apple Pay、手機悠遊卡；通常需安全元件 SE</div>
+    <div class="card" id="e54" data-t="398.12"><h4>② 讀卡機 Reader/Writer</h4>手機讀寫外部標籤：智慧海報、防偽標籤</div>
+    <div class="card" id="e55" data-t="403.94"><h4>③ 點對點 P2P</h4>快速配對 Handover：碰一下傳連線資訊，再切到藍牙／Wi-Fi</div>
+  </div>
+  <table class="tbl compact" id="e56" data-t="413.96">
+    <tr><th></th><th>RFID（UHF）</th><th>NFC</th></tr>
+    <tr><td>距離</td><td>可達 10 m 以上</td><td>&lt; 10 cm</td></tr>
+    <tr><td>同時讀取</td><td>強（數百個）</td><td>弱（通常一對一）</td></tr>
+    <tr><td>哲學</td><td>讓「物」被系統看見</td><td>讓「人」與「物」互動</td></tr>
+  </table>
+</div></div></section><section id="s9" class="clip slide" data-start="422.700" data-duration="55.100" data-track-index="1"><div class="slide-in" id="s9-in"><div class="head"><h2>7. Wi-Fi（IEEE 802.11）</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-29～4-31</div></div><div class="body">
+  <table class="tbl">
+    <tr><th>世代</th><th>標準</th><th>頻段</th><th>AIoT 定位</th></tr>
+    <tr id="e57" data-t="425.90"><td>Wi-Fi 4</td><td>802.11n</td><td>2.4/5 GHz</td><td>目前最主流 IoT 標準，ESP32/ESP8266 多採用</td></tr>
+    <tr id="e58" data-t="433.02"><td>Wi-Fi 5</td><td>802.11ac</td><td>5 GHz</td><td>高頻寬、穿牆弱</td></tr>
+    <tr id="e59" data-t="436.52"><td>Wi-Fi 6/6E</td><td>802.11ax</td><td>2.4/5/6 GHz</td><td><b>TWT＋OFDMA</b> → 省電、解多裝置擁塞</td></tr>
+    <tr id="e60" data-t="448.38"><td>Wi-Fi 7</td><td>802.11be</td><td>2.4/5/6 GHz</td><td>極低延遲、MLO 多重連結</td></tr>
+    <tr id="e61" data-t="452.02"><td>Wi-Fi HaLow</td><td>802.11ah</td><td>Sub-1 GHz</td><td>IoT 專用：穿透強、約 1 公里、極低功耗</td></tr>
+  </table>
+  <ul class="pts small">
+    <li id="e62" data-t="461.18">優勢：<b>原生 IP 連線</b>，不用閘道器轉換即可上雲</li>
+    <li id="e63" data-t="465.34">2.4 GHz 穿牆好但與藍牙、微波爐共用；5/6 GHz 快但穿牆差</li>
+    <li id="e64" data-t="471.86">限制：耗電，不適合鈕扣電池跑數年　｜　<b>SSID＝基地台識別碼</b></li>
+  </ul>
+</div></div></section><section id="s10" class="clip slide" data-start="477.800" data-duration="49.040" data-track-index="1"><div class="slide-in" id="s10-in"><div class="head"><h2>8. 藍牙：經典藍牙 vs. BLE</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-32～4-34</div></div><div class="body">
+  <div class="vs">
+    <div class="vs-a" id="e65" data-t="481.02"><h4>經典藍牙 Classic</h4>持續大量傳輸（音訊串流）<span class="brk"></span>保持常時連線<span class="brk"></span>耳機、車用免持</div>
+    <div class="vs-mid">VS</div>
+    <div class="vs-b" id="e66" data-t="485.24"><h4>低功耗藍牙 BLE</h4>間歇小量（感測數值）<span class="brk"></span>平常休眠，毫秒級喚醒<span class="brk"></span>鈕扣電池可用數年：手環、心率帶、門鎖</div>
+  </div>
+  <div class="flow">
+    <div class="fbox" id="e67" data-t="494.86">GAP：周邊 Peripheral（手環）廣播 → 中央 Central（手機）掃描並連線</div>
+    <div class="fbox" id="e68" data-t="501.28">GATT：服務 Service → 特徵 Characteristic（心率服務 → 心率數值）</div>
+  </div>
+  <div class="chips" id="e69" data-t="508.34"><span>5.0：2 倍速＋Long Range</span><span id="e70" data-t="511.36">5.1：AoA/AoD 測角定位</span><span id="e71" data-t="516.54">Mesh：燈泡接力</span><span id="e72" data-t="518.44">Beacon：廣播推優惠券</span><span id="e73" data-t="523.72">無鑰匙解鎖：RSSI 判斷距離</span></div>
+</div></div></section><section id="s11" class="clip slide" data-start="526.840" data-duration="43.600" data-track-index="1"><div class="slide-in" id="s11-in"><div class="head"><h2>9. Zigbee（IEEE 802.15.4）</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-34～4-36</div></div><div class="body">
+  <div class="zig">
+    <svg class="mesh" viewBox="0 0 640 520" id="e74" data-t="535.32">
+      <g stroke="#38bdf8" stroke-width="3" opacity=".55">
+        <line x1="320" y1="90" x2="160" y2="250"/><line x1="320" y1="90" x2="480" y2="250"/><line x1="160" y1="250" x2="480" y2="250"/>
+        <line x1="160" y1="250" x2="80" y2="430"/><line x1="160" y1="250" x2="240" y2="430"/><line x1="480" y1="250" x2="400" y2="430"/><line x1="480" y1="250" x2="560" y2="430"/>
+      </g>
+      <circle cx="320" cy="90" r="46" fill="#f59e0b"/><text x="320" y="99" text-anchor="middle" font-size="26" fill="#111">協調器</text>
+      <circle cx="160" cy="250" r="40" fill="#38bdf8"/><text x="160" y="259" text-anchor="middle" font-size="24" fill="#111">路由器</text>
+      <circle cx="480" cy="250" r="40" fill="#38bdf8"/><text x="480" y="259" text-anchor="middle" font-size="24" fill="#111">路由器</text>
+      <g fill="#a78bfa"><circle cx="80" cy="430" r="32"/><circle cx="240" cy="430" r="32"/><circle cx="400" cy="430" r="32"/><circle cx="560" cy="430" r="32"/></g>
+      <g font-size="20" fill="#111" text-anchor="middle"><text x="80" y="437">終端</text><text x="240" y="437">終端</text><text x="400" y="437">終端</text><text x="560" y="437">終端</text></g>
+    </svg>
+    <div class="roles">
+      <div class="role r1" id="e75" data-t="535.32"><h4>協調器 Coordinator（老闆）</h4>選頻道、設 PAN ID、分配位址；<b>每個網路只能有一個</b></div>
+      <div class="role r2" id="e76" data-t="540.26"><h4>路由器 Router（主管）</h4>轉發封包、延伸覆蓋；插電設備：燈泡、插座</div>
+      <div class="role r3" id="e77" data-t="545.12"><h4>終端裝置 End Device（員工）</h4><b>不轉發</b>、大多睡眠；門窗感測器</div>
+      <div class="note" id="e78" data-t="554.20">網狀 Mesh 多跳；路由器壞了自動找替代路徑＝<b>自我修復</b></div>
+      <div class="warn" id="e79" data-t="558.92">限制：最高 <b>250 kbps</b>；手機沒有 Zigbee 晶片，<b>必須透過網關</b></div>
+      <div class="note" id="e80" data-t="565.30">Zigbee 聯盟更名 CSA，推動 Matter；Matter <b>不支援 LoRa</b></div>
+    </div>
+  </div>
+</div></div></section><section id="s12" class="clip slide" data-start="570.440" data-duration="42.600" data-track-index="1"><div class="slide-in" id="s12-in"><div class="head"><h2>10. LPWAN：NB-IoT vs. LoRaWAN</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-37～4-38</div></div><div class="body">
+  <table class="tbl">
+    <tr><th></th><th>NB-IoT</th><th>LoRaWAN</th></tr>
+    <tr id="e81" data-t="575.00"><td>頻譜</td><td><b>授權頻譜</b>，架在現有 LTE 基地台</td><td id="e82" data-t="584.72"><b>非授權頻譜</b>（台灣 920–925 MHz），可自建基地台、不用月租</td></tr>
+    <tr id="e83" data-t="575.00"><td>優勢</td><td>覆蓋極佳：地下室、下水道</td><td id="e84" data-t="590.68">空曠地可達 10 km 以上</td></tr>
+    <tr id="e85" data-t="579.74"><td>應用</td><td>智慧水電表、路燈、人孔蓋</td><td id="e86" data-t="593.98">土壤監測、土石流預警</td></tr>
+  </table>
+  <div class="mnemo" id="e87" data-t="597.18">比喻　NB-IoT 像辦手機門號；LoRa 像自己在農場架對講機</div>
+  <div class="warn" id="e88" data-t="602.80">⚠️ 指引寫 NB-IoT「不支援移動性」，為早期版本特性，後續已改善——<b>考試以指引說法作答</b></div>
+</div></div></section><section id="s13" class="clip slide" data-start="613.040" data-duration="42.800" data-track-index="1"><div class="slide-in" id="s13-in"><div class="head"><h2>11. 4G／5G 與 SIM 型態</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-38～4-40</div></div><div class="body">
+  <div class="g5">
+    <div class="g5-left">
+      <div class="card" id="e89" data-t="617.28"><h4>LTE Cat.1</h4>約 10 Mbps、成本功耗低；公車動態、共享單車、電梯聯網</div>
+      <div class="chips col" id="e90" data-t="644.10"><span>工業級 SIM</span><span>eSIM：OTA 遠端換電信商</span><span>iSIM：整合進 SoC</span></div>
+      <div class="warn" id="e91" data-t="650.32">⚠️ 5G 不是「低功耗長距離」技術（那是 LPWAN）</div>
+    </div>
+    <svg class="tri" viewBox="0 0 760 640" id="e92" data-t="624.96">
+      <polygon points="300,60 60,540 540,540" fill="rgba(56,189,248,.08)" stroke="#38bdf8" stroke-width="4"/>
+      <g id="e93" data-t="629.60"><circle cx="300" cy="60" r="16" fill="#f59e0b"/><text x="420" y="58" font-size="34" fill="#fff" font-weight="700">eMBB 快</text><text x="420" y="98" font-size="24" fill="#cbd5e1">可達 10 Gbps：8K 串流、AR/VR</text></g>
+      <g id="e94" data-t="636.24"><circle cx="60" cy="540" r="16" fill="#a78bfa"/><text x="170" y="400" text-anchor="middle" font-size="34" fill="#fff" font-weight="700">mMTC 多</text><text x="170" y="440" text-anchor="middle" font-size="22" fill="#cbd5e1">每平方公里 100 萬個裝置</text></g>
+      <g id="e95" data-t="639.52"><circle cx="540" cy="540" r="16" fill="#34d399"/><text x="440" y="580" text-anchor="middle" font-size="34" fill="#fff" font-weight="700">URLLC 準</text><text x="440" y="618" text-anchor="middle" font-size="22" fill="#cbd5e1">延遲 &lt; 1 ms：車聯網、遠端手術</text></g>
+    </svg>
+  </div>
+</div></div></section><section id="s14" class="clip slide" data-start="655.840" data-duration="38.360" data-track-index="1"><div class="slide-in" id="s14-in"><div class="head"><h2>12. 選型總表（考前必看）</h2><div class="code">評鑑項目　考科一 2.2｜指引 p.4-40</div></div><div class="body">
+  <table class="tbl pick">
+    <tr><th>需求</th><th>首選</th></tr>
+    <tr id="e96" data-t="664.08"><td>極低資料量＋電池供電</td><td>NB-IoT／LoRaWAN</td></tr>
+    <tr id="e97" data-t="669.12"><td>中等資料量＋移動</td><td>LTE Cat.1</td></tr>
+    <tr id="e98" data-t="673.70"><td>大資料量（影像）＋即時</td><td>4G LTE Cat.4／5G eMBB</td></tr>
+    <tr id="e99" data-t="678.50"><td>不容許延遲＋生命安全</td><td>5G URLLC</td></tr>
+    <tr id="e100" data-t="682.86"><td>室內影音、AR/VR</td><td>Wi-Fi</td></tr>
+    <tr id="e101" data-t="685.60"><td>穿戴、手機配件</td><td>BLE</td></tr>
+    <tr id="e102" data-t="687.93"><td>居家／樓宇大量低速節點</td><td>Zigbee（Mesh）</td></tr>
+    <tr id="e103" data-t="691.94"><td>碰一下支付／配對</td><td>NFC</td></tr>
+  </table>
+</div></div></section><section id="s15" class="clip slide" data-start="694.200" data-duration="72.990" data-track-index="1"><div class="slide-in" id="s15-in"><div class="head"><h2>口頭自測</h2><div class="code">評鑑項目　考科一 2.1・2.2</div></div><div class="body">
+  <div class="quiz">
+    <div class="q" id="e104" data-t="698.72"><span class="qn">Q1</span>OSI 哪一層負責加密和壓縮？<b class="ans" id="e105" data-t="709.40">表達層</b></div>
+    <div class="q" id="e106" data-t="712.04"><span class="qn">Q2</span>倉庫一次讀取幾百件貨物，選哪個 RFID 頻段？<b class="ans" id="e107" data-t="723.54">超高頻 UHF</b></div>
+    <div class="q" id="e108" data-t="727.10"><span class="qn">Q3</span>Zigbee 網路裡，協調器可以有幾個？<b class="ans" id="e109" data-t="737.15">只能有一個</b></div>
+    <div class="q" id="e110" data-t="739.43"><span class="qn">Q4</span>可自建基地台、不用月租的 LPWAN？<b class="ans" id="e111" data-t="751.28">LoRaWAN</b></div>
+    <div class="q" id="e112" data-t="753.82"><span class="qn">Q5</span>5G 裡延遲小於 1 ms 的場景？<b class="ans" id="e113" data-t="764.11">URLLC</b></div>
+  </div>
+</div></div></section><section id="s16" class="clip slide" data-start="767.190" data-duration="40.150" data-track-index="1"><div class="slide-in" id="s16-in"><div class="head"><h2>今日 30 秒回顧</h2></div><div class="body">
+  <div class="recap">
+    <div id="e114" data-t="768.47">感知 → 網路 → 應用<small>看・送・想</small></div>
+    <div id="e115" data-t="771.85">應表會傳網鏈實<small>表達層管加密壓縮</small></div>
+    <div id="e116" data-t="776.51">UHF 一次讀數百<small>NFC 13.56MHz・4cm</small></div>
+    <div id="e117" data-t="782.11">Wi-Fi 6＝TWT＋OFDMA<small>HaLow＝Sub-1GHz</small></div>
+    <div id="e118" data-t="787.95">BLE<small>GAP 廣播連線・GATT 服務特徵</small></div>
+    <div id="e119" data-t="793.33">Zigbee<small>協調器只有一個・終端不轉發</small></div>
+    <div id="e120" data-t="796.93">NB-IoT 授權頻譜<small>LoRa 非授權可自建</small></div>
+    <div id="e121" data-t="800.73">5G<small>eMBB 快・mMTC 多・URLLC 準</small></div>
+  </div>
+</div></div></section>
+  <div class="subwrap"><div id="sub0" class="clip sub" data-start="0.000" data-duration="2.540" data-track-index="3"><span>大家好，歡迎回來，這裡是 iPAS</span></div>
+<div id="sub1" class="clip sub" data-start="2.540" data-duration="5.080" data-track-index="3"><span>AIoT 應用工程師初級的有聲課，今天是第二天。</span></div>
+<div id="sub2" class="clip sub" data-start="7.620" data-duration="4.020" data-track-index="3"><span>今天要把物聯網的骨架和「怎麼傳資料」講清楚</span></div>
+<div id="sub3" class="clip sub" data-start="11.640" data-duration="2.200" data-track-index="3"><span>三層架構、感測模組</span></div>
+<div id="sub4" class="clip sub" data-start="13.840" data-duration="5.720" data-track-index="3"><span>OSI 七層、RFID 和 NFC，還有各種無線通訊怎麼選。</span></div>
+<div id="sub5" class="clip sub" data-start="19.560" data-duration="3.960" data-track-index="3"><span>名詞很多，我們一樣用生活例子把它們變成畫面。</span></div>
+<div id="sub6" class="clip sub" data-start="23.520" data-duration="1.160" data-track-index="3"><span>好，出發！</span></div>
+<div id="sub7" class="clip sub" data-start="24.680" data-duration="4.140" data-track-index="3"><span>第一段，對應考科一 2.1，物聯網三層架構。</span></div>
+<div id="sub8" class="clip sub" data-start="28.820" data-duration="5.160" data-track-index="3"><span>物聯網三大特徵：全面感知、可靠傳遞、智慧處理。</span></div>
+<div id="sub9" class="clip sub" data-start="33.980" data-duration="3.120" data-track-index="3"><span>架構分三層，用手搖飲外送來想。</span></div>
+<div id="sub10" class="clip sub" data-start="37.100" data-duration="4.280" data-track-index="3"><span>感知層，是店員的眼睛和手，負責數據採集</span></div>
+<div id="sub11" class="clip sub" data-start="41.380" data-duration="2.380" data-track-index="3"><span>把類比轉數位、用 RFID</span></div>
+<div id="sub12" class="clip sub" data-start="43.760" data-duration="2.740" data-track-index="3"><span>NFC、QR Code 做識別</span></div>
+<div id="sub13" class="clip sub" data-start="46.500" data-duration="3.300" data-track-index="3"><span>也能先做簡單邊緣運算，像先濾掉雜訊。</span></div>
+<div id="sub14" class="clip sub" data-start="49.800" data-duration="3.220" data-track-index="3"><span>網路層，是外送員，要把資料「無縫</span></div>
+<div id="sub15" class="clip sub" data-start="53.020" data-duration="4.360" data-track-index="3"><span>透明」送到應用層，裡面有存取網路和核心網路</span></div>
+<div id="sub16" class="clip sub" data-start="57.380" data-duration="1.807" data-track-index="3"><span>還要做異質網路融合</span></div>
+<div id="sub17" class="clip sub" data-start="59.187" data-duration="3.373" data-track-index="3"><span>像閘道器把 Zigbee 轉成 TCP／IP。</span></div>
+<div id="sub18" class="clip sub" data-start="62.560" data-duration="4.360" data-track-index="3"><span>應用層，是老闆看報表做決策，靠雲端、大數據</span></div>
+<div id="sub19" class="clip sub" data-start="66.920" data-duration="3.820" data-track-index="3"><span>AI，做設備管理、數據儲存、提供 API。</span></div>
+<div id="sub20" class="clip sub" data-start="70.740" data-duration="4.840" data-track-index="3"><span>IoT 的傳輸特性通常是「小封包、高頻率」或「事件驅動」</span></div>
+<div id="sub21" class="clip sub" data-start="75.580" data-duration="3.800" data-track-index="3"><span>所以網路層特別要注意封包遺失率和延遲。</span></div>
+<div id="sub22" class="clip sub" data-start="79.380" data-duration="4.420" data-track-index="3"><span>還有，感知層元件不是各自獨立運作，例如按門鈴之後</span></div>
+<div id="sub23" class="clip sub" data-start="83.800" data-duration="4.560" data-track-index="3"><span>通知攝影機開始人臉辨識，元件之間要交換資料。</span></div>
+<div id="sub24" class="clip sub" data-start="88.360" data-duration="4.600" data-track-index="3"><span>口訣：感知、網路、應用，「看、送、想」。</span></div>
+<div id="sub25" class="clip sub" data-start="92.960" data-duration="3.820" data-track-index="3"><span>第二段，考科一 2.1，常見感測模組。</span></div>
+<div id="sub26" class="clip sub" data-start="96.780" data-duration="3.200" data-track-index="3"><span>HC-SR501，人體紅外線</span></div>
+<div id="sub27" class="clip sub" data-start="99.980" data-duration="5.780" data-track-index="3"><span>被動接收人體紅外線變化，菲涅爾透鏡切出多個感應區，人來燈亮。</span></div>
+<div id="sub28" class="clip sub" data-start="105.760" data-duration="3.540" data-track-index="3"><span>陷阱：它偵測不到靜止的人，也無法辨識身分。</span></div>
+<div id="sub29" class="clip sub" data-start="109.300" data-duration="4.260" data-track-index="3"><span>想像你在廁所坐太久不動，燈就熄了，就是這個原因。</span></div>
+<div id="sub30" class="clip sub" data-start="113.560" data-duration="5.700" data-track-index="3"><span>DHT11，溫濕度：電阻式濕度元件加 NTC 熱敏電阻</span></div>
+<div id="sub31" class="clip sub" data-start="119.260" data-duration="3.060" data-track-index="3"><span>單線數位輸出，建議大約兩秒讀一次。</span></div>
+<div id="sub32" class="clip sub" data-start="122.320" data-duration="5.200" data-track-index="3"><span>HC-SR04，超音波測距：發出 40 kHz超音波</span></div>
+<div id="sub33" class="clip sub" data-start="127.520" data-duration="5.940" data-track-index="3"><span>量回波時間，距離等於聲速乘時間再除以二，因為聲音要去又回。</span></div>
+<div id="sub34" class="clip sub" data-start="133.460" data-duration="2.040" data-track-index="3"><span>像在山谷喊一聲等回音。</span></div>
+<div id="sub35" class="clip sub" data-start="135.500" data-duration="5.900" data-track-index="3"><span>不受光線、顏色影響，用在避障、液位、停車格、垃圾桶滿載。</span></div>
+<div id="sub36" class="clip sub" data-start="141.400" data-duration="3.180" data-track-index="3"><span>考題常這樣問：超音波感測器量什麼？</span></div>
+<div id="sub37" class="clip sub" data-start="144.580" data-duration="2.480" data-track-index="3"><span>量「距離」，不是量噪音分貝。</span></div>
+<div id="sub38" class="clip sub" data-start="147.060" data-duration="4.940" data-track-index="3"><span>ADXL345，三軸加速度，MEMS 差動電容</span></div>
+<div id="sub39" class="clip sub" data-start="152.000" data-duration="4.840" data-track-index="3"><span>走 I²C 或 SPI，用在計步、傾斜、跌倒偵測。</span></div>
+<div id="sub40" class="clip sub" data-start="156.840" data-duration="2.160" data-track-index="3"><span>MPU6050，六軸</span></div>
+<div id="sub41" class="clip sub" data-start="159.000" data-duration="4.860" data-track-index="3"><span>三軸加速度加三軸陀螺儀，陀螺儀靠科里奧利力量角速度</span></div>
+<div id="sub42" class="clip sub" data-start="163.860" data-duration="2.900" data-track-index="3"><span>陀螺儀會漂移、加速度計怕震動</span></div>
+<div id="sub43" class="clip sub" data-start="166.760" data-duration="4.940" data-track-index="3"><span>所以用互補或卡爾曼濾波一起算，平衡車、無人機都靠它。</span></div>
+<div id="sub44" class="clip sub" data-start="171.700" data-duration="4.700" data-track-index="3"><span>MQ-2，可燃氣體與煙霧：加熱的二氧化錫半導體</span></div>
+<div id="sub45" class="clip sub" data-start="176.400" data-duration="2.820" data-track-index="3"><span>遇到氣體電阻會下降，要預熱</span></div>
+<div id="sub46" class="clip sub" data-start="179.220" data-duration="3.380" data-track-index="3"><span>選擇性差，炒菜油煙、酒精都可能干擾。</span></div>
+<div id="sub47" class="clip sub" data-start="182.600" data-duration="3.000" data-track-index="3"><span>光敏電阻：光越強電阻越小</span></div>
+<div id="sub48" class="clip sub" data-start="185.600" data-duration="3.133" data-track-index="3"><span>要串固定電阻做分壓再給 ADC 讀</span></div>
+<div id="sub49" class="clip sub" data-start="188.733" data-duration="2.747" data-track-index="3"><span>像自動路燈；反應比光二極體慢。</span></div>
+<div id="sub50" class="clip sub" data-start="191.480" data-duration="5.340" data-track-index="3"><span>另一個陷阱：室內燈光控制，用不到電子羅盤和加速度計。</span></div>
+<div id="sub51" class="clip sub" data-start="196.820" data-duration="5.440" data-track-index="3"><span>第三段，考科一 2.1，OSI 七層與 TCP／IP 四層。</span></div>
+<div id="sub52" class="clip sub" data-start="202.260" data-duration="2.200" data-track-index="3"><span>OSI 由 ISO 提出</span></div>
+<div id="sub53" class="clip sub" data-start="204.460" data-duration="4.200" data-track-index="3"><span>分七層的目的，是解決異構網路互連的相容性問題。</span></div>
+<div id="sub54" class="clip sub" data-start="208.660" data-duration="5.320" data-track-index="3"><span>口訣從上到下：「應、表、會、傳、網、鏈、實」。</span></div>
+<div id="sub55" class="clip sub" data-start="213.980" data-duration="4.480" data-track-index="3"><span>用寄包裹來想：應用層是你要寄什麼，像 HTTP</span></div>
+<div id="sub56" class="clip sub" data-start="218.460" data-duration="3.900" data-track-index="3"><span>FTP、SMTP；表達層負責格式轉換</span></div>
+<div id="sub57" class="clip sub" data-start="222.360" data-duration="3.860" data-track-index="3"><span>壓縮解壓、加密解密，像把東西打包、上鎖</span></div>
+<div id="sub58" class="clip sub" data-start="226.220" data-duration="4.980" data-track-index="3"><span>會議層建立和結束會談；傳輸層負責端對端可靠傳輸</span></div>
+<div id="sub59" class="clip sub" data-start="231.200" data-duration="4.440" data-track-index="3"><span>代表是 TCP 和 UDP；網路層負責定址與路由</span></div>
+<div id="sub60" class="clip sub" data-start="235.640" data-duration="2.640" data-track-index="3"><span>代表 IP、ICMP，像寫地址</span></div>
+<div id="sub61" class="clip sub" data-start="238.280" data-duration="4.533" data-track-index="3"><span>決定走哪條路；資料鏈結層組成訊框、做錯誤偵測</span></div>
+<div id="sub62" class="clip sub" data-start="242.813" data-duration="5.147" data-track-index="3"><span>像乙太網路；實體層傳送位元，就是電纜、光纖這些真正的路。</span></div>
+<div id="sub63" class="clip sub" data-start="247.960" data-duration="3.920" data-track-index="3"><span>考題常這樣問：「加密、壓縮在哪一層？</span></div>
+<div id="sub64" class="clip sub" data-start="251.880" data-duration="1.540" data-track-index="3"><span>」答案是表達層。</span></div>
+<div id="sub65" class="clip sub" data-start="253.420" data-duration="5.060" data-track-index="3"><span>TCP／IP 不是砍掉層，而是把功能相近的層合併成四層</span></div>
+<div id="sub66" class="clip sub" data-start="258.480" data-duration="4.520" data-track-index="3"><span>指引另外也用五層說明，看到四層或五層都別慌。</span></div>
+<div id="sub67" class="clip sub" data-start="263.000" data-duration="4.020" data-track-index="3"><span>第四段，考科一 2.1，應用層場域速覽。</span></div>
+<div id="sub68" class="clip sub" data-start="267.020" data-duration="3.820" data-track-index="3"><span>智慧家庭：「回家模式」一鍵開燈開冷氣。</span></div>
+<div id="sub69" class="clip sub" data-start="270.840" data-duration="4.020" data-track-index="3"><span>智慧交通：AI 影像加地磁感測器算車流</span></div>
+<div id="sub70" class="clip sub" data-start="274.860" data-duration="2.660" data-track-index="3"><span>動態調號誌，還有 V2X 車聯網。</span></div>
+<div id="sub71" class="clip sub" data-start="277.520" data-duration="4.940" data-track-index="3"><span>智慧城市：智慧路燈變城市節點、智慧水務抓漏。</span></div>
+<div id="sub72" class="clip sub" data-start="282.460" data-duration="3.080" data-track-index="3"><span>科技執法：區間測速、聲音照相。</span></div>
+<div id="sub73" class="clip sub" data-start="285.540" data-duration="4.840" data-track-index="3"><span>智慧工廠：OT 和 IT 融合、預測性維護、數位孿生。</span></div>
+<div id="sub74" class="clip sub" data-start="290.380" data-duration="3.400" data-track-index="3"><span>數位孿生，就像先在電玩裡把產線蓋一次</span></div>
+<div id="sub75" class="clip sub" data-start="293.780" data-duration="3.100" data-track-index="3"><span>模擬驗證沒問題，再套用到真的產線。</span></div>
+<div id="sub76" class="clip sub" data-start="296.880" data-duration="3.220" data-track-index="3"><span>智慧農業：從看天吃飯到精密農業</span></div>
+<div id="sub77" class="clip sub" data-start="300.100" data-duration="2.660" data-track-index="3"><span>用 LoRaWAN、NB-IoT 回傳。</span></div>
+<div id="sub78" class="clip sub" data-start="302.760" data-duration="3.160" data-track-index="3"><span>智慧醫療：連續血糖監測、遠距照護。</span></div>
+<div id="sub79" class="clip sub" data-start="305.920" data-duration="4.440" data-track-index="3"><span>考題陷阱：「自動駕駛汽車」不是智慧醫療的例子。</span></div>
+<div id="sub80" class="clip sub" data-start="310.360" data-duration="4.640" data-track-index="3"><span>第五段，考科一 2.2，RFID 頻段表，必背。</span></div>
+<div id="sub81" class="clip sub" data-start="315.000" data-duration="3.020" data-track-index="3"><span>RFID 是用無線電波做非接觸式</span></div>
+<div id="sub82" class="clip sub" data-start="318.020" data-duration="5.140" data-track-index="3"><span>雙向的自動識別，三元件：標籤、讀寫器、後端系統。</span></div>
+<div id="sub83" class="clip sub" data-start="323.160" data-duration="4.700" data-track-index="3"><span>最常見是被動式，沒有電池，靠讀寫器電波感應供電。</span></div>
+<div id="sub84" class="clip sub" data-start="327.860" data-duration="4.300" data-track-index="3"><span>四個頻段：低頻 125 到 134 千赫茲</span></div>
+<div id="sub85" class="clip sub" data-start="332.160" data-duration="2.340" data-track-index="3"><span>距離小於 10 公分，穿透強</span></div>
+<div id="sub86" class="clip sub" data-start="334.500" data-duration="3.080" data-track-index="3"><span>不怕金屬和水，用在動物晶片、門禁卡。</span></div>
+<div id="sub87" class="clip sub" data-start="337.580" data-duration="3.600" data-track-index="3"><span>高頻 13.56 百萬赫茲，小於 1 公尺</span></div>
+<div id="sub88" class="clip sub" data-start="341.180" data-duration="2.780" data-track-index="3"><span>用在圖書館、電子護照、智慧卡。</span></div>
+<div id="sub89" class="clip sub" data-start="343.960" data-duration="3.360" data-track-index="3"><span>超高頻 860 到 960 百萬赫茲</span></div>
+<div id="sub90" class="clip sub" data-start="347.320" data-duration="1.620" data-track-index="3"><span>3 到 10 公尺以上</span></div>
+<div id="sub91" class="clip sub" data-start="348.940" data-duration="5.300" data-track-index="3"><span>防碰撞可以一次讀數百個，用在物流倉儲、ETC、零售盤點。</span></div>
+<div id="sub92" class="clip sub" data-start="354.240" data-duration="3.100" data-track-index="3"><span>想像大賣場整台推車推過門口</span></div>
+<div id="sub93" class="clip sub" data-start="357.340" data-duration="4.160" data-track-index="3"><span>幾百件商品一次結帳，這就是超高頻的威力。</span></div>
+<div id="sub94" class="clip sub" data-start="361.500" data-duration="3.060" data-track-index="3"><span>微波 2.45 和 5.8 吉赫茲</span></div>
+<div id="sub95" class="clip sub" data-start="364.560" data-duration="4.120" data-track-index="3"><span>大於 10 公尺，指向性強，用在行李追蹤。</span></div>
+<div id="sub96" class="clip sub" data-start="368.680" data-duration="4.420" data-track-index="3"><span>口訣：「低頻動物門禁、高頻圖書護照</span></div>
+<div id="sub97" class="clip sub" data-start="373.100" data-duration="3.080" data-track-index="3"><span>超高頻倉儲 ETC、微波追行李」。</span></div>
+<div id="sub98" class="clip sub" data-start="376.180" data-duration="4.500" data-track-index="3"><span>第六段，考科一 2.2，NFC 與 RFID。</span></div>
+<div id="sub99" class="clip sub" data-start="380.680" data-duration="3.920" data-track-index="3"><span>NFC 從 RFID 的高頻技術演變而來</span></div>
+<div id="sub100" class="clip sub" data-start="384.600" data-duration="2.800" data-track-index="3"><span>固定 13.56 百萬赫茲</span></div>
+<div id="sub101" class="clip sub" data-start="387.400" data-duration="4.160" data-track-index="3"><span>實務 4 公分以內，距離短反而是安全優勢</span></div>
+<div id="sub102" class="clip sub" data-start="391.560" data-duration="2.000" data-track-index="3"><span>資料格式是 NDEF。</span></div>
+<div id="sub103" class="clip sub" data-start="393.560" data-duration="4.560" data-track-index="3"><span>三種模式：卡片模擬，手機變悠遊卡、Apple Pay</span></div>
+<div id="sub104" class="clip sub" data-start="398.120" data-duration="5.820" data-track-index="3"><span>通常需要安全元件 SE；讀卡機模式，手機去讀智慧海報</span></div>
+<div id="sub105" class="clip sub" data-start="403.940" data-duration="2.120" data-track-index="3"><span>防偽標籤；點對點</span></div>
+<div id="sub106" class="clip sub" data-start="406.060" data-duration="3.260" data-track-index="3"><span>物聯網最關鍵的是快速配對 Handover</span></div>
+<div id="sub107" class="clip sub" data-start="409.320" data-duration="4.640" data-track-index="3"><span>碰一下藍牙喇叭，傳完連線資訊就切到藍牙或 Wi-Fi。</span></div>
+<div id="sub108" class="clip sub" data-start="413.960" data-duration="3.900" data-track-index="3"><span>比較哲學：RFID 讓「物」被系統看見</span></div>
+<div id="sub109" class="clip sub" data-start="417.860" data-duration="4.840" data-track-index="3"><span>一次讀很多；NFC 讓「人」與「物」互動，通常一對一。</span></div>
+<div id="sub110" class="clip sub" data-start="422.700" data-duration="3.200" data-track-index="3"><span>第七段，考科一 2.2，Wi-Fi。</span></div>
+<div id="sub111" class="clip sub" data-start="425.900" data-duration="2.880" data-track-index="3"><span>Wi-Fi 4 是 802.11n</span></div>
+<div id="sub112" class="clip sub" data-start="428.780" data-duration="4.240" data-track-index="3"><span>目前最主流的 IoT 標準，ESP32 多採用。</span></div>
+<div id="sub113" class="clip sub" data-start="433.020" data-duration="3.500" data-track-index="3"><span>Wi-Fi 5 是 ac，高頻寬但穿牆弱。</span></div>
+<div id="sub114" class="clip sub" data-start="436.520" data-duration="2.120" data-track-index="3"><span>Wi-Fi 6 是 ax</span></div>
+<div id="sub115" class="clip sub" data-start="438.640" data-duration="3.940" data-track-index="3"><span>關鍵字 TWT 目標喚醒時間加 OFDMA</span></div>
+<div id="sub116" class="clip sub" data-start="442.580" data-duration="5.800" data-track-index="3"><span>省電又解決多裝置擁塞，像公車排班表，大家不用一直在站牌等。</span></div>
+<div id="sub117" class="clip sub" data-start="448.380" data-duration="3.640" data-track-index="3"><span>Wi-Fi 7 是 be，MLO 多重連結。</span></div>
+<div id="sub118" class="clip sub" data-start="452.020" data-duration="2.300" data-track-index="3"><span>Wi-Fi HaLow 是 ah</span></div>
+<div id="sub119" class="clip sub" data-start="454.320" data-duration="2.880" data-track-index="3"><span>Sub-1G 大約 900 百萬赫茲</span></div>
+<div id="sub120" class="clip sub" data-start="457.200" data-duration="3.980" data-track-index="3"><span>穿透強、約一公里、極低功耗，IoT 專用。</span></div>
+<div id="sub121" class="clip sub" data-start="461.180" data-duration="4.160" data-track-index="3"><span>優勢是原生 IP，不用閘道器轉換就能上雲。</span></div>
+<div id="sub122" class="clip sub" data-start="465.340" data-duration="2.380" data-track-index="3"><span>2.4 G 穿牆好但和藍牙</span></div>
+<div id="sub123" class="clip sub" data-start="467.720" data-duration="4.140" data-track-index="3"><span>微波爐搶頻道；5G、6G 快但穿牆差。</span></div>
+<div id="sub124" class="clip sub" data-start="471.860" data-duration="3.620" data-track-index="3"><span>限制是耗電，不適合鈕扣電池跑好幾年。</span></div>
+<div id="sub125" class="clip sub" data-start="475.480" data-duration="2.320" data-track-index="3"><span>SSID 就是基地台識別碼。</span></div>
+<div id="sub126" class="clip sub" data-start="477.800" data-duration="3.220" data-track-index="3"><span>第八段，考科一 2.2，藍牙。</span></div>
+<div id="sub127" class="clip sub" data-start="481.020" data-duration="4.220" data-track-index="3"><span>經典藍牙適合持續大量傳輸，像耳機聽音樂</span></div>
+<div id="sub128" class="clip sub" data-start="485.240" data-duration="2.760" data-track-index="3"><span>BLE 低功耗藍牙平常睡覺</span></div>
+<div id="sub129" class="clip sub" data-start="488.000" data-duration="2.670" data-track-index="3"><span>需要時毫秒級醒來傳一下</span></div>
+<div id="sub130" class="clip sub" data-start="490.670" data-duration="4.190" data-track-index="3"><span>鈕扣電池能撐好幾年，像手環、心率帶、門鎖。</span></div>
+<div id="sub131" class="clip sub" data-start="494.860" data-duration="2.120" data-track-index="3"><span>GAP 管廣播和連線</span></div>
+<div id="sub132" class="clip sub" data-start="496.980" data-duration="4.300" data-track-index="3"><span>手環是周邊在廣播，手機是中央去掃描連線。</span></div>
+<div id="sub133" class="clip sub" data-start="501.280" data-duration="2.280" data-track-index="3"><span>GATT 管連線後的資料</span></div>
+<div id="sub134" class="clip sub" data-start="503.560" data-duration="4.780" data-track-index="3"><span>階層是服務再到特徵，例如心率服務裡的心率數值。</span></div>
+<div id="sub135" class="clip sub" data-start="508.340" data-duration="3.020" data-track-index="3"><span>藍牙 5.0 兩倍速加 Long Range</span></div>
+<div id="sub136" class="clip sub" data-start="511.360" data-duration="1.660" data-track-index="3"><span>5.1 有 AoA</span></div>
+<div id="sub137" class="clip sub" data-start="513.020" data-duration="3.520" data-track-index="3"><span>AoD 測角定位，室內定位到公分級</span></div>
+<div id="sub138" class="clip sub" data-start="516.540" data-duration="1.900" data-track-index="3"><span>Mesh 可以讓燈泡接力。</span></div>
+<div id="sub139" class="clip sub" data-start="518.440" data-duration="2.120" data-track-index="3"><span>Beacon 用廣播推優惠券</span></div>
+<div id="sub140" class="clip sub" data-start="520.560" data-duration="3.160" data-track-index="3"><span>你走進百貨公司手機就跳出折價券</span></div>
+<div id="sub141" class="clip sub" data-start="523.720" data-duration="3.120" data-track-index="3"><span>無鑰匙解鎖用 RSSI 判斷距離。</span></div>
+<div id="sub142" class="clip sub" data-start="526.840" data-duration="3.120" data-track-index="3"><span>第九段，考科一 2.2，Zigbee。</span></div>
+<div id="sub143" class="clip sub" data-start="529.960" data-duration="2.400" data-track-index="3"><span>Zigbee 是 802.15.4</span></div>
+<div id="sub144" class="clip sub" data-start="532.360" data-duration="2.960" data-track-index="3"><span>低速率、低功耗、大量節點組網。</span></div>
+<div id="sub145" class="clip sub" data-start="535.320" data-duration="4.940" data-track-index="3"><span>三個角色，用一家公司來比：協調器是老闆，選頻道</span></div>
+<div id="sub146" class="clip sub" data-start="540.260" data-duration="4.860" data-track-index="3"><span>設 PAN ID、發位址，一個網路只能有一個；路由器是主管</span></div>
+<div id="sub147" class="clip sub" data-start="545.120" data-duration="4.660" data-track-index="3"><span>負責轉發，通常是插電的燈泡、插座；終端裝置是員工</span></div>
+<div id="sub148" class="clip sub" data-start="549.780" data-duration="4.420" data-track-index="3"><span>只處理自己的事、不轉發，大多在睡，像門窗感測器。</span></div>
+<div id="sub149" class="clip sub" data-start="554.200" data-duration="4.720" data-track-index="3"><span>網狀多跳，路由器壞了會自動找別條路，叫自我修復。</span></div>
+<div id="sub150" class="clip sub" data-start="558.920" data-duration="2.820" data-track-index="3"><span>限制：最高 250 kbps</span></div>
+<div id="sub151" class="clip sub" data-start="561.740" data-duration="3.560" data-track-index="3"><span>手機沒有 Zigbee 晶片，一定要透過網關。</span></div>
+<div id="sub152" class="clip sub" data-start="565.300" data-duration="2.360" data-track-index="3"><span>Zigbee 聯盟已改名 CSA</span></div>
+<div id="sub153" class="clip sub" data-start="567.660" data-duration="2.780" data-track-index="3"><span>推動 Matter；Matter 不支援 LoRa。</span></div>
+<div id="sub154" class="clip sub" data-start="570.440" data-duration="4.560" data-track-index="3"><span>第十段，考科一 2.2，NB-IoT 與 LoRaWAN。</span></div>
+<div id="sub155" class="clip sub" data-start="575.000" data-duration="4.740" data-track-index="3"><span>NB-IoT 用授權頻譜，架在電信基地台上，覆蓋超好</span></div>
+<div id="sub156" class="clip sub" data-start="579.740" data-duration="4.980" data-track-index="3"><span>地下室、下水道都收得到，適合智慧水表、路燈、人孔蓋。</span></div>
+<div id="sub157" class="clip sub" data-start="584.720" data-duration="2.090" data-track-index="3"><span>LoRaWAN 用非授權頻譜</span></div>
+<div id="sub158" class="clip sub" data-start="586.810" data-duration="3.870" data-track-index="3"><span>台灣 920 到 925 百萬赫茲，可以自建基地台</span></div>
+<div id="sub159" class="clip sub" data-start="590.680" data-duration="3.300" data-track-index="3"><span>不用月租，空曠地可達 10 公里以上</span></div>
+<div id="sub160" class="clip sub" data-start="593.980" data-duration="3.200" data-track-index="3"><span>適合大農場土壤監測、土石流預警。</span></div>
+<div id="sub161" class="clip sub" data-start="597.180" data-duration="3.020" data-track-index="3"><span>比喻：NB-IoT 像辦手機門號</span></div>
+<div id="sub162" class="clip sub" data-start="600.200" data-duration="2.600" data-track-index="3"><span>LoRa 像自己在農場架對講機。</span></div>
+<div id="sub163" class="clip sub" data-start="602.800" data-duration="4.320" data-track-index="3"><span>注意這個標註：指引寫 NB-IoT「不支援移動性」</span></div>
+<div id="sub164" class="clip sub" data-start="607.120" data-duration="3.640" data-track-index="3"><span>這是早期版本的特性，後續版本已逐步改善</span></div>
+<div id="sub165" class="clip sub" data-start="610.760" data-duration="2.280" data-track-index="3"><span>但考試以指引說法作答。</span></div>
+<div id="sub166" class="clip sub" data-start="613.040" data-duration="4.240" data-track-index="3"><span>第十一段，考科一 2.2，4G、5G 與 SIM。</span></div>
+<div id="sub167" class="clip sub" data-start="617.280" data-duration="3.180" data-track-index="3"><span>LTE Cat.1 大約 10 Mbps</span></div>
+<div id="sub168" class="clip sub" data-start="620.460" data-duration="4.500" data-track-index="3"><span>成本功耗低，公車動態、共享單車、電梯聯網最愛用。</span></div>
+<div id="sub169" class="clip sub" data-start="624.960" data-duration="4.640" data-track-index="3"><span>5G 三大場景，口訣「eMBB 快、mMTC 多</span></div>
+<div id="sub170" class="clip sub" data-start="629.600" data-duration="4.440" data-track-index="3"><span>URLLC 準」：eMBB 網速可達 10 Gbps</span></div>
+<div id="sub171" class="clip sub" data-start="634.040" data-duration="2.200" data-track-index="3"><span>看 8K 串流、AR、VR</span></div>
+<div id="sub172" class="clip sub" data-start="636.240" data-duration="3.280" data-track-index="3"><span>mMTC 每平方公里一百萬個裝置</span></div>
+<div id="sub173" class="clip sub" data-start="639.520" data-duration="4.580" data-track-index="3"><span>URLLC 延遲小於 1 毫秒，車聯網、遠端手術。</span></div>
+<div id="sub174" class="clip sub" data-start="644.100" data-duration="4.380" data-track-index="3"><span>SIM 有工業級、eSIM 可 OTA 遠端換電信商</span></div>
+<div id="sub175" class="clip sub" data-start="648.480" data-duration="1.840" data-track-index="3"><span>iSIM 整合進晶片。</span></div>
+<div id="sub176" class="clip sub" data-start="650.320" data-duration="5.520" data-track-index="3"><span>考題陷阱：5G 不是低功耗長距離技術，那是 LPWAN。</span></div>
+<div id="sub177" class="clip sub" data-start="655.840" data-duration="3.700" data-track-index="3"><span>第十二段，考科一 2.2，選型總表。</span></div>
+<div id="sub178" class="clip sub" data-start="659.540" data-duration="4.540" data-track-index="3"><span>小情境題：想像你是工程師，要幫一個城市選通訊。</span></div>
+<div id="sub179" class="clip sub" data-start="664.080" data-duration="2.760" data-track-index="3"><span>路邊水表、電池供電、資料極少？</span></div>
+<div id="sub180" class="clip sub" data-start="666.840" data-duration="2.280" data-track-index="3"><span>NB-IoT 或 LoRaWAN。</span></div>
+<div id="sub181" class="clip sub" data-start="669.120" data-duration="2.860" data-track-index="3"><span>共享機車要定位、會移動、資料中等？</span></div>
+<div id="sub182" class="clip sub" data-start="671.980" data-duration="1.720" data-track-index="3"><span>LTE Cat.1。</span></div>
+<div id="sub183" class="clip sub" data-start="673.700" data-duration="1.880" data-track-index="3"><span>路口監視器要即時影像？</span></div>
+<div id="sub184" class="clip sub" data-start="675.580" data-duration="2.920" data-track-index="3"><span>4G Cat.4 或 5G eMBB。</span></div>
+<div id="sub185" class="clip sub" data-start="678.500" data-duration="2.480" data-track-index="3"><span>自駕車、遠端醫療不能延遲？</span></div>
+<div id="sub186" class="clip sub" data-start="680.980" data-duration="1.880" data-track-index="3"><span>5G URLLC。</span></div>
+<div id="sub187" class="clip sub" data-start="682.860" data-duration="1.740" data-track-index="3"><span>家裡看影片、AR？</span></div>
+<div id="sub188" class="clip sub" data-start="684.600" data-duration="1.000" data-track-index="3"><span>Wi-Fi。</span></div>
+<div id="sub189" class="clip sub" data-start="685.600" data-duration="0.840" data-track-index="3"><span>手環？</span></div>
+<div id="sub190" class="clip sub" data-start="686.440" data-duration="1.487" data-track-index="3"><span>BLE。</span></div>
+<div id="sub191" class="clip sub" data-start="687.927" data-duration="2.473" data-track-index="3"><span>整棟樓幾百個低速感測器？</span></div>
+<div id="sub192" class="clip sub" data-start="690.400" data-duration="1.540" data-track-index="3"><span>Zigbee。</span></div>
+<div id="sub193" class="clip sub" data-start="691.940" data-duration="0.820" data-track-index="3"><span>碰一下支付？</span></div>
+<div id="sub194" class="clip sub" data-start="692.760" data-duration="1.440" data-track-index="3"><span>NFC。</span></div>
+<div id="sub195" class="clip sub" data-start="694.200" data-duration="1.980" data-track-index="3"><span>好，口頭自測時間！</span></div>
+<div id="sub196" class="clip sub" data-start="696.180" data-duration="2.540" data-track-index="3"><span>每題念完，你先在心裡作答。</span></div>
+<div id="sub197" class="clip sub" data-start="698.720" data-duration="5.140" data-track-index="3"><span>第一題：OSI 哪一層負責加密和壓縮？</span></div>
+<div id="sub198" class="clip sub" data-start="703.860" data-duration="1.050" data-track-index="3"><span>先想一想……</span></div>
+<div id="sub199" class="clip sub" data-start="709.400" data-duration="2.640" data-track-index="3"><span>好，答案是表達層。</span></div>
+<div id="sub200" class="clip sub" data-start="712.040" data-duration="5.800" data-track-index="3"><span>第二題：倉庫要一次讀取幾百件貨物，選哪個 RFID 頻段？</span></div>
+<div id="sub201" class="clip sub" data-start="717.840" data-duration="1.130" data-track-index="3"><span>先想一想……</span></div>
+<div id="sub202" class="clip sub" data-start="723.540" data-duration="3.560" data-track-index="3"><span>好，答案是超高頻 UHF。</span></div>
+<div id="sub203" class="clip sub" data-start="727.100" data-duration="4.260" data-track-index="3"><span>第三題：Zigbee 網路裡，協調器可以有幾個？</span></div>
+<div id="sub204" class="clip sub" data-start="731.360" data-duration="1.190" data-track-index="3"><span>先想一想……</span></div>
+<div id="sub205" class="clip sub" data-start="737.150" data-duration="2.280" data-track-index="3"><span>好，答案是只能有一個。</span></div>
+<div id="sub206" class="clip sub" data-start="739.430" data-duration="6.140" data-track-index="3"><span>第四題：可以自建基地台、不用月租的 LPWAN 是哪個？</span></div>
+<div id="sub207" class="clip sub" data-start="745.570" data-duration="1.110" data-track-index="3"><span>先想一想……</span></div>
+<div id="sub208" class="clip sub" data-start="751.280" data-duration="2.540" data-track-index="3"><span>好，答案是 LoRaWAN。</span></div>
+<div id="sub209" class="clip sub" data-start="753.820" data-duration="4.540" data-track-index="3"><span>第五題：5G 裡延遲小於 1 毫秒的是哪個場景？</span></div>
+<div id="sub210" class="clip sub" data-start="758.360" data-duration="1.110" data-track-index="3"><span>先想一想……</span></div>
+<div id="sub211" class="clip sub" data-start="764.110" data-duration="3.080" data-track-index="3"><span>好，答案是 URLLC。</span></div>
+<div id="sub212" class="clip sub" data-start="767.190" data-duration="1.280" data-track-index="3"><span>最後回顧。</span></div>
+<div id="sub213" class="clip sub" data-start="768.470" data-duration="3.380" data-track-index="3"><span>三層架構：看、送、想。</span></div>
+<div id="sub214" class="clip sub" data-start="771.850" data-duration="4.660" data-track-index="3"><span>OSI：應表會傳網鏈實，表達層管加密壓縮。</span></div>
+<div id="sub215" class="clip sub" data-start="776.510" data-duration="5.600" data-track-index="3"><span>超高頻一次讀數百，NFC 13.56、4 公分內。</span></div>
+<div id="sub216" class="clip sub" data-start="782.110" data-duration="3.700" data-track-index="3"><span>Wi-Fi 6 是 TWT 加 OFDMA</span></div>
+<div id="sub217" class="clip sub" data-start="785.810" data-duration="2.140" data-track-index="3"><span>HaLow 是 Sub-1G。</span></div>
+<div id="sub218" class="clip sub" data-start="787.950" data-duration="5.380" data-track-index="3"><span>BLE：GAP 廣播連線、GATT 服務特徵。</span></div>
+<div id="sub219" class="clip sub" data-start="793.330" data-duration="3.600" data-track-index="3"><span>Zigbee 協調器只有一個、終端不轉發。</span></div>
+<div id="sub220" class="clip sub" data-start="796.930" data-duration="3.800" data-track-index="3"><span>NB-IoT 授權頻譜，LoRa 可自建。</span></div>
+<div id="sub221" class="clip sub" data-start="800.730" data-duration="2.820" data-track-index="3"><span>5G：快、多、準。</span></div>
+<div id="sub222" class="clip sub" data-start="803.550" data-duration="3.790" data-track-index="3"><span>第二天就到這裡，辛苦了，我們明天見！</span></div></div>
+  <div class="progress"><div class="track"><i style="left:3.057%"><b>1</b></i><i style="left:8.762%"><b>1</b></i><i style="left:11.514%"><b>2</b></i><i style="left:24.379%"><b>3</b></i><i style="left:32.576%"><b>4</b></i><i style="left:38.442%"><b>5</b></i><i style="left:46.595%"><b>6</b></i><i style="left:52.357%"><b>7</b></i><i style="left:59.182%"><b>8</b></i><i style="left:65.256%"><b>9</b></i><i style="left:70.657%"><b>10</b></i><i style="left:75.933%"><b>11</b></i><i style="left:81.235%"><b>12</b></i><div id="bar" class="bar"></div></div></div>
+  <audio id="narration" src="assets/narration.mp3" data-start="0" data-duration="807.340" data-track-index="0" data-volume="1"></audio>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#bar", {scaleX: 0}, {scaleX: 1, duration: 807.340, ease: "none"}, 0);
+tl.fromTo("#s0-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},0.01);
+tl.fromTo("#s1-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},7.63);
+tl.fromTo("#e1",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},11.64);
+tl.fromTo("#e1",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},11.94);
+tl.fromTo("#e2",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},11.64);
+tl.fromTo("#e2",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},11.94);
+tl.fromTo("#e3",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},13.84);
+tl.fromTo("#e3",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},14.14);
+tl.fromTo("#e4",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},13.84);
+tl.fromTo("#e4",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},14.14);
+tl.fromTo("#e5",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},13.84);
+tl.fromTo("#e5",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},14.14);
+tl.fromTo("#s2-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},24.69);
+tl.fromTo("#e6",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},28.82);
+tl.fromTo("#e6",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},29.12);
+tl.fromTo("#e10",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},37.10);
+tl.fromTo("#e10",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},37.40);
+tl.fromTo("#e11",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},37.10);
+tl.fromTo("#e11",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},37.40);
+tl.fromTo("#e8",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},49.80);
+tl.fromTo("#e8",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},50.10);
+tl.fromTo("#e9",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},49.80);
+tl.fromTo("#e9",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},50.10);
+tl.fromTo("#e7",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},62.56);
+tl.fromTo("#e7",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},62.86);
+tl.fromTo("#s3-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},70.75);
+tl.fromTo("#e12",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},71.24);
+tl.fromTo("#e12",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},71.54);
+tl.fromTo("#e13",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},75.58);
+tl.fromTo("#e13",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},75.88);
+tl.fromTo("#e14",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},79.38);
+tl.fromTo("#e14",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},79.68);
+tl.fromTo("#e15",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},88.36);
+tl.fromTo("#e15",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},88.66);
+tl.fromTo("#s4-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},92.97);
+tl.fromTo("#e16",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},96.78);
+tl.fromTo("#e16",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},97.08);
+tl.fromTo("#e17",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},113.56);
+tl.fromTo("#e17",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},113.86);
+tl.fromTo("#e18",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},122.32);
+tl.fromTo("#e18",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},122.62);
+tl.fromTo("#e23",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},141.40);
+tl.fromTo("#e23",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},141.70);
+tl.fromTo("#e19",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},147.06);
+tl.fromTo("#e19",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},147.36);
+tl.fromTo("#e20",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},156.84);
+tl.fromTo("#e20",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},157.14);
+tl.fromTo("#e21",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},171.70);
+tl.fromTo("#e21",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},172.00);
+tl.fromTo("#e22",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},182.60);
+tl.fromTo("#e22",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},182.90);
+tl.fromTo("#e24",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},191.48);
+tl.fromTo("#e24",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},191.78);
+tl.fromTo("#s5-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},196.83);
+tl.fromTo("#e34",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},204.46);
+tl.fromTo("#e34",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},204.76);
+tl.fromTo("#e33",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},208.66);
+tl.fromTo("#e33",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},208.96);
+tl.fromTo("#e25",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},213.98);
+tl.fromTo("#e25",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},214.28);
+tl.fromTo("#e26",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},218.46);
+tl.fromTo("#e26",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},218.76);
+tl.fromTo("#e27",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},226.22);
+tl.fromTo("#e27",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},226.52);
+tl.fromTo("#e28",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},226.22);
+tl.fromTo("#e28",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},226.52);
+tl.fromTo("#e29",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},231.20);
+tl.fromTo("#e29",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},231.50);
+tl.fromTo("#e30",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},238.28);
+tl.fromTo("#e30",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},238.58);
+tl.fromTo("#e31",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},242.81);
+tl.fromTo("#e31",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},243.11);
+tl.fromTo("#e35",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},247.96);
+tl.fromTo("#e35",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},248.26);
+tl.fromTo("#e32",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},253.42);
+tl.fromTo("#e32",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},253.72);
+tl.fromTo("#e36",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},258.48);
+tl.fromTo("#e36",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},258.78);
+tl.fromTo("#s6-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},263.01);
+tl.fromTo("#e37",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},267.02);
+tl.fromTo("#e37",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},267.32);
+tl.fromTo("#e38",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},270.84);
+tl.fromTo("#e38",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},271.14);
+tl.fromTo("#e39",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},277.52);
+tl.fromTo("#e39",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},277.82);
+tl.fromTo("#e40",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},282.46);
+tl.fromTo("#e40",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},282.76);
+tl.fromTo("#e41",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},285.54);
+tl.fromTo("#e41",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},285.84);
+tl.fromTo("#e45",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},290.38);
+tl.fromTo("#e45",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},290.68);
+tl.fromTo("#e42",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},296.88);
+tl.fromTo("#e42",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},297.18);
+tl.fromTo("#e43",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},302.76);
+tl.fromTo("#e43",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},303.06);
+tl.fromTo("#e44",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},305.92);
+tl.fromTo("#e44",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},306.22);
+tl.fromTo("#s7-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},310.37);
+tl.fromTo("#e46",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},318.02);
+tl.fromTo("#e46",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},318.32);
+tl.fromTo("#e47",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},327.86);
+tl.fromTo("#e47",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},328.16);
+tl.fromTo("#e48",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},337.58);
+tl.fromTo("#e48",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},337.88);
+tl.fromTo("#e49",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},343.96);
+tl.fromTo("#e49",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},344.26);
+tl.fromTo("#e50",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},361.50);
+tl.fromTo("#e50",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},361.80);
+tl.fromTo("#e51",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},368.68);
+tl.fromTo("#e51",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},368.98);
+tl.fromTo("#s8-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},376.19);
+tl.fromTo("#e52",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},380.68);
+tl.fromTo("#e52",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},380.98);
+tl.fromTo("#e53",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},393.56);
+tl.fromTo("#e53",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},393.86);
+tl.fromTo("#e54",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},398.12);
+tl.fromTo("#e54",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},398.42);
+tl.fromTo("#e55",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},403.94);
+tl.fromTo("#e55",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},404.24);
+tl.fromTo("#e56",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},413.96);
+tl.fromTo("#e56",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},414.26);
+tl.fromTo("#s9-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},422.71);
+tl.fromTo("#e57",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},425.90);
+tl.fromTo("#e57",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},426.20);
+tl.fromTo("#e58",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},433.02);
+tl.fromTo("#e58",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},433.32);
+tl.fromTo("#e59",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},436.52);
+tl.fromTo("#e59",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},436.82);
+tl.fromTo("#e60",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},448.38);
+tl.fromTo("#e60",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},448.68);
+tl.fromTo("#e61",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},452.02);
+tl.fromTo("#e61",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},452.32);
+tl.fromTo("#e62",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},461.18);
+tl.fromTo("#e62",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},461.48);
+tl.fromTo("#e63",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},465.34);
+tl.fromTo("#e63",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},465.64);
+tl.fromTo("#e64",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},471.86);
+tl.fromTo("#e64",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},472.16);
+tl.fromTo("#s10-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},477.81);
+tl.fromTo("#e65",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},481.02);
+tl.fromTo("#e65",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},481.32);
+tl.fromTo("#e66",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},485.24);
+tl.fromTo("#e66",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},485.54);
+tl.fromTo("#e67",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},494.86);
+tl.fromTo("#e67",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},495.16);
+tl.fromTo("#e68",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},501.28);
+tl.fromTo("#e68",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},501.58);
+tl.fromTo("#e69",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},508.34);
+tl.fromTo("#e69",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},508.64);
+tl.fromTo("#e70",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},511.36);
+tl.fromTo("#e70",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},511.66);
+tl.fromTo("#e71",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},516.54);
+tl.fromTo("#e71",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},516.84);
+tl.fromTo("#e72",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},518.44);
+tl.fromTo("#e72",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},518.74);
+tl.fromTo("#e73",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},523.72);
+tl.fromTo("#e73",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},524.02);
+tl.fromTo("#s11-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},526.85);
+tl.fromTo("#e74",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},535.32);
+tl.fromTo("#e74",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},535.62);
+tl.fromTo("#e75",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},535.32);
+tl.fromTo("#e75",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},535.62);
+tl.fromTo("#e76",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},540.26);
+tl.fromTo("#e76",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},540.56);
+tl.fromTo("#e77",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},545.12);
+tl.fromTo("#e77",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},545.42);
+tl.fromTo("#e78",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},554.20);
+tl.fromTo("#e78",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},554.50);
+tl.fromTo("#e79",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},558.92);
+tl.fromTo("#e79",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},559.22);
+tl.fromTo("#e80",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},565.30);
+tl.fromTo("#e80",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},565.60);
+tl.fromTo("#s12-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},570.45);
+tl.fromTo("#e81",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},575.00);
+tl.fromTo("#e81",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},575.30);
+tl.fromTo("#e83",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},575.00);
+tl.fromTo("#e83",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},575.30);
+tl.fromTo("#e85",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},579.74);
+tl.fromTo("#e85",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},580.04);
+tl.fromTo("#e82",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},584.72);
+tl.fromTo("#e82",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},585.02);
+tl.fromTo("#e84",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},590.68);
+tl.fromTo("#e84",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},590.98);
+tl.fromTo("#e86",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},593.98);
+tl.fromTo("#e86",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},594.28);
+tl.fromTo("#e87",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},597.18);
+tl.fromTo("#e87",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},597.48);
+tl.fromTo("#e88",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},602.80);
+tl.fromTo("#e88",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},603.10);
+tl.fromTo("#s13-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},613.05);
+tl.fromTo("#e89",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},617.28);
+tl.fromTo("#e89",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},617.58);
+tl.fromTo("#e92",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},624.96);
+tl.fromTo("#e92",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},625.26);
+tl.fromTo("#e93",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},629.60);
+tl.fromTo("#e93",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},629.90);
+tl.fromTo("#e94",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},636.24);
+tl.fromTo("#e94",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},636.54);
+tl.fromTo("#e95",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},639.52);
+tl.fromTo("#e95",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},639.82);
+tl.fromTo("#e90",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},644.10);
+tl.fromTo("#e90",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},644.40);
+tl.fromTo("#e91",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},650.32);
+tl.fromTo("#e91",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},650.62);
+tl.fromTo("#s14-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},655.85);
+tl.fromTo("#e96",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},664.08);
+tl.fromTo("#e96",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},664.38);
+tl.fromTo("#e97",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},669.12);
+tl.fromTo("#e97",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},669.42);
+tl.fromTo("#e98",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},673.70);
+tl.fromTo("#e98",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},674.00);
+tl.fromTo("#e99",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},678.50);
+tl.fromTo("#e99",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},678.80);
+tl.fromTo("#e100",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},682.86);
+tl.fromTo("#e100",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},683.16);
+tl.fromTo("#e101",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},685.60);
+tl.fromTo("#e101",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},685.90);
+tl.fromTo("#e102",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},687.93);
+tl.fromTo("#e102",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},688.23);
+tl.fromTo("#e103",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},691.94);
+tl.fromTo("#e103",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},692.24);
+tl.fromTo("#s15-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},694.21);
+tl.fromTo("#e104",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},698.72);
+tl.fromTo("#e104",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},699.02);
+tl.fromTo("#e105",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},709.40);
+tl.fromTo("#e105",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},709.70);
+tl.fromTo("#e106",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},712.04);
+tl.fromTo("#e106",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},712.34);
+tl.fromTo("#e107",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},723.54);
+tl.fromTo("#e107",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},723.84);
+tl.fromTo("#e108",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},727.10);
+tl.fromTo("#e108",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},727.40);
+tl.fromTo("#e109",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},737.15);
+tl.fromTo("#e109",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},737.45);
+tl.fromTo("#e110",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},739.43);
+tl.fromTo("#e110",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},739.73);
+tl.fromTo("#e111",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},751.28);
+tl.fromTo("#e111",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},751.58);
+tl.fromTo("#e112",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},753.82);
+tl.fromTo("#e112",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},754.12);
+tl.fromTo("#e113",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},764.11);
+tl.fromTo("#e113",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},764.41);
+tl.fromTo("#s16-in",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power3.out"},767.20);
+tl.fromTo("#e114",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},768.47);
+tl.fromTo("#e114",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},768.77);
+tl.fromTo("#e115",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},771.85);
+tl.fromTo("#e115",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},772.15);
+tl.fromTo("#e116",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},776.51);
+tl.fromTo("#e116",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},776.81);
+tl.fromTo("#e117",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},782.11);
+tl.fromTo("#e117",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},782.41);
+tl.fromTo("#e118",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},787.95);
+tl.fromTo("#e118",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},788.25);
+tl.fromTo("#e119",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},793.33);
+tl.fromTo("#e119",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},793.63);
+tl.fromTo("#e120",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},796.93);
+tl.fromTo("#e120",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},797.23);
+tl.fromTo("#e121",{opacity:0,y:18},{opacity:1,y:0,duration:0.5,ease:"power2.out"},800.73);
+tl.fromTo("#e121",{boxShadow:"0 0 0 3px rgba(250,204,21,.9)"},{boxShadow:"0 0 0 3px rgba(250,204,21,0)",duration:2.2,ease:"power1.in"},801.03);
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
