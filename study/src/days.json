@@ -18,18 +18,18 @@
   {"code":"考科二 2-3","subject":"考科二","topic":"2. 軟硬體設計","name":"智慧製造流程優化與成本控制","guide":"無官方指引（依簡章評鑑內容）"}
  ],
  "days": [
-  {"id":1,"date":"2026-10-18","subject":"考科一","type":"study","title":"AI 基礎概念與 AIoT 應用案例","short":"AI 基礎＋應用案例"},
-  {"id":2,"date":"2026-10-19","subject":"考科一","type":"study","title":"物聯網三層架構、OSI／TCP-IP 與無線通訊技術","short":"IoT 架構＋無線技術"},
-  {"id":3,"date":"2026-10-20","subject":"考科一","type":"study","title":"應用層協定與工業通訊標準：MQTT、CoAP、HTTP/REST、Modbus、OPC UA、MTConnect","short":"MQTT／OPC UA 等協定"},
-  {"id":4,"date":"2026-10-21","subject":"考科一","type":"study","title":"中介軟體與平台、資安與隱私","short":"平台＋資安隱私"},
-  {"id":5,"date":"2026-10-22","subject":"考科一","type":"study","title":"感測器原理、訊號、串列介面與調變","short":"感測器＋訊號通訊"},
-  {"id":6,"date":"2026-10-23","subject":"考科一","type":"mock","minutes":30,"title":"考科一模擬考 A（官方學習指引練習評量 第一部分）","short":"考科一模擬考 A"},
-  {"id":7,"date":"2026-10-24","subject":"考科一","type":"mock","minutes":30,"title":"考科一模擬考 B（官方學習指引練習評量 第二部分）＋錯題整理","short":"考科一模擬考 B"},
-  {"id":8,"date":"2026-10-25","subject":"考科二","type":"study","title":"系統元件與架構、簡易故障判斷與排除","short":"系統元件＋故障排除"},
-  {"id":9,"date":"2026-10-26","subject":"考科二","type":"study","title":"物聯網資訊安全、硬體設計基礎與 I/O、開源授權","short":"資安＋硬體 I/O＋授權"},
-  {"id":10,"date":"2026-10-27","subject":"考科二","type":"study","title":"雲端數據收集與平台設計：資料交換格式、資料庫設計","short":"雲端資料＋資料庫"},
-  {"id":11,"date":"2026-10-28","subject":"考科二","type":"study","title":"智慧製造流程優化與成本控制","short":"智慧製造＋成本"},
-  {"id":12,"date":"2026-10-29","subject":"考科二","type":"mock","minutes":30,"title":"考科二完整模擬考","short":"考科二模擬考"},
+  {"id":1,"date":"2026-10-19","subject":"考科一","type":"study","title":"AI 基礎概念與 AIoT 應用案例","short":"AI 基礎＋應用案例"},
+  {"id":2,"date":"2026-10-20","subject":"考科一","type":"study","title":"物聯網三層架構、OSI／TCP-IP 與無線通訊技術","short":"IoT 架構＋無線技術"},
+  {"id":3,"date":"2026-10-21","subject":"考科一","type":"study","title":"應用層協定與工業通訊標準：MQTT、CoAP、HTTP/REST、Modbus、OPC UA、MTConnect","short":"MQTT／OPC UA 等協定"},
+  {"id":4,"date":"2026-10-22","subject":"考科一","type":"study","title":"中介軟體與平台、資安與隱私","short":"平台＋資安隱私"},
+  {"id":5,"date":"2026-10-23","subject":"考科一","type":"study","title":"感測器原理、訊號、串列介面與調變","short":"感測器＋訊號通訊"},
+  {"id":6,"date":"2026-10-24","subject":"考科一","type":"mock","minutes":30,"title":"考科一模擬考 A（官方學習指引練習評量 第一部分）","short":"考科一模擬考 A"},
+  {"id":7,"date":"2026-10-25","subject":"考科一","type":"mock","minutes":30,"title":"考科一模擬考 B（官方學習指引練習評量 第二部分）＋錯題整理","short":"考科一模擬考 B"},
+  {"id":8,"date":"2026-10-26","subject":"考科二","type":"study","title":"系統元件與架構、簡易故障判斷與排除","short":"系統元件＋故障排除"},
+  {"id":9,"date":"2026-10-27","subject":"考科二","type":"study","title":"物聯網資訊安全、硬體設計基礎與 I/O、開源授權","short":"資安＋硬體 I/O＋授權"},
+  {"id":10,"date":"2026-10-28","subject":"考科二","type":"study","title":"雲端數據收集與平台設計：資料交換格式、資料庫設計","short":"雲端資料＋資料庫"},
+  {"id":11,"date":"2026-10-29","subject":"考科二","type":"study","title":"智慧製造流程優化與成本控制","short":"智慧製造＋成本"},
+  {"id":12,"date":"2026-10-30","subject":"考科二","type":"mock","minutes":30,"title":"考科二完整模擬考","short":"考科二模擬考"},
   {"id":13,"date":"2026-10-30","subject":"兩科","type":"study","title":"弱點複習、兩科總整理、考前速記","short":"總複習＋速記"}
  ]
 }
